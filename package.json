@@ -1,0 +1,40 @@
+{
+    "name": "vue-resume-web",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@coders-tm/vue-number-format": "^3.34.1",
+        "@fortawesome/fontawesome-svg-core": "^6.5.2",
+        "@fortawesome/free-brands-svg-icons": "^6.5.2",
+        "@fortawesome/free-regular-svg-icons": "^6.5.2",
+        "@fortawesome/free-solid-svg-icons": "^6.5.2",
+        "@fortawesome/vue-fontawesome": "^3.0.8",
+        "@popperjs/core": "^2.11.8",
+        "@sweetalert2/theme-dark": "^5.0.16",
+        "@vee-validate/yup": "^4.13.1",
+        "axios": "^1.7.2",
+        "bootstrap": "^5.3.3",
+        "pinia": "^2.1.7",
+        "vee-validate": "^4.13.1",
+        "vue": "^3.4.29",
+        "vue-router": "4",
+        "vue-sweetalert2": "^5.0.11"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^7.15.0",
+        "@typescript-eslint/parser": "^7.15.0",
+        "@vitejs/plugin-vue": "^5.0.5",
+        "@vue/cli-plugin-typescript": "^5.0.8",
+        "pug": "^3.0.3",
+        "sass": "^1.77.6",
+        "typescript": "^5.5.3",
+        "typescript-eslint": "^7.15.0",
+        "vite": "^5.3.1"
+    }
+}
