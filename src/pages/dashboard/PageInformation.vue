@@ -7,8 +7,7 @@
 
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 
-import { handleBase } from '@/services/base'
-import { ref, shallowRef, inject, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useDocument } from '@/composables/useDocument'
 
 /**
@@ -29,7 +28,7 @@ const { toast } = useHelper()
 /* import model from '@/models/information.model' - has err and i have no ideas */
 import { phoneRegex } from '@/config/regex.config'
 const _mesRequired = 'Vui lòng nhập'
-const formFields = shallowRef([
+const formFields = ref([
     {
         name: 'firstName',
         label: 'Họ',
@@ -113,16 +112,49 @@ const formFields = shallowRef([
     },
 ])
 
+const socialMediaFields = ref([
+    {
+        name: 'socialMedia.github',
+        label: 'Github',
+        type: 'text',
+        default: '',
+        col: 'col-md-12',
+    },
+    {
+        name: 'socialMedia.linkedin',
+        label: 'Linkedin',
+        type: 'text',
+        default: '',
+        col: 'col-md-12',
+    },
+    {
+        name: 'socialMedia.website',
+        label: 'Website',
+        type: 'text',
+        default: '',
+        col: 'col-md-12',
+    },
+])
+
 /**
  *
  */
-const { updateDoc } = useDocument({ collection: 'candidate', fields: formFields.value })
+const { updateDoc, updatePatchDoc } = useDocument({ collection: 'candidate', fields: formFields.value })
 
 onMounted(() => {
     const candidate = canidate.getCandidate
     for (const field of formFields.value) {
         const { name } = field
         ;[name] in candidate && (field['value'] = candidate[name])
+    }
+
+    const { socialMedia = {} } = candidate
+
+    for (const field of socialMediaFields.value) {
+        const { name } = field
+        const [, key] = name.split('.')
+
+        field['value'] = socialMedia[key] || ''
     }
 })
 
@@ -149,11 +181,34 @@ async function handleUpdate(values) {
         canidate.setCandidateByField({ ...data })
     })
 }
+
+async function handleUpdateSocialNetwork(values) {
+    const { socialMedia } = values
+    const _id = canidate.getId
+
+    if (!_id) return false
+
+    await updatePatchDoc({ _id, socialMedia }, res => {
+        const { data } = res
+        const { socialMedia } = data
+        canidate.setCandidateByField({ socialMedia })
+    })
+}
 </script>
 
 <template>
-    <div class="block-container">
+    <div class="block-container mb-5">
         <Heading text="Thông tin cơ bản" />
         <VeeForm :key="'frm1'" :fields="formFields" :submit-fn="handleUpdate" :submit-text="'Cập nhật'" buttonPosition="center" />
+    </div>
+    <div class="block-container">
+        <Heading text="Liên kết mạng xã hội" />
+        <VeeForm
+            :key="'frm1'"
+            :fields="socialMediaFields"
+            :submit-fn="handleUpdateSocialNetwork"
+            :submit-text="'Cập nhật'"
+            buttonPosition="center"
+        />
     </div>
 </template>
