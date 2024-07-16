@@ -194,10 +194,32 @@ $_green: #00d095;
     padding: 0;
     margin: 0;
     list-style: none;
-    li {
+    > li {
         margin-bottom: 1.5rem;
         &:not(:last-child) {
             margin-bottom: 1.5rem;
         }
+    }
+}
+
+.post-content {
+    $mb: 1rem;
+    > * {
+        margin-bottom: #{$mb};
+    }
+    ul,
+    ol {
+        padding-left: 1rem;
+        margin: 0;
+        > li {
+            margin-bottom: #{$mb};
+        }
+    }
+
+    ul {
+        list-style: disc;
+    }
+    ol {
+        list-style: decimal;
     }
 }

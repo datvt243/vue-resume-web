@@ -8,7 +8,7 @@ import VeeForm from '@/components/veevalidate/VeeForm.vue'
 import TableDefault from '@/components/table/TableDefault.vue'
 import Modal from '@/components/Modal.vue'
 
-import { ref, defineProps, computed, toValue, reactive, toRef, watch } from 'vue'
+import { ref, defineProps, computed, onBeforeMount, reactive, watch } from 'vue'
 import { _axios } from '@/services/axios'
 
 import { useDocument } from '@/composables/useDocument'
@@ -45,21 +45,26 @@ function showModalCreateDoc() {
 /**
  *
  */
-
 const generalInformation = reactive({})
+onBeforeMount(() => {
+    getValueForGeneralInformation(props.modelValue)
+})
 watch(
     () => props.modelValue,
     val => {
-        const _list = val
-        const _type = Array.isArray(_list) ? 'array' : 'object'
-        const _val = _type === 'array' ? (_list.length ? _list?.[0] : {}) : _list
-        for (const e of Object.keys(_val)) {
-            generalInformation[e] = _val[e]
-        }
+        getValueForGeneralInformation(val)
     },
     { deep: true },
 )
 const generalInformationField = computed(() => generalInformation?.[props.fieldKey] || [])
+function getValueForGeneralInformation(value) {
+    const _list = value
+    const _type = Array.isArray(_list) ? 'array' : 'object'
+    const _val = _type === 'array' ? (_list.length ? _list?.[0] : {}) : _list
+    for (const e of Object.keys(_val)) {
+        generalInformation[e] = _val[e]
+    }
+}
 
 /**
  *

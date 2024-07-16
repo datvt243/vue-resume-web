@@ -64,7 +64,7 @@ const MODEL: modelItem[] = [
     {
         name: 'description',
         label: 'Mô tả',
-        type: 'textarea',
+        type: 'ckediter',
         valid: yup => yup.string().trim().required(_mesRequired),
         col: 'col-md-12',
         convertTo: 'truncate',

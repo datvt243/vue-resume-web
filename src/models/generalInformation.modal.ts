@@ -3,11 +3,6 @@
  * Date: `--/--`
  * Description:
  */
-/**
- * Author: Đạt Võ - https://github.com/datvt243
- * Date: `--/--`
- * Description:
- */
 
 import type { modelItem } from '@/types/model.type.ts'
 /* import { formatDateToInput } from '@/utilities/index' */
@@ -29,7 +24,7 @@ const MODEL: modelItem[] = [
         label: 'Vị trí mong muốn',
         type: 'text',
         placeholder: 'Vui lòng nhập Vị trí mong muốn',
-        valid: yup => yup.string().max(50).trim().required(),
+        valid: yup => yup.string().max(50).trim().required(_mesRequired),
         default: '',
     },
     {
@@ -37,57 +32,121 @@ const MODEL: modelItem[] = [
         label: 'Ngành nghề',
         type: 'text',
         placeholder: 'Vui lòng nhập Ngành nghề',
-        valid: yup => yup.string().max(50).trim().required(),
+        valid: yup => yup.string().max(50).trim().required(_mesRequired),
         default: '',
     },
     {
         name: 'levelCurrent',
         label: 'Cấp bậc hiện tại',
-        type: 'text',
+        type: 'select',
+        options: [
+            { text: 'Thực tập sinh', value: 'intern' },
+            { text: 'Nhân viên', value: 'staff' },
+            { text: 'Trưởng nhóm', value: 'teamLeader' },
+            { text: 'Quản lý', value: 'manager' },
+            { text: 'Phó giám đốc', value: 'viceDirector' },
+            { text: 'Giám đốc', value: 'director' },
+            { text: 'Tổng giám đốc', value: 'ceo' },
+        ],
+        default: 'staff',
         placeholder: 'Vui lòng nhập Cấp bậc hiện tại',
-        valid: yup => yup.string().max(50).trim().required(),
+        valid: yup => yup.string().max(50).trim().required(_mesRequired),
         col: 'col-md-6',
-        default: '',
     },
     {
         name: 'levelDesired',
         label: 'Cấp bậc mong muốn',
-        type: 'text',
+        type: 'select',
+        options: [
+            { text: 'Thực tập sinh', value: 'intern' },
+            { text: 'Nhân viên', value: 'staff' },
+            { text: 'Trưởng nhóm', value: 'teamLeader' },
+            { text: 'Quản lý', value: 'manager' },
+            { text: 'Phó giám đốc', value: 'viceDirector' },
+            { text: 'Giám đốc', value: 'director' },
+            { text: 'Tổng giám đốc', value: 'ceo' },
+        ],
+        default: 'staff',
         placeholder: 'Vui lòng nhập Cấp bậc mong muốn',
-        valid: yup => yup.string().max(50).trim().required(),
+        valid: yup => yup.string().max(50).trim().required(_mesRequired),
         col: 'col-md-6',
-        default: '',
     },
     {
         name: 'education',
         label: 'Trình độ',
         type: 'select',
         options: [
-            { value: 'intermediate', text: 'Trung cấp' },
-            { value: 'college', text: 'Cao đẳng' },
-            { value: 'university', text: 'Đại học' },
+            { text: 'Trung học phổ thông', value: 'highSchool' },
+            { text: 'Trung cấp/Cao đẳng', value: 'associateDegree' },
+            { text: 'Đại học', value: 'bachelorDegree' },
+            { text: 'Thạc sĩ', value: 'masterDegree' },
+            { text: 'Tiến sĩ', value: 'doctorateDegree' },
         ],
+        default: 'bachelorDegree',
         placeholder: 'Vui lòng nhập Trình độ',
-        valid: yup => yup.string().trim().max(50).required(),
+        valid: yup => yup.string().trim().max(50).required(_mesRequired),
         col: 'col-md-6',
-        default: '',
     },
     {
         name: 'yearsOfExperience',
         label: 'Số năm kinh nghiệm',
         type: 'number',
         placeholder: 'Vui lòng nhập Số năm kinh nghiệm',
-        valid: yup => yup.number().required(),
+        valid: yup =>
+            yup
+                .number('Vui lòng nhập vào số')
+                .integer('Vui lòng nhập vào số nguyên')
+                .min(0, 'Số năm kinh nghiệm phải lớn hơn 0')
+                .required(_mesRequired),
+        default: '',
         col: 'col-md-6',
-        default: 0,
     },
     {
         name: 'salaryDesired',
         label: 'Mức lương mong muốn',
         type: 'currency',
         placeholder: 'Vui lòng nhập Mức lương mong muốn',
-        valid: yup => yup.string().required(),
-        default: 0,
+        valid: yup =>
+            yup
+                .number('Vui lòng nhập vào số')
+                .integer('Vui lòng nhập vào số nguyên')
+                .positive('Mức lương mong muốn phải lớn hơn 0')
+                .required(_mesRequired),
+        default: '',
+    },
+    {
+        name: 'workForm',
+        label: 'Hình thức làm việc',
+        type: 'select',
+        options: [
+            { value: 'fulltime', text: 'Toàn thời gian' },
+            { value: 'parttime', text: 'Bán thời gian' },
+            { value: 'temporary', text: 'Thời vụ' },
+            { value: 'internship', text: 'Thử việc' },
+            { value: 'freelance', text: 'Freelance' },
+            { value: 'contract', text: 'Hợp đồng' },
+            { value: 'remote', text: 'Làm việc từ xa' },
+            { value: 'consultant', text: 'Cộng tác viên' },
+        ],
+        placeholder: 'Vui lòng nhập Mức lương mong muốn',
+        valid: yup => yup.string().required(_mesRequired),
+        default: 'fulltime',
+    },
+    {
+        name: 'workLocation',
+        label: 'Địa điểm làm việc',
+        type: 'text',
+        default: '',
+        placeholder: 'Vui lòng nhập Địa điểm làm việc',
+        valid: yup => yup.string().required(_mesRequired),
+    },
+    {
+        name: 'careerGoal',
+        label: 'Mục tiêu công việc',
+        type: 'ckediter',
+        default: '',
+        placeholder: 'Vui lòng nhập Mức lương mong muốn',
+        valid: yup => yup.string().required(_mesRequired),
     },
 ]
 

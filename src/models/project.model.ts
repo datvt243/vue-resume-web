@@ -86,15 +86,7 @@ const MODEL: modelItem[] = [
         convertTo: 'boolean',
         checkedValue: false,
     },
-    {
-        name: 'description',
-        label: 'Mô tả',
-        type: 'textarea',
-        valid: yup => yup.string().required(_mesRequired),
-        col: 'col-md-12',
-        convertTo: 'truncate',
-        default: '',
-    },
+
     {
         name: 'link',
         label: 'Link',
@@ -111,6 +103,15 @@ const MODEL: modelItem[] = [
         col: 'col-md-12',
         default: '',
     }, */
+    {
+        name: 'description',
+        label: 'Mô tả',
+        type: 'ckediter',
+        valid: yup => yup.string().required(_mesRequired),
+        col: 'col-md-12',
+        convertTo: 'truncate',
+        default: '',
+    },
 ]
 
 export default MODEL

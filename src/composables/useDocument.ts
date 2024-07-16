@@ -4,7 +4,7 @@
  * Description:
  */
 
-import { ref, reactive, toValue, onMounted } from 'vue'
+import { ref, reactive, toValue, onBeforeMount, watch } from 'vue'
 import { confirmDelete } from '@/lib/swal.lib'
 import { handleBase } from '@/services/base'
 import { useHelper } from '@/composables/useHepler'
@@ -36,13 +36,34 @@ export const useDocument = (props: Props) => {
     const document = reactive<Document>({})
 
     const collection = ref(props.collection)
+
+    /**
+     *
+     */
     const fields = ref(props.fields)
+    watch(fields, val => {
+        console.log('run')
+        getValue(val)
+    })
 
     const { loading, toast } = useHelper()
 
-    for (const f of fields.value) {
+    onBeforeMount(() => {
+        getValue(fields.value)
+    })
+    /* for (const f of fields.value) {
         documentInterface[`${f.name}`] = f.default || ''
         document[`${f.name}`] = f.default || ''
+    } */
+
+    /**
+     *
+     */
+    function getValue(values: modelItem[]) {
+        for (const f of values) {
+            documentInterface[`${f.name}`] = f.default || ''
+            document[`${f.name}`] = f.default || ''
+        }
     }
 
     /**

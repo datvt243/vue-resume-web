@@ -5,20 +5,12 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
-import { formatDateToInput } from '@/utilities/index'
+import { defaultId, defaultDescription, defaultLink, defaultDateStartEnd, defaultCheckoxBoolean } from '@/types/model.type'
 
 const _mesRequired = 'Vui lòng nhập'
 
 const MODEL: modelItem[] = [
-    {
-        name: '_id',
-        label: 'ID',
-        type: 'hidden',
-        placeholder: 'Vui lòng nhập',
-        valid: yup => yup.string().nullable().default(null),
-        col: 'col-md-12',
-        default: null,
-    },
+    defaultId,
     {
         name: 'name',
         label: 'Tên Chứng chỉ',
@@ -35,47 +27,9 @@ const MODEL: modelItem[] = [
         valid: yup => yup.string().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
         default: '',
     },
-
-    {
-        name: 'startDate',
-        label: 'Ngày bắt đầu',
-        type: 'date',
-        placeholder: 'Vui lòng nhập Ngày bắt đầu',
-        valid: yup => yup.date().required(_mesRequired),
-        col: 'col-md-6',
-        convertTo: 'date',
-        default: formatDateToInput(+new Date()),
-    },
-    {
-        name: 'endDate',
-        label: 'Ngày Kết thúc',
-        type: 'date',
-        placeholder: 'Vui lòng nhập Ngày Kết thúc',
-        valid: yup => yup.date().required(_mesRequired).min(yup.ref('startDate'), 'Ngày kết thúc phải sau ngày bắt đầu'),
-        col: 'col-md-6',
-        convertTo: 'date',
-        default: formatDateToInput(+new Date()),
-    },
-    {
-        name: 'isNoExpiration',
-        label: 'Không thời hạn',
-        type: 'checkbox',
-        placeholder: '',
-        default: false,
-        valid: yup => yup.boolean(),
-        col: 'col-md-12',
-        cellClass: 'text-center',
-        convertTo: 'boolean',
-        checkedValue: false,
-    },
-    {
-        name: 'link',
-        label: 'Link',
-        type: 'text',
-        valid: yup => yup.string().url().nullable(),
-        col: 'col-md-12',
-        default: '',
-    },
+    ...defaultDateStartEnd(),
+    defaultCheckoxBoolean({ name: 'isNoExpiration', label: 'Không thời hạn' }),
+    defaultLink({ name: 'link', label: 'Link' }),
     /* {
         name: 'images',
         label: 'Hình ảnh',
@@ -84,15 +38,7 @@ const MODEL: modelItem[] = [
         col: 'col-md-12',
         default: '',
     }, */
-    {
-        name: 'description',
-        label: 'Mô tả',
-        type: 'textarea',
-        valid: yup => yup.string().trim().required(_mesRequired),
-        col: 'col-md-12',
-        convertTo: 'truncate',
-        default: '',
-    },
+    defaultDescription({ name: 'description', label: 'Mô tả' }),
 ]
 
 export default MODEL

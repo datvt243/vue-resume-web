@@ -15,6 +15,7 @@ import FrmCheckbox from '@/components/veevalidate/part/FrmCheckbox.vue'
 import FrmSelect from '@/components/veevalidate/part/FrmSelect.vue'
 import FrmCurrency from '@/components/veevalidate/part/FrmCurrency.vue'
 import FrmDate from '@/components/veevalidate/part/FrmDate.vue'
+import FrmCkediter from '@/components/veevalidate/part/FrmCkediter.vue'
 
 const props = defineProps({
     fields: { type: Array, default: () => [] },
@@ -114,6 +115,9 @@ function onSubmit() {
                     </template>
                     <template v-else-if="el.type === 'textarea'">
                         <FrmTextArea :key="el?.name" v-bind="el" />
+                    </template>
+                    <template v-else-if="el.type === 'ckediter'">
+                        <FrmCkediter :key="el?.name" v-bind="el" />
                     </template>
                     <template v-else-if="el.type === 'password'">
                         <FrmPwd :key="el?.name" v-bind="el" />

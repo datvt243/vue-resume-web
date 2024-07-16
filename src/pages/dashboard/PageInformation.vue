@@ -7,7 +7,7 @@
 
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 
-import { ref, onMounted } from 'vue'
+import { ref, shallowRef, onMounted } from 'vue'
 import { useDocument } from '@/composables/useDocument'
 
 /**
@@ -25,93 +25,9 @@ const { toast } = useHelper()
 /**
  *
  */
-/* import model from '@/models/information.model' - has err and i have no ideas */
-import { phoneRegex } from '@/config/regex.config'
-const _mesRequired = 'Vui lòng nhập'
-const formFields = ref([
-    {
-        name: 'firstName',
-        label: 'Họ',
-        type: 'text',
-        placeholder: 'Vui lòng nhập Họ',
-        valid: yup => yup.string().min(0).max(10, 'Tối đa 10 ký tự').required(_mesRequired),
-        default: '',
-        col: 'col-md-6',
-    },
-    {
-        name: 'lastName',
-        label: 'Tên',
-        type: 'text',
-        placeholder: 'Vui lòng nhập Tên',
-        valid: yup => yup.string().min(0).max(30, 'Tối đa 30 ký tự').required(_mesRequired),
-        default: '',
-        col: 'col-md-6',
-    },
-    {
-        name: 'gender',
-        label: 'Giới tính',
-        type: 'select',
-        options: [
-            { value: 0, text: 'Nữ' },
-            { value: 1, text: 'Nam' },
-        ],
-        valid: yup => yup.string().required(_mesRequired),
-        default: 0,
-        col: 'col-md-6',
-    },
-    {
-        name: 'marital',
-        label: 'Tình trạng hôn nhân',
-        type: 'select',
-        options: [
-            { value: 0, text: 'Độc thân' },
-            { value: 1, text: 'Đã kết hôn' },
-        ],
-        valid: yup => yup.string().required(_mesRequired),
-        default: 0,
-        col: 'col-md-6',
-    },
-    {
-        name: 'birthday',
-        label: 'Ngày sinh',
-        type: 'date',
-        valid: yup => yup.string().required(_mesRequired),
-        default: new Date('1990-01-01'),
-        col: 'col-md-12',
-    },
-    {
-        name: 'address',
-        label: 'Địa chỉ',
-        type: 'text',
-        valid: yup => yup.string().required(_mesRequired),
-        default: '',
-        col: 'col-md-12',
-    },
-    {
-        name: 'phone',
-        label: 'Số điện thoại',
-        type: 'text',
-        valid: yup =>
-            yup
-                .string()
-                .matches(phoneRegex, {
-                    excludeEmptyString: true,
-                    message: 'Số điện thoại không đúng định dạng. Bắt đầu bằng 84 hoặc 0, bao gồm 11 số',
-                })
-                .required(_mesRequired),
-        default: '',
-        col: 'col-md-12',
-    },
-    {
-        name: 'introduction',
-        label: 'Giới thiệu bản thân',
-        type: 'textarea',
-        valid: yup => yup.string().required(_mesRequired),
-        default: '',
-        col: 'col-md-12',
-    },
-])
-
+import { modalDefault as model, modalSocial } from '@/models/information.model'
+const formFields = shallowRef(model)
+/* const socialMediaFields = ref(modalSocial) */
 const socialMediaFields = ref([
     {
         name: 'socialMedia.github',
@@ -139,13 +55,14 @@ const socialMediaFields = ref([
 /**
  *
  */
-const { updateDoc, updatePatchDoc } = useDocument({ collection: 'candidate', fields: formFields.value })
+const { document, updateDoc, updatePatchDoc } = useDocument({ collection: 'candidate', fields: formFields.value })
 
 onMounted(() => {
     const candidate = canidate.getCandidate
-    for (const field of formFields.value) {
-        const { name } = field
-        ;[name] in candidate && (field['value'] = candidate[name])
+
+    /** gán value cho doc */
+    for (const k of Object.keys(document)) {
+        document[k] = candidate[k]
     }
 
     const { socialMedia = {} } = candidate
@@ -153,16 +70,15 @@ onMounted(() => {
     for (const field of socialMediaFields.value) {
         const { name } = field
         const [, key] = name.split('.')
-
         field['value'] = socialMedia[key] || ''
     }
 })
 
 async function handleUpdate(values) {
-    const document = { ...values }
+    const _newValues = { ...values }
 
-    document._id = canidate.getId
-    if (!document._id) {
+    _newValues._id = canidate.getId
+    if (!_newValues._id) {
         toast?.({
             message: 'Xảy ra lỗi',
             bg: 'danger',
@@ -174,7 +90,7 @@ async function handleUpdate(values) {
         val.birthday = +new Date(val.birthday)
 
         return val
-    })({ ...document })
+    })({ ..._newValues })
 
     await updateDoc(data, res => {
         const { data } = res
@@ -199,7 +115,14 @@ async function handleUpdateSocialNetwork(values) {
 <template>
     <div class="block-container mb-5">
         <Heading text="Thông tin cơ bản" />
-        <VeeForm :key="'frm1'" :fields="formFields" :submit-fn="handleUpdate" :submit-text="'Cập nhật'" buttonPosition="center" />
+        <VeeForm
+            :key="'frm1'"
+            :fields="formFields"
+            :document="document"
+            :submit-fn="handleUpdate"
+            :submit-text="'Cập nhật'"
+            buttonPosition="center"
+        />
     </div>
     <div class="block-container">
         <Heading text="Liên kết mạng xã hội" />

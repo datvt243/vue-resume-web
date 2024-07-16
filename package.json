@@ -9,6 +9,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-vue": "^6.0.0",
         "@coders-tm/vue-number-format": "^3.34.1",
         "@fortawesome/fontawesome-svg-core": "^6.5.2",
         "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -20,6 +21,8 @@
         "@vee-validate/yup": "^4.13.1",
         "axios": "^1.7.2",
         "bootstrap": "^5.3.3",
+        "ckeditor5": "^42.0.1",
+        "ckeditor5-premium-features": "^42.0.1",
         "pinia": "^2.1.7",
         "vee-validate": "^4.13.1",
         "vue": "^3.4.29",

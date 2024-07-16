@@ -51,6 +51,6 @@ const getDate = computed(() => {
                 p.item-note(v-if="model.subTitle") {{ model.subTitle }}
                 p.item-note(v-if="getDate") {{ getDate }}
                 slot(name="sub")
-            div.item-description(v-if="model.description" v-html="model.description")
+            div.item-description.post-content(v-if="model.description" v-html="model.description")
 
 </template>
