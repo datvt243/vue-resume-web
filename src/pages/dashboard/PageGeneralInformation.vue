@@ -100,11 +100,11 @@ const professionalSkillFields = [
 </script>
 
 <template>
-    <Teleport to="#reload">
+    <!-- <Teleport to="#reload">
         <button class="btn btn-sm btn-outline-info" @click="getData?.()">
             <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
         </button>
-    </Teleport>
+    </Teleport> -->
 
     <div class="block-container mb-5">
         <Heading text="Thông tin chung" />

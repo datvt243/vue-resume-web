@@ -66,11 +66,11 @@ function showModalCreateDoc() {
                 <FontAwesomeIcon icon="fa-solid fa-plus" />
             </button>
         </Heading>
-        <Teleport to="#reload">
+        <!-- <Teleport to="#reload">
             <button class="btn btn-sm btn-outline-info" @click="getData?.()">
                 <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
             </button>
-        </Teleport>
+        </Teleport> -->
 
         <!--  -->
         <TableDefault :model-value="dataList" :settings="formFields" :cols-hidden="colHidden" col-control="fullName">

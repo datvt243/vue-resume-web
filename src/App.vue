@@ -50,6 +50,7 @@ onMounted(async () => {
          */
 
         const _path = localStorage.getItem('current-page')
+
         router?.push(_path ? _path : '/dashboard/information')
     }
 })

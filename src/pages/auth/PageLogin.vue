@@ -6,13 +6,19 @@
  */
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 
-import { ref, reactive, inject } from 'vue'
+import { inject } from 'vue'
 import { useRouter } from 'vue-router'
-
 import { handleLogin } from '@/services/auth'
+import { authStore } from '@/stores/auth'
+
 const router = useRouter()
 const refSpinner = inject('spinner')
 const refToast = inject('toast')
+
+const store = authStore()
+if (store.isAuthenticated) {
+    router?.push('/dashboard/information')
+}
 
 const formFields = [
     {

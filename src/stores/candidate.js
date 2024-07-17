@@ -29,6 +29,7 @@ export const candidateStore = defineStore('candidate', () => {
         return _candidate
     })
     const setCandidate = val => {
+        console.log({ val })
         for (const key of Object.keys(val)) {
             candidate[key] = val[key]
         }

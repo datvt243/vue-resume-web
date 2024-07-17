@@ -15,6 +15,7 @@ import { ref } from 'vue'
 .body-container 
     Header(:is-login="false")
     main.main-container.py-4
+        #reload
         .container
             slot
     Footer

@@ -35,19 +35,21 @@ export const handleLogin = async (values, props) => {
         })
             .then(async res => {
                 const { message } = res
-
                 toast?.({
                     message: message,
                     bg: 'success',
                 })
-
                 const { user, token, tokenRefresh } = res.data
-                const store = authStore()
-                store.setToken(token)
-                store.setUser({ ...user })
-
+                return {
+                    email: email.trim(),
+                    token,
+                    user,
+                }
+            })
+            .then(async res => {
+                const { email, token, user } = res
                 try {
-                    await _axios({ method: 'get', url: `${subURL}candidate/${email.trim()}` }).then(res => {
+                    await _axios({ method: 'get', url: `${subURL}candidate/${email.trim()}`, token: token }).then(res => {
                         const { data } = res
                         const candidate = candidateStore()
                         candidate.setCandidate({ ...data })
@@ -56,6 +58,16 @@ export const handleLogin = async (values, props) => {
                     throw new Error(err)
                 }
 
+                return {
+                    token,
+                    user,
+                }
+            })
+            .then(res => {
+                const { token, user } = res
+                const store = authStore()
+                store.setToken(token)
+                store.setUser({ ...user })
                 router?.push('/dashboard/information')
             })
             .catch(err => {
@@ -116,10 +128,4 @@ export const handleRegister = async (values, props) => {
      * spinner hide
      */
     loading?.hide()
-}
-
-export const handleLogout = (opt = {}) => {
-    const store = authStore()
-    store.logOut()
-    opt?.router?.push('/login')
 }
