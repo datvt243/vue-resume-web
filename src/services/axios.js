@@ -4,18 +4,14 @@
  * Description:
  */
 
-// Import axios
 import axios from 'axios'
 
 const TOKEN = localStorage?.getItem('token') || ''
 const API_URL = 'https://nodejs-resume-api.onrender.com/'
 
-//
-
-// Tạo một instance của axios với cấu hình tùy chỉnh
 const instanceAxios = axios.create({
     baseURL: API_URL,
-    //timeout: 1000, // Thời gian chờ tối đa cho mỗi request
+    // timeout: 1000,
     headers: {
         Authorization: `Bearer ${TOKEN}`,
         'Content-Type': 'application/json',

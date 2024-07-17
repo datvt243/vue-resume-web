@@ -8,7 +8,9 @@
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 
 import { ref, shallowRef, onMounted } from 'vue'
-import { useDocument } from '@/composables/useDocument'
+import { useDocument, useHelper } from '@/composables'
+
+/* import { useDocument } from '@/composables/useDocument' */
 
 /**
  * store
@@ -19,7 +21,7 @@ const canidate = candidateStore()
 /**
  *
  */
-import { useHelper } from '@/composables/useHepler'
+/* import { useHelper } from '@/composables/useHepler' */
 const { toast } = useHelper()
 
 /**
@@ -115,6 +117,12 @@ async function handleUpdateSocialNetwork(values) {
 <template>
     <div class="block-container mb-5">
         <Heading text="Thông tin cơ bản" />
+        <!-- <Teleport to="#reload">
+            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
+                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
+            </button>
+        </Teleport> -->
+
         <VeeForm
             :key="'frm1'"
             :fields="formFields"

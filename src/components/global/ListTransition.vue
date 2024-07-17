@@ -1,3 +1,11 @@
+<script>
+/**
+ * Author: Đạt Võ - https://github.com/datvt243
+ * Date: `--/--`
+ * Description:
+ */
+</script>
+
 <template lang="pug">
 TransitionGroup(name="list" class="list" tag="ul")
     slot

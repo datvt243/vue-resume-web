@@ -47,18 +47,13 @@ export const handleLogin = async (values, props) => {
                 store.setUser({ ...user })
 
                 try {
-                    await (async () => {
-                        const opt = { method: 'get', url: `candidate/${email.trim()}` }
-                        await _axios(opt)
-                            .then(res => {
-                                const { data } = res
-                                const candidate = candidateStore()
-                                candidate.setCandidate({ ...data })
-                            })
-                            .catch(err => console.log(err))
-                    })()
+                    await _axios({ method: 'get', url: `${subURL}candidate/${email.trim()}` }).then(res => {
+                        const { data } = res
+                        const candidate = candidateStore()
+                        candidate.setCandidate({ ...data })
+                    })
                 } catch (err) {
-                    console.log(err)
+                    throw new Error(err)
                 }
 
                 router?.push('/dashboard/information')

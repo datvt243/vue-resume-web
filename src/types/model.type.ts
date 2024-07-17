@@ -1,3 +1,9 @@
+/**
+ * Author: Đạt Võ - https://github.com/datvt243
+ * Date: `--/--`
+ * Description:
+ */
+
 import { formatDateToInput } from '@/utilities/index'
 import { phoneRegex } from '@/config/regex.config'
 

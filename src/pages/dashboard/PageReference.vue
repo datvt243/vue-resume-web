@@ -8,15 +8,15 @@
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 import TableDefault from '@/components/table/TableDefault.vue'
 import Modal from '@/components/Modal.vue'
-import Dropdown from '@/components/Dropdown.vue'
 
 import { ref, shallowRef } from 'vue'
-import { useCandidate } from '@/composables/useCandidate'
-import { useDocument } from '@/composables/useDocument'
+import { useCandidate, useDocument } from '@/composables'
+/* import { useCandidate } from '@/composables/useCandidate'
+import { useDocument } from '@/composables/useDocument' */
 
 import model from '@/models/reference.model.ts'
 /** */
-const { references: dataList, removeRecordById, addRecordToList } = useCandidate({ field: 'references' })
+const { references: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'references' })
 const colHidden = ['_id']
 
 /**
@@ -36,9 +36,6 @@ const formFields = shallowRef(model)
  * Method
  */
 async function handleUpdate(values) {
-    /**
-     * re-format data
-     */
     await updateDoc({ ...values }, res => {
         const { data } = res
         addRecordToList(data)
@@ -69,6 +66,12 @@ function showModalCreateDoc() {
                 <FontAwesomeIcon icon="fa-solid fa-plus" />
             </button>
         </Heading>
+        <Teleport to="#reload">
+            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
+                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
+            </button>
+        </Teleport>
+
         <!--  -->
         <TableDefault :model-value="dataList" :settings="formFields" :cols-hidden="colHidden" col-control="fullName">
             <template #control="{ doc }">
@@ -84,6 +87,7 @@ function showModalCreateDoc() {
                         <a
                             class="dropdown-item"
                             href="#"
+                            :class="{ disabled: !doc._id }"
                             @click="
                                 () => {
                                     deleteDoc({ ...doc }, 'fullName', res => {

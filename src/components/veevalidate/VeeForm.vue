@@ -4,18 +4,21 @@
  * Date: `--/--`
  * Description:
  */
+
 import { defineProps, defineExpose, computed, watch } from 'vue'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
-import FrmInput from '@/components/veevalidate/part/FrmInput.vue'
-import FrmPwd from '@/components/veevalidate/part/FrmPwd.vue'
-import FrmTextArea from '@/components/veevalidate/part/FrmTextArea.vue'
-import FrmCheckbox from '@/components/veevalidate/part/FrmCheckbox.vue'
-import FrmSelect from '@/components/veevalidate/part/FrmSelect.vue'
-import FrmCurrency from '@/components/veevalidate/part/FrmCurrency.vue'
-import FrmDate from '@/components/veevalidate/part/FrmDate.vue'
-import FrmCkediter from '@/components/veevalidate/part/FrmCkediter.vue'
+import {
+    FrmInput,
+    FrmPwd,
+    FrmTextArea,
+    FrmCheckbox,
+    FrmSelect,
+    FrmCurrency,
+    FrmDate,
+    FrmCkediter,
+} from '@/components/veevalidate'
 
 const props = defineProps({
     fields: { type: Array, default: () => [] },
@@ -97,6 +100,18 @@ function onSubmit() {
         resetForm()
     }
 }
+
+const objComponent = {
+    checkbox: FrmCheckbox,
+    currency: FrmCurrency,
+    select: FrmSelect,
+    textarea: FrmTextArea,
+    ckediter: FrmCkediter,
+    password: FrmPwd,
+    date: FrmDate,
+    text: FrmInput,
+    default: FrmInput,
+}
 </script>
 
 <template>
@@ -104,7 +119,8 @@ function onSubmit() {
         <div class="row">
             <template v-for="el in getFields.filter(f => f.type !== 'hidden')" :key="el.nam">
                 <div :class="['col-12', el?.col || 'col-md-12']">
-                    <template v-if="el.type === 'checkbox'">
+                    <component :is="objComponent?.[`${el.type}`] || objComponent['default']" :key="el?.name" v-bind="el" />
+                    <!-- <template v-if="el.type === 'checkbox'">
                         <FrmCheckbox :key="el?.name" v-bind="el" />
                     </template>
                     <template v-else-if="el.type === 'currency'">
@@ -127,7 +143,7 @@ function onSubmit() {
                     </template>
                     <template v-else>
                         <FrmInput :key="el?.name" v-bind="el" />
-                    </template>
+                    </template> -->
                 </div>
             </template>
         </div>

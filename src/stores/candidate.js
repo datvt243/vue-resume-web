@@ -6,7 +6,6 @@
 
 import { defineStore } from 'pinia'
 import { reactive, computed } from 'vue'
-
 import { formatDateToInput } from '@/utilities/index.ts'
 
 const _part = ['']
@@ -82,11 +81,9 @@ export const candidateStore = defineStore('candidate', () => {
         return getCandidate.value?.[field] || []
     }
     const setCandidateByField = fields => {
-        /* console.log('setCandidateByField ...') */
         for (const f of Object.keys(fields)) {
             candidate[f] = fields[f]
         }
-        /* console.log({ c: candidate }) */
     }
 
     function clean() {

@@ -4,6 +4,7 @@
  * Date: `--/--`
  * Description:
  */
+
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 import TableDefault from '@/components/table/TableDefault.vue'
 import Modal from '@/components/Modal.vue'
@@ -21,11 +22,8 @@ const props = defineProps({
     fieldKey: { type: String, default: '' },
     fields: { type: Array, default: () => [] },
     hasButtonAdd: { type: Boolean, default: false },
-    /* currentValues: { type: Array, default: () => [] }, */
     modelValue: { type: Array, default: () => [] },
 })
-
-/* const initDefaultValues = ref((() => {})()) */
 
 /**
  *
@@ -69,7 +67,6 @@ function getValueForGeneralInformation(value) {
 /**
  *
  */
-
 const { document, updatePatchDoc } = useDocument({ collection: 'general-information', fields: generalInformationField.value })
 async function handleUpdate(values, action = 'create') {
     const _id = props.id
@@ -128,7 +125,6 @@ async function handleUpdate(values, action = 'create') {
                 const { data } = res
                 const _value = data[props.fieldKey]
                 generalInformation[props.fieldKey] = [..._value]
-                /* updateGeneralInformationByField({ [props.fieldKey]: generalInformation[props.fieldKey] }) */
                 const candidate = candidateStore()
                 candidate.setGeneralInformation({ [props.fieldKey]: generalInformation[props.fieldKey] })
             },

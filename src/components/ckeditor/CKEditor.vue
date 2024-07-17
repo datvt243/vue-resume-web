@@ -1,10 +1,10 @@
-<template>
-    <div class="ck-wrapper">
-        <CKEditor.component :editor="editor" v-model="model" :config="editorConfig" tag-name="textarea" />
-    </div>
-</template>
-
 <script setup>
+/**
+ * Author: Đạt Võ - https://github.com/datvt243
+ * Date: `--/--`
+ * Description:
+ */
+
 import { ClassicEditor, Bold, Essentials, Italic, Paragraph, Undo, List, Heading } from 'ckeditor5'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 
@@ -12,7 +12,7 @@ import 'ckeditor5/ckeditor5.css'
 import 'ckeditor5-premium-features/ckeditor5-premium-features.css'
 import './custom.scss'
 
-import { defineModel, defineProps, computed, useAttrs } from 'vue'
+import { defineModel, computed, useAttrs } from 'vue'
 
 const model = defineModel({ type: String, default: '' })
 const attrs = useAttrs()
@@ -30,25 +30,13 @@ const cssHeight = computed(() => {
     const _height = attrs?.height || 200
     return typeof _height === 'number' ? `${_height}px` : _height
 })
-/* const editorData = ref('<p>Hello from CKEditor 5 in Vue!</p>') */
-
-/* export default {
-    name: 'app',
-    components: {
-        ckeditor: CKEditor.component,
-    },
-    data() {
-        return {
-            editorData: '<p>Hello from CKEditor 5 in Vue!</p>',
-            editor: ClassicEditor,
-            editorConfig: {
-                plugins: [Bold, Essentials, Italic, Paragraph, Undo],
-                toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
-            },
-        }
-    },
-} */
 </script>
+
+<template>
+    <div class="ck-wrapper">
+        <CKEditor.component :editor="editor" v-model="model" :config="editorConfig" tag-name="textarea" />
+    </div>
+</template>
 
 <style scoped>
 :deep(.ck-editor__editable_inline:not(.ck-comment__input *)) {

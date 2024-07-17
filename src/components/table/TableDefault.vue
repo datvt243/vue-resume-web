@@ -5,11 +5,7 @@
  * Description:
  */
 
-import Table from '@/components/table/part/Table'
-import TableHead from '@/components/table/part/TableHead'
-import TableBody from '@/components/table/part/TableBody'
-import TableRow from '@/components/table/part/TableRow'
-import TableCell from '@/components/table/part/TableCell'
+import { Table, TableHead, TableBody, TableRow, TableCell } from '@/components/table/index.js'
 
 import { useInitTable } from '@/composables/useInitTable'
 import Convert from '@/components/convert/convert'

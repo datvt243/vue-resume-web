@@ -1,8 +1,14 @@
 <script setup lang="ts">
+/**
+ * Author: Đạt Võ - https://github.com/datvt243
+ * Date: `--/--`
+ * Description:
+ */
+
 import { defineProps, defineEmits, computed } from 'vue'
 import type { PropType } from 'vue'
 import type { Experience } from '@/types/experience.type'
-import { formatDateMMYYYY } from '@/utilities/index'
+import { formatDate } from '@/utilities/index'
 
 const emits = defineEmits(['onEdit', 'onDelete'])
 const props = defineProps({
@@ -24,8 +30,8 @@ const props = defineProps({
 const model = computed(() => props.modelValue)
 const getDate = computed(() => {
     const { startDate, endDate, isCurrent } = props.modelValue
-    const _start = formatDateMMYYYY(startDate)
-    const _end = isCurrent ? 'Hiện tại' : formatDateMMYYYY(endDate)
+    const _start = formatDate(startDate, 'MM/YYYY')
+    const _end = isCurrent ? 'Hiện tại' : formatDate(endDate, 'MM/YYYY')
     return `${_start} - ${_end}`
 })
 

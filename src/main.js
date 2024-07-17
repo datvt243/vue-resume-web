@@ -3,14 +3,8 @@ import { createPinia } from 'pinia'
 import router from './routers'
 import App from './App.vue'
 
-/**
- *
- */
-import NoData from '@/components/NoData.vue'
-import Heading from '@/components/Heading.vue'
-import ItemTemplate from '@/components/ItemTemplate.vue'
-import ListTransition from '@/components/ListTransition.vue'
-import Dropdown from '@/components/Dropdown.vue'
+import GlobalComponents from '@/plugins/GlobalComponents'
+import initFontAwesomeIcon from '@/plugins/initFontAwesomeIcon'
 
 /**
  * css sweetalert2
@@ -21,44 +15,6 @@ import './styles/sweetalert2.scss'
  * import bootstrap
  */
 import './styles/bootstrap.scss'
-
-/**
- * import font fontawesome
- */
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {
-    faUserSecret,
-    faXmark,
-    faCheck,
-    faEye,
-    faEyeSlash,
-    faTrash,
-    faSquarePen,
-    faCalendar,
-    faPlus,
-    faGraduationCap,
-    faBuilding,
-    faCode,
-    faCertificate,
-    faAward,
-} from '@fortawesome/free-solid-svg-icons'
-library.add(
-    faUserSecret,
-    faXmark,
-    faCheck,
-    faEye,
-    faEyeSlash,
-    faTrash,
-    faSquarePen,
-    faCalendar,
-    faPlus,
-    faGraduationCap,
-    faBuilding,
-    faCode,
-    faCertificate,
-    faAward,
-)
 
 /**
  * add store pinia
@@ -77,13 +33,8 @@ app.config.errorHandler = (err, instance, info) => {
     console.groupEnd()
 }
 
-app.component('FontAwesomeIcon', FontAwesomeIcon)
-app.component('NoData', NoData)
-app.component('Heading', Heading)
-app.component('ItemTemplate', ItemTemplate)
-app.component('ListTransition', ListTransition)
-app.component('Dropdown', Dropdown)
-
+app.use(GlobalComponents)
+app.use(initFontAwesomeIcon)
 app.use(router)
 app.use(pinia)
 app.mount('#app')

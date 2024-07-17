@@ -42,7 +42,6 @@ export const useDocument = (props: Props) => {
      */
     const fields = ref(props.fields)
     watch(fields, val => {
-        console.log('run')
         getValue(val)
     })
 

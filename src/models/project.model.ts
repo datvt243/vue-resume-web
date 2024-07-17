@@ -5,21 +5,14 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
+import { defaultId, defaultDateStartEnd, defaultDescription, defaultLink } from '@/types/model.type'
 import { formatDateToInput } from '@/utilities/index'
 
 const _mesRequired = 'Vui lòng nhập'
 const _mesNumber = 'Vui lòng nhập vào số'
 
 const MODEL: modelItem[] = [
-    {
-        name: '_id',
-        label: 'ID',
-        type: 'hidden',
-        placeholder: 'Vui lòng nhập ID',
-        valid: yup => yup.mixed().nullable().default(null),
-        col: 'col-md-12',
-        default: null,
-    },
+    defaultId,
     {
         name: 'name',
         label: 'Tên dự án',
@@ -28,7 +21,6 @@ const MODEL: modelItem[] = [
         valid: yup => yup.string().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
         default: '',
     },
-
     {
         name: 'position',
         label: 'Vị trí',
@@ -46,34 +38,7 @@ const MODEL: modelItem[] = [
         default: '',
     },
 
-    {
-        name: 'startDate',
-        label: 'Ngày bắt đầu',
-        type: 'date',
-        placeholder: 'Vui lòng nhập Ngày bắt đầu',
-        valid: yup =>
-            yup
-                .string()
-                .required(_mesRequired)
-                .default(() => formatDateToInput(+new Date())),
-        col: 'col-md-6',
-        convertTo: 'date',
-        default: formatDateToInput(+new Date()),
-    },
-    {
-        name: 'endDate',
-        label: 'Ngày Kết thúc',
-        type: 'date',
-        placeholder: 'Vui lòng nhập Ngày Kết thúc',
-        valid: yup =>
-            yup
-                .string()
-                .required(_mesRequired)
-                .default(() => formatDateToInput(+new Date())),
-        col: 'col-md-6',
-        convertTo: 'date',
-        default: formatDateToInput(+new Date()),
-    },
+    ...defaultDateStartEnd(),
     {
         name: 'isWorking',
         label: 'Đang làm việc tại đây',
@@ -86,15 +51,7 @@ const MODEL: modelItem[] = [
         convertTo: 'boolean',
         checkedValue: false,
     },
-
-    {
-        name: 'link',
-        label: 'Link',
-        type: 'text',
-        valid: yup => yup.string().url().nullable(),
-        col: 'col-md-12',
-        default: '',
-    },
+    defaultLink({ name: 'link', label: 'Link' }),
     /* {
         name: 'images',
         label: 'Hình ảnh',
@@ -103,15 +60,7 @@ const MODEL: modelItem[] = [
         col: 'col-md-12',
         default: '',
     }, */
-    {
-        name: 'description',
-        label: 'Mô tả',
-        type: 'ckediter',
-        valid: yup => yup.string().required(_mesRequired),
-        col: 'col-md-12',
-        convertTo: 'truncate',
-        default: '',
-    },
+    defaultDescription({ name: 'description', label: 'Mô tả' }),
 ]
 
 export default MODEL

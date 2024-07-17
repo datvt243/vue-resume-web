@@ -5,7 +5,7 @@
  * Description:
  */
 
-import { ref, defineProps, defineExpose, onMounted, reactive } from 'vue'
+import { ref, defineProps, defineExpose, onMounted } from 'vue'
 import { Toast } from 'bootstrap'
 
 defineExpose({
@@ -30,8 +30,6 @@ function show() {
 </script>
 
 <template>
-    <!-- <button type="button" class="btn btn-primary" id="liveToastBtn" @click="show()">Show live toast</button> -->
-
     <div class="toast-container position-fixed top-0 end-0 p-3">
         <div :class="`bg-${props.bg}`">
             <div ref="refToast" :class="['toast']" role="alert" aria-live="assertive" aria-atomic="true">

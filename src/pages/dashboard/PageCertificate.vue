@@ -8,7 +8,7 @@
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 import Modal from '@/components/Modal.vue'
 
-import ItemTemplate from '@/components/ItemTemplate.vue'
+import ItemTemplate from '@/components/global/ItemTemplate.vue'
 
 import { ref, shallowRef } from 'vue'
 import { useCandidate } from '@/composables/useCandidate'
@@ -16,9 +16,9 @@ import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/certificate.model.ts'
 
-import { formatDateToInput, formatDateMMYYYY } from '@/utilities/index'
+import { formatDateToInput, formatDate } from '@/utilities/index'
 
-const { certificates: dataList, removeRecordById, addRecordToList } = useCandidate({ field: 'certificates' })
+const { certificates: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'certificates' })
 const colHidden = ['_id', 'description', 'link', 'images']
 
 /**
@@ -88,6 +88,12 @@ function showModalCreateDoc() {
                 <FontAwesomeIcon icon="fa-solid fa-plus" />
             </button>
         </Heading>
+        <Teleport to="#reload">
+            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
+                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
+            </button>
+        </Teleport>
+
         <div v-if="dataList.length" class="clearfix">
             <ListTransition>
                 <li v-for="item in dataList" :key="item._id">
@@ -97,8 +103,8 @@ function showModalCreateDoc() {
                             subTitle: item.organization,
                             date: () => {
                                 const { startDate, endDate, isNoExpiration } = item
-                                const _start = formatDateMMYYYY(startDate)
-                                const _end = isNoExpiration ? 'Không thời hạn' : formatDateMMYYYY(endDate)
+                                const _start = formatDate(startDate, 'MM/YYYY')
+                                const _end = isNoExpiration ? 'Không thời hạn' : formatDate(endDate, 'MM/YYYY')
                                 return `${_start} - ${_end}`
                             },
                             description: item.description,

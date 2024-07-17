@@ -7,7 +7,7 @@
 
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 import Modal from '@/components/Modal.vue'
-import ItemTemplate from '@/components/ItemTemplate.vue'
+import ItemTemplate from '@/components/global/ItemTemplate.vue'
 
 import { ref, shallowRef } from 'vue'
 import { useCandidate } from '@/composables/useCandidate'
@@ -15,9 +15,9 @@ import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/award.model.ts'
 
-import { formatDateToInput, formatDateMMYYYY } from '@/utilities/index'
+import { formatDateToInput, formatDate } from '@/utilities/index'
 
-const { awards: dataList, removeRecordById, addRecordToList } = useCandidate({ field: 'awards' })
+const { awards: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'awards' })
 
 /**
  *
@@ -82,6 +82,12 @@ function showModalCreateDoc() {
                 <FontAwesomeIcon icon="fa-solid fa-plus" />
             </button>
         </Heading>
+        <Teleport to="#reload">
+            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
+                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
+            </button>
+        </Teleport>
+
         <div v-if="dataList.length" class="clearfix">
             <ListTransition>
                 <li v-for="item in dataList" :key="item._id">
@@ -91,7 +97,7 @@ function showModalCreateDoc() {
                             subTitle: item.organization,
                             date: () => {
                                 const { issueDate } = item
-                                const _start = formatDateMMYYYY(issueDate)
+                                const _start = formatDate(issueDate, 'MM/YYYY')
                                 return `${_start}`
                             },
                             description: item.description,

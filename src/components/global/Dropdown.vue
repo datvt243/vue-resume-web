@@ -5,7 +5,7 @@
  * Description:
  */
 
-import { ref, defineProps, computed, onMounted, watch } from 'vue'
+import { ref, defineProps, computed, onMounted } from 'vue'
 import { Dropdown } from 'bootstrap'
 
 const props = defineProps({

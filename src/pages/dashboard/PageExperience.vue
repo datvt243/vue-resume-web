@@ -16,7 +16,7 @@ import { useDocument } from '@/composables/useDocument'
 import model from '@/models/experience.model.ts'
 import { formatDateToInput } from '@/utilities/index'
 
-const { experiences: dataList, removeRecordById, addRecordToList } = useCandidate({ field: 'experiences' })
+const { experiences: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'experiences' })
 
 /**
  *
@@ -86,6 +86,12 @@ function showModalCreateDoc() {
                 <FontAwesomeIcon icon="fa-solid fa-plus" />
             </button>
         </Heading>
+        <Teleport to="#reload">
+            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
+                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
+            </button>
+        </Teleport>
+
         <div v-if="dataList.length" class="clearfix">
             <ListTransition>
                 <li v-for="edu in dataList" :key="edu._id">

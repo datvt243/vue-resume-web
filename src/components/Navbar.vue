@@ -5,10 +5,6 @@
  * Description:
  */
 
-import Dropdown from '@/components/Dropdown.vue'
-
-import { ref } from 'vue'
-
 const yearNow = new Date().getFullYear()
 </script>
 

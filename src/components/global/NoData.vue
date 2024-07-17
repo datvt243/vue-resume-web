@@ -1,3 +1,11 @@
+<script>
+/**
+ * Author: Đạt Võ - https://github.com/datvt243
+ * Date: `--/--`
+ * Description:
+ */
+</script>
+
 <template>
     <div class="alert alert-warning text-center">
         <!-- <p class="text-center">

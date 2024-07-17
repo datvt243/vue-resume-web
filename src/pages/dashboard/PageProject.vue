@@ -6,9 +6,7 @@
  */
 
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
-import TableDefault from '@/components/table/TableDefault.vue'
 import Modal from '@/components/Modal.vue'
-import Dropdown from '@/components/Dropdown.vue'
 
 import ProjectItem from '@/components/project/ProjectItem.vue'
 
@@ -20,7 +18,7 @@ import model from '@/models/project.model.ts'
 
 import { formatDateToInput } from '@/utilities/index'
 
-const { projects: dataList, removeRecordById, addRecordToList } = useCandidate({ field: 'projects' })
+const { projects: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'projects' })
 const colHidden = ['_id', 'description', 'link', 'images', 'technology']
 
 /**
@@ -59,7 +57,7 @@ async function handleUpdate(values) {
 }
 
 async function handleDelete(doc) {
-    deleteDoc({ ...doc }, 'company', res => {
+    deleteDoc({ ...doc }, 'name', res => {
         const { data } = res
         removeRecordById(data._id)
     })
@@ -95,6 +93,12 @@ function showModalCreateDoc() {
                 <FontAwesomeIcon icon="fa-solid fa-plus" />
             </button>
         </Heading>
+        <Teleport to="#reload">
+            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
+                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
+            </button>
+        </Teleport>
+
         <div v-if="dataList.length" class="clearfix">
             <ListTransition>
                 <li v-for="edu in dataList" :key="edu._id">

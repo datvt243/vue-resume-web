@@ -5,9 +5,7 @@
  * Description:
  */
 
-import Dropdown from '@/components/Dropdown.vue'
-
-import { ref, defineProps, computed, toValue } from 'vue'
+import { computed } from 'vue'
 import { authStore } from '@/stores/auth'
 import { candidateStore } from '@/stores/candidate'
 import { useRouter } from 'vue-router'

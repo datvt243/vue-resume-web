@@ -8,8 +8,6 @@
 import Header from '@/pages/_layouts/Header.vue'
 import Footer from '@/pages/_layouts/Footer.vue'
 import Main from '@/pages/_layouts/Main.vue'
-import Box from '@/components/Box.vue'
-import Dropdown from '@/components/Dropdown.vue'
 
 import { ref } from 'vue'
 
@@ -35,14 +33,18 @@ function getRouterName(path) {
     Header(:is-login="true")
     Main
         .container
-            .clearfux.mb-4.border-bottom
-                nav(aria-label="breadcrumb")
-                    ol.breadcrumb.align-items-center
-                        li.breadcrumb-item Dashboard
-                        li.breadcrumb-item.text-capitalize(aria-current="page") 
-                            Dropdown(:text="getRouterName($route.path)" :style="'outline-light text-capitalize'" split is-sm)
-                                li.dropdown-item(v-for="r in routers" :key="r.name" :class="{ active: r.to === $route.fullPath }")
-                                    RouterLink.nav-link(:to="r.to") {{ r?.text || r?.name }}
+            .clearfix.mb-4.border-bottom
+                .d-flex
+                    .col-auto.flex-grow-1
+                        nav(aria-label="breadcrumb")
+                            ol.breadcrumb.align-items-center
+                                li.breadcrumb-item Dashboard
+                                li.breadcrumb-item.text-capitalize(aria-current="page") 
+                                    Dropdown(:text="getRouterName($route.path)" :style="'outline-light text-capitalize'" split is-sm)
+                                        li.dropdown-item(v-for="r in routers" :key="r.name" :class="{ active: r.to === $route.fullPath }")
+                                            RouterLink.nav-link(:to="r.to") {{ r?.text || r?.name }}
+                    .col-auto
+                        #reload
             .clearfix
                 slot
                     

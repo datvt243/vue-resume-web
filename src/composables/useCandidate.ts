@@ -23,40 +23,42 @@ export const useCandidate = (props: Props) => {
     const result = ref<Result>([])
 
     const canidateId = computed(() => candidate.getId)
+    const { loading } = useHelper()
 
     onBeforeMount(async () => {
         let _result: Result = candidate.getCandidateByField(toValue(field))
 
         if (!_result.length) {
-            _result = await getData()
+            await getData()
+        } else {
+            result.value = _result
         }
-
-        result.value = _result
     })
 
     async function getData() {
-        let _result: Result = []
+        let _data: Result = []
         const _collection = (() => {
             if (collection) return collection
             return field.value.endsWith('s') ? field.value.slice(0, -1) : field.value
         })()
 
-        const { loading } = useHelper()
         await handleBase(
             {
                 method: 'get',
                 url: `${_collection}/`,
             },
-            { loading, toast: null },
+            { loading: loading, toast: null },
             (res: Response) => {
                 const { data = [] } = res
-                _result = data
+                _data = data
                 candidate.setCandidateByField({
                     [`${field.value}`]: data,
                 })
             },
         )
-        return _result
+
+        result.value = _data
+        /* return _data */
     }
 
     function removeRecordById(_id: string) {
@@ -105,5 +107,6 @@ export const useCandidate = (props: Props) => {
         addRecordToList,
         updateField,
         updateGeneralInformationByField,
+        getData,
     }
 }

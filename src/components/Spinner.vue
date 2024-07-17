@@ -28,7 +28,7 @@ function hide() {
             <span class="visually-hidden">Loading...</span>
         </div>
         <div class="mt-4 opacity-50">
-            <span class="small"> SeverFree nên có thể sẽ chậm ở lần call API đầu tiên </span>
+            <span class="small"> Sever-free nên có thể sẽ chậm ở lần call API đầu tiên </span>
         </div>
     </div>
 </template>

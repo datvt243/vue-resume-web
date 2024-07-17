@@ -5,37 +5,19 @@
  */
 
 import { h } from 'vue'
-import ConvertToText from './part/toText'
-import ConvertToDate from './part/toDate'
-import ConvertToBoolean from './part/toBoolean'
-import ConvertToTruncate from './part/toTruncate'
-import ConvertToFiles from './part/toFiels'
+import { ConvertToText, ConvertToDate, ConvertToBoolean, ConvertToTruncate, ConvertToFiles } from '@/components/convert/part'
+
+const objConvert = {
+    date: value => h(ConvertToDate, { modelValue: value }),
+    boolean: value => h(ConvertToBoolean, { modelValue: value }),
+    truncate: value => h(ConvertToTruncate, { modelValue: value }),
+    file: value => h(ConvertToFiles, { modelValue: value }),
+    default: value => h(ConvertToText, { modelValue: value }),
+}
 
 const Convert = (props, { slots }) => {
     const { modelValue: value, to } = props
-
-    function _render(to) {
-        let _res = ''
-        switch (to) {
-            case 'date':
-                _res = h(ConvertToDate, { modelValue: value })
-                break
-            case 'boolean':
-                _res = h(ConvertToBoolean, { modelValue: value })
-                break
-            case 'truncate':
-                _res = h(ConvertToTruncate, { modelValue: value })
-                break
-            case 'file':
-                _res = h(ConvertToFiles, { modelValue: value })
-                break
-            default:
-                _res = h(ConvertToText, { modelValue: value })
-        }
-        return _res
-    }
-
-    return h('span', { 'data-type': to }, _render(to))
+    return h('span', { 'data-type': to }, objConvert?.[to]?.(value) || objConvert['default']?.(value))
 }
 
 Convert.slots = ['default']

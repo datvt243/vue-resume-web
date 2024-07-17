@@ -33,7 +33,7 @@ const formFields = shallowRef(model)
 /**
  *
  */
-const { generalInformation } = useCandidate({ field: 'generalInformation', collection: 'general-information' })
+const { generalInformation, getData } = useCandidate({ field: 'generalInformation', collection: 'general-information' })
 const { document, updateDoc } = useDocument({ collection: 'general-information', fields: formFields.value })
 
 onMounted(() => {
@@ -48,8 +48,6 @@ watch(generalInformation, val => {
 
 async function handleUpdate(values) {
     const document = { ...values }
-
-    console.log({ document })
     await updateDoc(document, res => {
         const { data } = res
         canidate.setCandidateByField({ generalInformation: [data] })
@@ -102,6 +100,12 @@ const professionalSkillFields = [
 </script>
 
 <template>
+    <Teleport to="#reload">
+        <button class="btn btn-sm btn-outline-info" @click="getData?.()">
+            <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
+        </button>
+    </Teleport>
+
     <div class="block-container mb-5">
         <Heading text="Thông tin chung" />
         <VeeForm :fields="formFields" :document="document" :submit-fn="handleUpdate" :submit-text="'Cập nhật'" />

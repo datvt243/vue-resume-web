@@ -5,20 +5,12 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
-import { phoneRegex } from '@/config/regex.config'
+import { defaultId, defaultPhone } from '@/types/model.type'
 
 const _mesRequired = 'Vui lòng nhập'
 
 const MODEL: modelItem[] = [
-    {
-        name: '_id',
-        label: 'ID',
-        type: 'hidden',
-        placeholder: 'Vui lòng nhập ID',
-        valid: yup => yup.mixed().nullable().default(null),
-        col: 'col-md-12',
-        default: null,
-    },
+    defaultId,
     {
         name: 'fullName',
         label: 'Họ tên người tham khảo',
@@ -43,21 +35,7 @@ const MODEL: modelItem[] = [
         valid: yup => yup.string().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
         default: '',
     },
-    {
-        name: 'phone',
-        label: 'Số điện thoại',
-        type: 'text',
-        valid: yup =>
-            yup
-                .string()
-                .matches(phoneRegex, {
-                    excludeEmptyString: true,
-                    message: 'Số điện thoại không đúng định dạng. Bắt đầu bằng 84 hoặc 0, bao gồm 11 số',
-                })
-                .required(_mesRequired),
-        col: 'col-md-12',
-        default: '',
-    },
+    defaultPhone({ name: 'phone', label: 'Số điện thoại' }),
 ]
 
 export default MODEL
