@@ -8,6 +8,7 @@ const base = process.env.BASE_URL || '/'
 export default defineConfig({
     plugins: [vue()],
     base: '/vue-resume-web/',
+
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src'), // Alias cho thư mục src

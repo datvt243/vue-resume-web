@@ -62,8 +62,6 @@ const { document, updateDoc, updatePatchDoc } = useDocument({ collection: 'candi
 onMounted(() => {
     const candidate = canidate.getCandidate
 
-    console.log({ candidate })
-
     /** gán value cho doc */
     for (const k of Object.keys(document)) {
         document[k] = candidate[k]

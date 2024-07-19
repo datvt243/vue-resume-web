@@ -62,15 +62,11 @@ function showModalCreateDoc() {
 <template>
     <div class="mb-4">
         <Heading text="Người tham khảo">
-            <button class="btn btn-sm btn-success" @click="showModalCreateDoc()">
-                <FontAwesomeIcon icon="fa-solid fa-plus" />
-            </button>
+            <div class="btn-group">
+                <Button @click="showModalCreateDoc()" icon="fa-solid fa-plus" type="outline-success" size="sm"></Button>
+                <Button @click="getData?.()" icon="fa-solid fa-repeat" type="outline-info" size="sm"></Button>
+            </div>
         </Heading>
-        <!-- <Teleport to="#reload">
-            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
-                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
-            </button>
-        </Teleport> -->
 
         <!--  -->
         <TableDefault :model-value="dataList" :settings="formFields" :cols-hidden="colHidden" col-control="fullName">
@@ -106,7 +102,7 @@ function showModalCreateDoc() {
         </TableDefault>
     </div>
 
-    <Modal ref="refModal" :title="document._id ? `Chỉnh sửa: ${document.school}` : 'Thêm mới Người tham khảo'" is-hidden-footer>
+    <Modal ref="refModal" :title="document._id ? `Chỉnh sửa: ${document.fullName}` : 'Thêm mới Người tham khảo'" is-hidden-footer>
         <div class="block-container">
             <VeeForm
                 ref="refVeeForm"

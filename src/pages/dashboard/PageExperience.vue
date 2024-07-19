@@ -82,15 +82,11 @@ function showModalCreateDoc() {
 <template>
     <div class="mb-4">
         <Heading text="Kinh nghiệm làm việc">
-            <button class="btn btn-sm btn-success" @click="showModalCreateDoc()">
-                <FontAwesomeIcon icon="fa-solid fa-plus" />
-            </button>
+            <div class="btn-group">
+                <Button @click="showModalCreateDoc()" icon="fa-solid fa-plus" type="outline-success" size="sm"></Button>
+                <Button @click="getData?.()" icon="fa-solid fa-repeat" type="outline-info" size="sm"></Button>
+            </div>
         </Heading>
-        <!-- <Teleport to="#reload">
-            <button class="btn btn-sm btn-outline-info" @click="getData?.()">
-                <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
-            </button>
-        </Teleport> -->
 
         <div v-if="dataList.length" class="clearfix">
             <ListTransition>

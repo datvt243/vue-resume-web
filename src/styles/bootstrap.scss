@@ -119,6 +119,10 @@ $_green: #00d095;
     border-color: $_green !important;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 .breadcrumb {
     &-item {
         + .breadcrumb-item::before {

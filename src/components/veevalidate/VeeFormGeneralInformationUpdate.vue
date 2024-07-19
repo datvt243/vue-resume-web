@@ -9,15 +9,16 @@ import VeeForm from '@/components/veevalidate/VeeForm.vue'
 import TableDefault from '@/components/table/TableDefault.vue'
 import Modal from '@/components/Modal.vue'
 
-import { ref, defineProps, computed, onBeforeMount, reactive, watch } from 'vue'
+import { ref, defineProps, computed, onBeforeMount, reactive, watch, inject } from 'vue'
 import { _axios } from '@/services/axios'
 
 import { useDocument } from '@/composables/useDocument'
 import Swal from 'sweetalert2'
 import { candidateStore } from '@/stores/candidate'
 
+const canidate = inject('candidate')
+
 const props = defineProps({
-    id: { type: String, default: '' },
     heading: { type: String, default: '' },
     fieldKey: { type: String, default: '' },
     fields: { type: Array, default: () => [] },
@@ -69,7 +70,8 @@ function getValueForGeneralInformation(value) {
  */
 const { document, updatePatchDoc } = useDocument({ collection: 'general-information', fields: generalInformationField.value })
 async function handleUpdate(values, action = 'create') {
-    const _id = props.id
+    const _id = canidate.value._id
+
     if (!_id) return
 
     const { _flag, _list } = await (async () => {

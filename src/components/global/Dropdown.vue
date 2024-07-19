@@ -39,7 +39,7 @@ const attrBtnToggle = computed(() => {
             <a v-if="text" :href="props.href" role="button" v-bind="attrBtnToggle"> {{ props.text }} </a>
         </template>
         <template v-else>
-            <button v-if="text" type="button" v-bind="attrBtnToggle" v-html="props.text"></button>
+            <button v-if="text" type="button" :class="['btn', `btn-${props.style}`]" v-html="props.text"></button>
         </template>
         <template v-if="props.split">
             <button

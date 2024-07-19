@@ -18,10 +18,7 @@ export default {
 
         /* for (const path in importComponent) {
             const name = path.split('/').pop().replace('.vue', '')
-            console.log({
-                name,
-                path: importComponent[path],
-            })
+           
             app.component(`${name}`, importComponent[path])
         } */
     },

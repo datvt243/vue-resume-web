@@ -8,7 +8,7 @@
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 import VeeFormGeneralInformationUpdate from '@/components/veevalidate/VeeFormGeneralInformationUpdate.vue'
 
-import { ref, shallowRef, onMounted, onBeforeMount, watch } from 'vue'
+import { ref, shallowRef, onMounted, watch, provide, computed } from 'vue'
 import { useDocument } from '@/composables/useDocument'
 import { useCandidate } from '@/composables/useCandidate'
 
@@ -36,6 +36,10 @@ const formFields = shallowRef(model)
 const { generalInformation, getData } = useCandidate({ field: 'generalInformation', collection: 'general-information' })
 const { document, updateDoc } = useDocument({ collection: 'general-information', fields: formFields.value })
 
+const canidateProvide = computed(() => ({
+    _id: canidate.getGeneralInformation?._id || '',
+}))
+provide('candidate', canidateProvide)
 onMounted(() => {
     isLoading.value = true
 })
@@ -100,14 +104,12 @@ const professionalSkillFields = [
 </script>
 
 <template>
-    <!-- <Teleport to="#reload">
-        <button class="btn btn-sm btn-outline-info" @click="getData?.()">
-            <FontAwesomeIcon icon="fa-solid fa-repeat" /> Reload
-        </button>
-    </Teleport> -->
-
     <div class="block-container mb-5">
-        <Heading text="Thông tin chung" />
+        <Heading text="Thông tin chung">
+            <div class="btn-group">
+                <Button @click="getData?.()" icon="fa-solid fa-repeat" type="outline-info" size="sm"></Button>
+            </div>
+        </Heading>
         <VeeForm :fields="formFields" :document="document" :submit-fn="handleUpdate" :submit-text="'Cập nhật'" />
     </div>
 
@@ -117,7 +119,6 @@ const professionalSkillFields = [
         <VeeFormGeneralInformationUpdate
             key="professionalSkills"
             :model-value="generalInformation"
-            :id="canidate.getGeneralInformation?._id || ''"
             :heading="'Kỹ năng chuyên môn'"
             :field-key="'professionalSkills'"
             :has-button-add="true"
@@ -127,7 +128,6 @@ const professionalSkillFields = [
         <VeeFormGeneralInformationUpdate
             key="personalSkills"
             :model-value="generalInformation"
-            :id="canidate.getGeneralInformation?._id || ''"
             :heading="'Kỹ năng cá nhân'"
             :field-key="'personalSkills'"
             :has-button-add="true"
@@ -146,7 +146,6 @@ const professionalSkillFields = [
         <VeeFormGeneralInformationUpdate
             key="foreignLanguages"
             :model-value="generalInformation"
-            :id="canidate.getGeneralInformation?._id || ''"
             :heading="'Ngoại ngữ'"
             :field-key="'foreignLanguages'"
             :has-button-add="true"

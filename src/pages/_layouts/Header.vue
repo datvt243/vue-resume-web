@@ -9,6 +9,7 @@ import { computed } from 'vue'
 import { authStore } from '@/stores/auth'
 import { candidateStore } from '@/stores/candidate'
 import { useRouter } from 'vue-router'
+import Navbar from '@/components/Navbar.vue'
 
 const router = useRouter()
 const store = authStore()
@@ -43,19 +44,30 @@ function _handelLogout() {
 
 <template lang="pug">
 header.py-2.border-bottom.bg-body-tertiary
-    .container
-        nav.navbar.navbar-expand-lg
-            a.navbar-brand(href="#") Resume API
-            template(v-if="!store.isAuthenticated")
+    template(v-if="!store.isAuthenticated")
+        Navbar.flex-grow-1
+            .ms-auto.border-lg-t
                 ul.navbar-nav.ms-auto.mb-2.mb-lg-0
                     li.nav-item(v-for='(r, i) in authRouter' :key="`router_${i}`")
                         template(v-if="r.to")
                             RouterLink.nav-link(:to="r.to" :class="{ active: r.to === $route.fullPath}") {{ r.text }}
-                        span.nav-link(v-else) /
-            .ms-auto(v-else)
+                        span.nav-link.d-none.d-lg-block(v-else) /
+    .container(v-else)
+        nav.navbar.navbar-expand-lg
+            a.navbar-brand(href="#") Resume API
+            .ms-auto
                 Dropdown(:text="mesUser" :style="'outline-light'" split is-sm)
                     li.dropdown-item
-                        a.dropdown-link(href="#" @click="_handelLogout") Logout
+                        a.dropdown-link(:href="API_getme" target="_blank")
+                            span.pe-2.text-info
+                                FontAwesomeIcon(icon="fa fa-code")
+                            | View API
+                    li.dropdown-divider
                     li.dropdown-item
-                        a.dropdown-link(:href="API_getme" target="_blank") View API
+                        span.d-block.pointer( @click="_handelLogout") 
+                            span.pe-2.text-danger
+                                FontAwesomeIcon(icon="fa fa-arrow-right-from-bracket")
+                            | Logout
+                    
+                   
 </template>

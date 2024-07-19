@@ -19,7 +19,10 @@ export default {
                 {
                     class: 'heading d-flex align-item-center justify-content-between pb-2 mb-4 border-bottom text-uppercase',
                 },
-                [h('p', { class: [props.tag, ' m-0'] }, props.text), slots?.default && slots.default()],
+                [
+                    h('p', { class: [props.tag, ' m-0'] }, props.text),
+                    h('div', { class: 'ms-auto' }, slots?.default && slots.default()),
+                ],
             )
     },
 }
