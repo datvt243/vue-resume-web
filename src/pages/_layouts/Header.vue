@@ -9,6 +9,7 @@ import { computed } from 'vue'
 import { authStore } from '@/stores/auth'
 import { candidateStore } from '@/stores/candidate'
 import { useRouter } from 'vue-router'
+import { handleBase } from '@/services/base'
 import Navbar from '@/components/Navbar.vue'
 
 const router = useRouter()
@@ -16,8 +17,12 @@ const store = authStore()
 const candidate = candidateStore()
 
 const _user = store.getUser
+const _token = store.getToken
 
-const API_getme = _user?.email ? `https://nodejs-resume-api.onrender.com/api/me/${_user.email}` : '#'
+const HOST = window.location.host === 'localhost' ? 'http://localhost:3001' : 'https://nodejs-resume-api.onrender.com'
+
+const API_GET_ME = _user?.email ? `${HOST}/api/me/${_user.email}` : '#'
+const API_DOWNLOAD_PDF = `${HOST}/api/v1/download-pdf?token=${_token}`
 
 const authRouter = [
     { text: 'Đăng nhập', to: '/login' },
@@ -40,6 +45,13 @@ function _handelLogout() {
     store.logOut({ router })
     candidate.clean()
 }
+async function _download() {
+    const opt = { method: 'get', url: `download-pdf`, params: { token: _token } }
+
+    await handleBase(opt, {}, res => {
+        console.log(res)
+    })
+}
 </script>
 
 <template lang="pug">
@@ -56,18 +68,21 @@ header.py-2.border-bottom.bg-body-tertiary
         nav.navbar.navbar-expand-lg
             a.navbar-brand(href="#") Resume API
             .ms-auto
-                Dropdown(:text="mesUser" :style="'outline-light'" split is-sm)
-                    li.dropdown-item
-                        a.dropdown-link(:href="API_getme" target="_blank")
-                            span.pe-2.text-info
-                                FontAwesomeIcon(icon="fa fa-code")
-                            | View API
-                    li.dropdown-divider
-                    li.dropdown-item
-                        span.d-block.pointer( @click="_handelLogout") 
-                            span.pe-2.text-danger
-                                FontAwesomeIcon(icon="fa fa-arrow-right-from-bracket")
-                            | Logout
+                .d-flex.align-items-center
+                    div.clearfix.pe-4
+                        a.btn.btn-sm.btn-outline-success(:href="API_DOWNLOAD_PDF" target="_blank") Download CV 
+                    Dropdown(:text="mesUser" :style="'outline-light'" split is-sm)
+                        li.dropdown-item
+                            a.dropdown-link(:href="API_GET_ME" target="_blank")
+                                span.pe-2.text-info
+                                    FontAwesomeIcon(icon="fa fa-code")
+                                | View API
+                        li.dropdown-divider
+                        li.dropdown-item
+                            span.d-block.pointer( @click="_handelLogout") 
+                                span.pe-2.text-danger
+                                    FontAwesomeIcon(icon="fa fa-arrow-right-from-bracket")
+                                | Logout
                     
                    
 </template>
