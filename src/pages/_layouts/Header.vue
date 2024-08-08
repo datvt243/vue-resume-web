@@ -12,6 +12,8 @@ import { useRouter } from 'vue-router'
 import { handleBase } from '@/services/base'
 import Navbar from '@/components/Navbar.vue'
 
+import { API } from '@/config/api.config'
+
 const router = useRouter()
 const store = authStore()
 const candidate = candidateStore()
@@ -19,10 +21,19 @@ const candidate = candidateStore()
 const _user = store.getUser
 const _token = store.getToken
 
-const HOST = window.location.host === 'localhost' ? 'http://localhost:3001' : 'https://nodejs-resume-api.onrender.com'
+const _settings = {
+    host: window.location.host === 'localhost' ? 'http://localhost:3001/' : API,
+    getMe() {
+        return _user?.email ? `${this.host}api/me/${_user.email}` : '#'
+    },
+    getFile() {
+        return `${this.host}api/v1/download-pdf?token=${_token}`
+    },
+}
 
-const API_GET_ME = _user?.email ? `${HOST}/api/me/${_user.email}` : '#'
-const API_DOWNLOAD_PDF = `${HOST}/api/v1/download-pdf?token=${_token}`
+/* const HOST = window.location.host === 'localhost' ? 'http://localhost:3001/' : API
+const API_GET_ME = _user?.email ? `${HOST}api/me/${_user.email}` : '#'
+const API_DOWNLOAD_PDF = `${HOST}api/v1/download-pdf?token=${_token}` */
 
 const authRouter = [
     { text: 'Đăng nhập', to: '/login' },
@@ -38,7 +49,7 @@ const mesUser = computed(() => {
         return _name || 'User'
     })(user || {})
 
-    return `<small class="opacity-60">Xin chào,</small> ${fullName}`
+    return `<small class="opacity-60">Xin chào</small> <span class="d-none d-sm-inline">, ${fullName}</span>`
 })
 
 function _handelLogout() {
@@ -70,16 +81,19 @@ header.py-2.border-bottom.bg-body-tertiary
             .ms-auto
                 .d-flex.align-items-center
                     div.clearfix.pe-4
-                        a.btn.btn-sm.btn-outline-success(:href="API_DOWNLOAD_PDF" target="_blank") Download CV 
+                        a.btn.btn-sm.btn-outline-success(:href="_settings.getFile()" target="_blank") 
+                            span.pe-0.pe-sm-2
+                                FontAwesomeIcon(icon="fa fa-download")
+                            span.d-none.d-sm-inline Download CV 
                     Dropdown(:text="mesUser" :style="'outline-light'" split is-sm)
                         li.dropdown-item
-                            a.dropdown-link(:href="API_GET_ME" target="_blank")
+                            a.dropdown-link(:href="_settings.getMe()" target="_blank")
                                 span.pe-2.text-info
                                     FontAwesomeIcon(icon="fa fa-code")
                                 | View API
                         li.dropdown-divider
                         li.dropdown-item
-                            span.d-block.pointer( @click="_handelLogout") 
+                            span.d-block.pointer(@click="_handelLogout") 
                                 span.pe-2.text-danger
                                     FontAwesomeIcon(icon="fa fa-arrow-right-from-bracket")
                                 | Logout

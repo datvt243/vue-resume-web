@@ -23,6 +23,7 @@ import {
     faAward,
     faRepeat,
     faArrowRightFromBracket,
+    faDownload,
 } from '@fortawesome/free-solid-svg-icons'
 
 export default {
@@ -47,6 +48,7 @@ export default {
             faAward,
             faRepeat,
             faArrowRightFromBracket,
+            faDownload,
         )
 
         app.component('FontAwesomeIcon', FontAwesomeIcon)

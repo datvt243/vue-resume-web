@@ -5,12 +5,12 @@
  */
 
 import axios from 'axios'
+import { API } from '@/config/api.config'
 
 const TOKEN = localStorage?.getItem('token') || ''
-const API_URL = 'https://nodejs-resume-api.onrender.com/'
 
 const instanceAxios = axios.create({
-    baseURL: API_URL,
+    baseURL: API,
     // timeout: 1000,
     /* headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -30,7 +30,7 @@ export const _axios = async props => {
                 Authorization: `Bearer ${token || localStorage?.getItem('token') || ''}`,
                 'Content-Type': 'application/json',
             },
-            baseURL: 'https://nodejs-resume-api.onrender.com/',
+            baseURL: API,
         })
             .then(res => {
                 resolve(res.data)
