@@ -82,9 +82,9 @@ header.py-2.border-bottom.bg-body-tertiary
                 .d-flex.align-items-center
                     div.clearfix.pe-4
                         a.btn.btn-sm.btn-outline-success(:href="_settings.getFile()" target="_blank") 
-                            span.pe-0.pe-sm-2
+                            span.pe-0.pe-md-2
                                 FontAwesomeIcon(icon="fa fa-download")
-                            span.d-none.d-sm-inline Download CV 
+                            span.d-none.d-md-inline Download CV 
                     Dropdown(:text="mesUser" :style="'outline-light'" split is-sm)
                         li.dropdown-item
                             a.dropdown-link(:href="_settings.getMe()" target="_blank")

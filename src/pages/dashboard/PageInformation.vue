@@ -16,12 +16,12 @@ import { useDocument, useHelper } from '@/composables'
  * store
  */
 import { candidateStore } from '@/stores/candidate'
-const canidate = candidateStore()
+const candidate = candidateStore()
 
 /**
  *
  */
-/* import { useHelper } from '@/composables/useHepler' */
+/* import { useHelper } from '@/composables/useHelper' */
 const { toast } = useHelper()
 
 /**
@@ -60,14 +60,14 @@ const socialMediaFields = ref([
 const { document, updateDoc, updatePatchDoc } = useDocument({ collection: 'candidate', fields: formFields.value })
 
 onMounted(() => {
-    const candidate = canidate.getCandidate
+    const _candidate = candidate.getCandidate
 
     /** gán value cho doc */
     for (const k of Object.keys(document)) {
-        document[k] = candidate[k]
+        document[k] = _candidate[k]
     }
 
-    const { socialMedia = {} } = candidate
+    const { socialMedia = {} } = _candidate
 
     for (const field of socialMediaFields.value) {
         const { name } = field
@@ -79,7 +79,7 @@ onMounted(() => {
 async function handleUpdate(values) {
     const _newValues = { ...values }
 
-    _newValues._id = canidate.getId
+    _newValues._id = candidate.getId
     if (!_newValues._id) {
         toast?.({
             message: 'Xảy ra lỗi',
@@ -96,20 +96,20 @@ async function handleUpdate(values) {
 
     await updateDoc(data, res => {
         const { data } = res
-        canidate.setCandidateByField({ ...data })
+        candidate.setCandidateByField({ ...data })
     })
 }
 
 async function handleUpdateSocialNetwork(values) {
     const { socialMedia } = values
-    const _id = canidate.getId
+    const _id = candidate.getId
 
     if (!_id) return false
 
     await updatePatchDoc({ _id, socialMedia }, res => {
         const { data } = res
         const { socialMedia } = data
-        canidate.setCandidateByField({ socialMedia })
+        candidate.setCandidateByField({ socialMedia })
     })
 }
 </script>

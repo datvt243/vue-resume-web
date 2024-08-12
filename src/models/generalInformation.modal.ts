@@ -146,7 +146,7 @@ const MODEL: modelItem[] = [
         type: 'ckediter',
         default: '',
         placeholder: 'Vui lòng nhập Mức lương mong muốn',
-        valid: yup => yup.string().required(_mesRequired),
+        valid: yup => yup.string(),
     },
 ]
 

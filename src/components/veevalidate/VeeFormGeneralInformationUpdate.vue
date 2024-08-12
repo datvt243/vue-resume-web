@@ -16,14 +16,14 @@ import { useDocument } from '@/composables/useDocument'
 import Swal from 'sweetalert2'
 import { candidateStore } from '@/stores/candidate'
 
-const canidate = inject('candidate')
+const candidate = inject('candidate')
 
 const props = defineProps({
     heading: { type: String, default: '' },
     fieldKey: { type: String, default: '' },
     fields: { type: Array, default: () => [] },
     hasButtonAdd: { type: Boolean, default: false },
-    modelValue: { type: Array, default: () => [] },
+    modelValue: { type: [Array, Object], default: () => ({}) },
 })
 
 /**
@@ -70,7 +70,7 @@ function getValueForGeneralInformation(value) {
  */
 const { document, updatePatchDoc } = useDocument({ collection: 'general-information', fields: generalInformationField.value })
 async function handleUpdate(values, action = 'create') {
-    const _id = canidate.value._id
+    const _id = candidate.value._id
 
     if (!_id) return
 
@@ -126,9 +126,11 @@ async function handleUpdate(values, action = 'create') {
             res => {
                 const { data } = res
                 const _value = data[props.fieldKey]
-                generalInformation[props.fieldKey] = [..._value]
-                const candidate = candidateStore()
-                candidate.setGeneralInformation({ [props.fieldKey]: generalInformation[props.fieldKey] })
+                if (_value) {
+                    generalInformation[props.fieldKey] = [..._value]
+                    const candidate = candidateStore()
+                    candidate.setGeneralInformation({ [props.fieldKey]: generalInformation[props.fieldKey] })
+                }
             },
         ))
 }
@@ -143,6 +145,11 @@ async function handleUpdate(values, action = 'create') {
                 </button>
             </template>
         </Heading>
+
+        <div v-if="$slots.group" class="clearfix mb-3">
+            <slot name="group"></slot>
+        </div>
+
         <!--  -->
         <TableDefault
             :model-value="generalInformationField"

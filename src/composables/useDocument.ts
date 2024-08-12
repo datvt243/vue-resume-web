@@ -7,7 +7,7 @@
 import { ref, reactive, toValue, onBeforeMount, watch } from 'vue'
 import { confirmDelete } from '@/lib/swal.lib'
 import { handleBase } from '@/services/base'
-import { useHelper } from '@/composables/useHepler'
+import { useHelper } from '@/composables/useHelper'
 
 import type { Response } from '@/types/api.type'
 import type { modelItem } from '@/types/model.type'

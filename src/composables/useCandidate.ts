@@ -8,7 +8,7 @@ import type { Response } from '@/types/api.type'
 import { ref, onBeforeMount, toValue, computed } from 'vue'
 import { candidateStore } from '@/stores/candidate'
 import { handleBase } from '@/services/base'
-import { useHelper } from '@/composables/useHepler'
+import { useHelper } from '@/composables/useHelper'
 
 interface Props {
     field: string
@@ -22,7 +22,7 @@ export const useCandidate = (props: Props) => {
 
     const result = ref<Result>([])
 
-    const canidateId = computed(() => candidate.getId)
+    const candidateId = computed(() => candidate.getId)
     const { loading } = useHelper()
 
     onBeforeMount(async () => {
@@ -101,7 +101,7 @@ export const useCandidate = (props: Props) => {
     }
 
     return {
-        canidateId,
+        candidateId,
         [toValue(field)]: result,
         removeRecordById,
         addRecordToList,

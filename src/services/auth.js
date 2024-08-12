@@ -71,11 +71,12 @@ export const handleLogin = async (values, props) => {
                 router?.push('/dashboard/information')
             })
             .catch(err => {
-                const { message } = err
-                toast?.({
-                    message: message + '',
+                /* const { message } = err */
+                console.log(err /*  */)
+                /* toast?.({
+                    message: err + '',
                     bg: 'danger',
-                })
+                }) */
             })
     } catch (err) {
         throw new Error(err)
