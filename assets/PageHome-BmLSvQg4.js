@@ -1,0 +1,1 @@
+import{r as t,o,c as s,a,w as n,b as c,d as r}from"./index-CpXno4mj.js";const _={class:"py-5"},i=c("p",{class:"h2 mb-3"},"Welcome to ResumeAPI",-1),u={__name:"PageHome",setup(l){return(m,d)=>{const e=t("RouterLink");return o(),s("div",_,[i,a(e,{class:"btn btn-link border",style:{"min-width":"100px"},to:"/login"},{default:n(()=>[r("Login")]),_:1})])}}};export{u as default};
