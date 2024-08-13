@@ -22,8 +22,8 @@ async function addTag() {
     tag.value = ''
 }
 
-async function removeTag(tag) {
-    tags.value = tags.value.filter(i => i !== tag)
+async function removeTag(tag, index) {
+    tags.value.splice(index, 1)
     await props.handleAction(tags.value)
 }
 watch(tags, val => {
@@ -48,7 +48,9 @@ watch(tags, val => {
             <li v-for="(tag, i) in tags" :key="`tag${i}`">
                 <span class="badge text-bg-secondary">
                     {{ tag }}
-                    <span class="text-danger pointer" @click="removeTag(tag)"><FontAwesomeIcon icon="fa-solid fa-times" /></span>
+                    <span class="text-danger pointer" @click="removeTag(tag, i)"
+                        ><FontAwesomeIcon icon="fa-solid fa-times"
+                    /></span>
                 </span>
             </li>
         </ul>

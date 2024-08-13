@@ -59,9 +59,7 @@ function _handelLogout() {
 async function _download() {
     const opt = { method: 'get', url: `download-pdf`, params: { token: _token } }
 
-    await handleBase(opt, {}, res => {
-        console.log(res)
-    })
+    await handleBase(opt, {}, res => {})
 }
 </script>
 

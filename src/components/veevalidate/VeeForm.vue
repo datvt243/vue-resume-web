@@ -63,7 +63,7 @@ const { values, errors, handleSubmit, meta, setValues, resetForm } = useForm({
         const keys = props.fields.map(e => ({ name: e.name, default: e.default }))
         const _newDoc = {}
         for (const k of keys) {
-            console.log({ k })
+            
             _newDoc[k.name] = k.default
         }
         return _newDoc
