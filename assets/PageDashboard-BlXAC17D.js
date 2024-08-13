@@ -1,0 +1,1 @@
+import{r as o,o as a,c as r,a as t}from"./index-Bps_l_in.js";const s={class:"dashboard"},d={__name:"PageDashboard",setup(c){return(n,_)=>{const e=o("router-view");return a(),r("div",s,[t(e)])}}};export{d as default};
