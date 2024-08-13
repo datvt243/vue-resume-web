@@ -13,7 +13,8 @@ const props = defineProps({
     handleAction: { type: Function, default: () => {} },
     modelValue: { type: Array, default: () => [] },
 })
-const tags = toRef(() => props.modelValue)
+
+const tags = toRef(props, 'modelValue')
 const tag = ref('')
 async function addTag() {
     tags.value.push(tag.value)

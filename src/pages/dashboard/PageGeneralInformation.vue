@@ -55,7 +55,7 @@ watch(generalInformation, val => {
  *
  * tags
  */
-const skillsGroup = toRef(() => document.professionalSkillsGroup)
+const skillsGroup = toRef(document, 'professionalSkillsGroup')
 async function handleUpdateGroup(list) {
     await updatePatchDoc({ _id: document._id, professionalSkillsGroup: list }, res => {
         const { data } = res
