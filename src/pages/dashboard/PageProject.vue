@@ -16,8 +16,6 @@ import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/project.model.ts'
 
-import { formatDateToInput } from '@/utilities/index'
-
 const { projects: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'projects' })
 const colHidden = ['_id', 'description', 'link', 'images', 'technology']
 
@@ -71,9 +69,6 @@ function showModalEditDoc(doc) {
 
     document.technology = document.technology?.join(', ')
 
-    document.startDate = formatDateToInput(document.startDate)
-    document.endDate = formatDateToInput(document.endDate)
-
     refModal.value?.show()
 }
 
@@ -109,7 +104,7 @@ function showModalCreateDoc() {
         <NoData v-else />
     </div>
 
-    <Modal ref="refModal" :title="document._id ? `Chỉnh sửa: ${document.school}` : 'Thêm mới Dự án'" is-hidden-footer>
+    <Modal ref="refModal" :title="document._id ? `Chỉnh sửa: ${document.name}` : 'Thêm mới Dự án'" is-hidden-footer>
         <div class="block-container">
             <VeeForm
                 ref="refVeeForm"

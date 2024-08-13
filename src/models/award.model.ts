@@ -43,7 +43,8 @@ const MODEL: modelItem[] = [
         valid: yup => yup.date().required(_mesRequired),
         col: 'col-md-6',
         convertTo: 'date',
-        default: formatDateToInput(+new Date()),
+        default: +new Date(),
+        monthPicker: true,
     },
     {
         name: 'link',

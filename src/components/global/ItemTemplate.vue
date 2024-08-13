@@ -53,7 +53,7 @@ const getDate = computed(() => {
                     p.item-title {{ model.title }}
                 .col-auto.ms-auto
                     slot
-            div.border-start.ps-3.border-success.mb-3
+            div.border-start.ps-3.border-success.mb-4
                 p.item-note(v-if="model.subTitle") {{ model.subTitle }}
                 p.item-note(v-if="getDate") {{ getDate }}
                 slot(name="sub")

@@ -5,8 +5,7 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
-import { defaultId, defaultDateStartEnd, defaultDescription, defaultLink } from '@/types/model.type'
-import { formatDateToInput } from '@/utilities/index'
+import { defaultId, defaultDateStartEnd, defaultDescription, defaultLink, defaultCheckboxBoolean } from '@/types/model.type'
 
 const _mesRequired = 'Vui lòng nhập'
 const _mesNumber = 'Vui lòng nhập vào số'
@@ -38,7 +37,11 @@ const MODEL: modelItem[] = [
         default: '',
     },
 
-    ...defaultDateStartEnd(),
+    ...defaultDateStartEnd(true),
+    defaultCheckboxBoolean({ name: 'isWorking', label: 'Đang làm việc tại đây' }),
+
+    defaultLink({ name: 'link', label: 'Link' }),
+    /* 
     {
         name: 'isWorking',
         label: 'Đang làm việc tại đây',
@@ -51,8 +54,7 @@ const MODEL: modelItem[] = [
         convertTo: 'boolean',
         checkedValue: false,
     },
-    defaultLink({ name: 'link', label: 'Link' }),
-    /* {
+    {
         name: 'images',
         label: 'Hình ảnh',
         valid: yup => yup.string().required(_mesRequired),

@@ -18,6 +18,7 @@ import {
     FrmCurrency,
     FrmDate,
     FrmCkediter,
+    FrmDatePicker,
 } from '@/components/veevalidate'
 
 const props = defineProps({
@@ -58,6 +59,15 @@ const schema = computed(() => {
  */
 const { values, errors, handleSubmit, meta, setValues, resetForm } = useForm({
     validationSchema: schema,
+    /* initialValues: (() => {
+        const keys = props.fields.map(e => ({ name: e.name, default: e.default }))
+        const _newDoc = {}
+        for (const k of keys) {
+            console.log({ k })
+            _newDoc[k.name] = k.default
+        }
+        return _newDoc
+    })(), */
 })
 watch(
     () => props.document,
@@ -108,7 +118,8 @@ const objComponent = {
     textarea: FrmTextArea,
     ckediter: FrmCkediter,
     password: FrmPwd,
-    date: FrmDate,
+    /* date: FrmDate, */
+    date: FrmDatePicker,
     text: FrmInput,
     default: FrmInput,
 }

@@ -18,14 +18,7 @@ const props = defineProps({
     validFeedback: { type: String, default: '' },
     invalidFeedback: { type: String, default: '' },
     rules: { type: String, default: '' },
-    value: { type: [String, Number, Date], default: '' },
 })
-watch(
-    () => props.value,
-    val => {
-        value.value = val
-    },
-)
 
 const attrs = useAttrs()
 

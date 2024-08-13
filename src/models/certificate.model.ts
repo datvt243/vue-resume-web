@@ -5,7 +5,7 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
-import { defaultId, defaultDescription, defaultLink, defaultDateStartEnd, defaultCheckoxBoolean } from '@/types/model.type'
+import { defaultId, defaultDescription, defaultLink, defaultDateStartEnd, defaultCheckboxBoolean } from '@/types/model.type'
 
 const _mesRequired = 'Vui lòng nhập'
 
@@ -27,8 +27,8 @@ const MODEL: modelItem[] = [
         valid: yup => yup.string().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
         default: '',
     },
-    ...defaultDateStartEnd(),
-    defaultCheckoxBoolean({ name: 'isNoExpiration', label: 'Không thời hạn' }),
+    ...defaultDateStartEnd(true),
+    defaultCheckboxBoolean({ name: 'isNoExpiration', label: 'Không thời hạn' }),
     defaultLink({ name: 'link', label: 'Link' }),
     /* {
         name: 'images',

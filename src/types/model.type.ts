@@ -34,6 +34,8 @@ interface Part {
     label: string
     col?: string
     placeholder?: string
+    required?: boolean
+    attrs?: Record<string, any>
 }
 
 export interface modelItem {
@@ -51,6 +53,7 @@ export interface modelItem {
     checkedValue?: boolean
     options?: Options[]
     cellClass?: string
+    [key: string]: any
 }
 
 export const defaultId: modelItem = {
@@ -64,7 +67,7 @@ export const defaultId: modelItem = {
 }
 
 export const defaultDescription = function (props: Part): modelItem {
-    return {
+    const result: modelItem = {
         name: props.name,
         label: props.label,
         type: 'ckediter',
@@ -73,6 +76,13 @@ export const defaultDescription = function (props: Part): modelItem {
         convertTo: 'truncate',
         default: '',
     }
+    const { required = false } = props
+    if (required) {
+        result.valid = yup => yup.string().trim().required(_mesRequired)
+    } else {
+        result.valid = yup => yup.string().trim()
+    }
+    return result
 }
 
 export const defaultLink = function (props: Part): modelItem {
@@ -96,7 +106,7 @@ export const defaultDate = function (props: Part): modelItem {
         col: props?.col || 'col-md-12',
     }
 }
-export const defaultDateStartEnd = function (): modelItem[] {
+export const defaultDateStartEnd = function (isMonthPicker = false): modelItem[] {
     const _startLabel = 'Ngày bắt đầu',
         _endLabel = 'Ngày kết thúc'
 
@@ -106,25 +116,28 @@ export const defaultDateStartEnd = function (): modelItem[] {
             label: _startLabel,
             type: 'date',
             placeholder: `Vui lòng nhập ${_startLabel}`,
-            valid: yup => yup.date().required(_mesRequired),
+            valid: yup => yup.number().required(_mesRequired),
             col: 'col-md-6',
             convertTo: 'date',
-            default: formatDateToInput(+new Date()),
+            default: +new Date(),
+            ...(isMonthPicker && { monthPicker: true }),
         },
         {
             name: 'endDate',
             label: _endLabel,
             type: 'date',
             placeholder: `Vui lòng nhập ${_endLabel}`,
-            valid: yup => yup.date().required(_mesRequired).min(yup.ref('startDate'), `${_endLabel} phải sau ngày bắt đầu`),
+            valid: yup => yup.number().required(_mesRequired).min(yup.ref('startDate'), `${_endLabel} phải sau ngày bắt đầu`),
             col: 'col-md-6',
             convertTo: 'date',
-            default: formatDateToInput(+new Date()),
+            default: +new Date(),
+            ...(isMonthPicker && { monthPicker: true }),
         },
     ]
 }
 
-export const defaultCheckoxBoolean = function (props: Part): modelItem {
+export const defaultCheckboxBoolean = function (props: Part): modelItem {
+    const { attrs = {} } = props
     return {
         name: props.name,
         label: props.label,
@@ -136,6 +149,7 @@ export const defaultCheckoxBoolean = function (props: Part): modelItem {
         cellClass: 'text-center',
         convertTo: 'boolean',
         checkedValue: false,
+        ...(Object.keys(attrs).length && { ...attrs }),
     }
 }
 

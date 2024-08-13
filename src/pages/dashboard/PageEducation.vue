@@ -68,9 +68,6 @@ function showModalEditDoc(doc) {
         document[f] = doc[f]
     }
 
-    document.startDate = formatDateToInput(document.startDate)
-    document.endDate = formatDateToInput(document.endDate)
-
     refModal.value?.show()
 }
 

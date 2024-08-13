@@ -64,8 +64,8 @@ function showModalEditDoc(doc) {
         document[f] = doc[f]
     }
 
-    document.startDate = formatDateToInput(document.startDate)
-    document.endDate = formatDateToInput(document.endDate)
+    /* document.startDate = formatDateToInput(document.startDate)
+    document.endDate = formatDateToInput(document.endDate) */
 
     refModal.value?.show()
 }
@@ -100,7 +100,7 @@ function showModalCreateDoc() {
 
     <Modal
         ref="refModal"
-        :title="document._id ? `Chỉnh sửa: ${document.school}` : 'Thêm mới kinh nghiệm làm việc'"
+        :title="document._id ? `Chỉnh sửa: ${document.company}` : 'Thêm mới kinh nghiệm làm việc'"
         is-hidden-footer
     >
         <div class="block-container">

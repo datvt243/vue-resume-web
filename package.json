@@ -19,6 +19,7 @@
         "@popperjs/core": "^2.11.8",
         "@sweetalert2/theme-dark": "^5.0.16",
         "@vee-validate/yup": "^4.13.1",
+        "@vuepic/vue-datepicker": "^9.0.2",
         "axios": "^1.7.2",
         "bootstrap": "^5.3.3",
         "ckeditor5": "^42.0.1",
