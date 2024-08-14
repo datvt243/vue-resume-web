@@ -6,7 +6,7 @@
 
 import { inject, toValue } from 'vue'
 
-export const useHelper = (props) => {
+export const useHelper = () => {
     const refSpinner = inject('spinner')
     const refToast = inject('toast')
 

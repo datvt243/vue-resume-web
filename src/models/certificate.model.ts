@@ -29,7 +29,7 @@ const MODEL: modelItem[] = [
     },
     ...defaultDateStartEnd(true),
     defaultCheckboxBoolean({ name: 'isNoExpiration', label: 'Không thời hạn' }),
-    defaultLink({ name: 'link', label: 'Link' }),
+    /* defaultLink({ name: 'link', label: 'Link' }), */
     /* {
         name: 'images',
         label: 'Hình ảnh',
@@ -38,7 +38,7 @@ const MODEL: modelItem[] = [
         col: 'col-md-12',
         default: '',
     }, */
-    defaultDescription({ name: 'description', label: 'Mô tả' }),
+    defaultDescription({ name: 'description', label: 'Mô tả', required: false }),
 ]
 
 export default MODEL

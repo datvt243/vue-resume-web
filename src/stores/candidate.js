@@ -24,7 +24,7 @@ export const candidateStore = defineStore('candidate', () => {
         delete _candidate.password
         _candidate.gender = _candidate.gender ? 1 : 0
         _candidate.marital = _candidate.marital ? 1 : 0
-        _candidate.birthday = formatDateToInput(_candidate.birthday)
+        /* _candidate.birthday = formatDateToInput(_candidate.birthday) */
 
         return _candidate
     })

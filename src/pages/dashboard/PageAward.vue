@@ -62,7 +62,7 @@ function showModalEditDoc(doc) {
     for (const f of new Set(['_id', ...fields])) {
         document[f] = doc[f]
     }
-    document.issueDate = formatDateToInput(document.issueDate)
+
     refModal.value?.show()
 }
 

@@ -21,44 +21,53 @@ const props = defineProps({
 })
 const attrs = useAttrs()
 const isMonthPicker = computed(() => Object.hasOwn(attrs, 'monthPicker'))
-
+watch(
+    () => props.value,
+    val => {
+        date.value = checkValue(val)
+    },
+)
 // ----- useField
 
 const { value, errorMessage, handleChange, handleBlur } = useField(() => props.name)
-watch(value, val => {
-    handleChange(val)
-    ;(() => {
-        if (isMonthPicker.value) {
-            const newDate = new Date(val)
-            date.value = {
-                month: newDate.getMonth(),
-                year: newDate.getFullYear(),
-            }
-        } else {
-            date.value = +new Date(value.value)
-        }
-    })()
+watch(value, (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+        handleChange(newVal)
+        date.value = checkValue(newVal)
+    }
 })
 
 // ----- useField
-const initValue = () => {
-    const _check = Object.hasOwn(attrs, 'monthPicker')
-    const _val = value.value || +new Date()
-
-    if (_check) {
-        const newDate = new Date(_val)
-        return {
-            month: newDate.getMonth(),
-            year: newDate.getFullYear(),
-        }
+const date = ref(checkValue(value.value))
+watch(date, (newVal, oldVal) => {
+    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+        value.value = convertToNumber(newVal)
     }
-    return +new Date(value.value)
-}
-const date = ref(initValue())
+})
 
 // ------
-
-const format = date => {
+function checkValue(date) {
+    const _check = Object.hasOwn(attrs, 'monthPicker')
+    const _val = date || +new Date()
+    const _date = new Date(_val)
+    if (_check) {
+        return {
+            month: _date.getMonth(),
+            year: _date.getFullYear(),
+        }
+    }
+    return +_date
+}
+function convertToNumber(value) {
+    if (isMonthPicker.value) {
+        const date = new Date()
+        date.setMonth(value.month)
+        date.setFullYear(value.year)
+        return +date
+    }
+    return +new Date(value)
+}
+function format(date) {
     let day = date.getDate(),
         month = date.getMonth() + 1,
         year = date.getFullYear()

@@ -16,7 +16,7 @@ import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/certificate.model.ts'
 
-import { formatDateToInput, formatDate } from '@/utilities/index'
+import { formatDate } from '@/utilities/index'
 
 const { certificates: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'certificates' })
 const colHidden = ['_id', 'description', 'link', 'images']
@@ -66,8 +66,7 @@ function showModalEditDoc(doc) {
     for (const f of new Set(['_id', ...fields])) {
         document[f] = doc[f]
     }
-    document.startDate = formatDateToInput(document.startDate)
-    document.endDate = formatDateToInput(document.endDate)
+
     !document.isNoExpiration && (document.isNoExpiration = false)
     refModal.value?.show()
 }
@@ -137,7 +136,7 @@ function showModalCreateDoc() {
         <NoData v-else />
     </div>
 
-    <Modal ref="refModal" :title="document._id ? `Chỉnh sửa: ${document.school}` : 'Thêm mới Chứng chỉ'" is-hidden-footer>
+    <Modal ref="refModal" :title="document._id ? `Chỉnh sửa: ${document.name}` : 'Thêm mới Chứng chỉ'" is-hidden-footer>
         <div class="block-container">
             <VeeForm
                 ref="refVeeForm"

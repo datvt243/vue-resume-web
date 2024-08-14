@@ -16,7 +16,6 @@ import {
     FrmCheckbox,
     FrmSelect,
     FrmCurrency,
-    FrmDate,
     FrmCkediter,
     FrmDatePicker,
 } from '@/components/veevalidate'
@@ -118,7 +117,6 @@ const objComponent = {
     textarea: FrmTextArea,
     ckediter: FrmCkediter,
     password: FrmPwd,
-    /* date: FrmDate, */
     date: FrmDatePicker,
     text: FrmInput,
     default: FrmInput,
@@ -131,30 +129,6 @@ const objComponent = {
             <template v-for="el in getFields.filter(f => f.type !== 'hidden')" :key="el.nam">
                 <div :class="['col-12', el?.col || 'col-md-12']">
                     <component :is="objComponent?.[`${el.type}`] || objComponent['default']" :key="el?.name" v-bind="el" />
-                    <!-- <template v-if="el.type === 'checkbox'">
-                        <FrmCheckbox :key="el?.name" v-bind="el" />
-                    </template>
-                    <template v-else-if="el.type === 'currency'">
-                        <FrmCurrency :key="el?.name" v-bind="el" />
-                    </template>
-                    <template v-else-if="el.type === 'select'">
-                        <FrmSelect :key="el?.name" v-bind="el" />
-                    </template>
-                    <template v-else-if="el.type === 'textarea'">
-                        <FrmTextArea :key="el?.name" v-bind="el" />
-                    </template>
-                    <template v-else-if="el.type === 'ckediter'">
-                        <FrmCkediter :key="el?.name" v-bind="el" />
-                    </template>
-                    <template v-else-if="el.type === 'password'">
-                        <FrmPwd :key="el?.name" v-bind="el" />
-                    </template>
-                    <template v-else-if="el.type === 'date'">
-                        <FrmDate :key="el?.name" v-bind="el" />
-                    </template>
-                    <template v-else>
-                        <FrmInput :key="el?.name" v-bind="el" />
-                    </template> -->
                 </div>
             </template>
         </div>
