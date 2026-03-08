@@ -72,13 +72,14 @@ export const handleLogin = async (values, props) => {
             })
             .catch(err => {
                 /* const { message } = err */
-                console.log(err /*  */)
-                /* toast?.({
-                    message: err + '',
+                console.log({err})
+                toast?.({
+                    message: 'Đăng nhập thất bại',
                     bg: 'danger',
-                }) */
+                })
             })
     } catch (err) {
+        // console.log(err /*  */)
         throw new Error(err)
     }
 
