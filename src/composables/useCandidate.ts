@@ -31,7 +31,7 @@ export const useCandidate = (props: Props) => {
         if (!_result.length) {
             await getData()
         } else {
-            result.value = _result
+            result.value = sortData(_result)
         }
     })
 
@@ -57,7 +57,7 @@ export const useCandidate = (props: Props) => {
             },
         )
 
-        result.value = _data
+        result.value = sortData(_data)
         /* return _data */
     }
 
@@ -98,6 +98,13 @@ export const useCandidate = (props: Props) => {
     }
     function updateGeneralInformationByField(value: Record<string, any>) {
         candidate.setGeneralInformation(value)
+    }
+
+    function sortData(data: any) {
+      if (Array.isArray(data)) {
+        return data.sort((a, b) => b.startDate - a.startDate)
+      }
+      return data
     }
 
     return {
