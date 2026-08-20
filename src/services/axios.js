@@ -6,8 +6,10 @@
 
 import axios from 'axios'
 import { API } from '@/config/api.config'
+import { authStore } from '@/stores/auth'
 
 const TOKEN = localStorage?.getItem('token') || ''
+const subURL = 'api/v1/'
 
 const instanceAxios = axios.create({
     baseURL: API,
@@ -17,6 +19,34 @@ const instanceAxios = axios.create({
         'Content-Type': 'application/json',
     }, */
 })
+
+/**
+ * silent refresh: khi access token hết hạn (401), thử đổi lấy token mới
+ * bằng refresh token trước khi force logout.
+ */
+instanceAxios.interceptors.response.use(
+    res => res,
+    async err => {
+        const originalRequest = err.config
+        const refreshToken = localStorage?.getItem('tokenRefresh')
+
+        if (err.response?.status === 401 && refreshToken && !originalRequest?._retry) {
+            originalRequest._retry = true
+            try {
+                const res = await axios.post(`${API}${subURL}auth/refresh`, { refreshToken })
+                const { token } = res.data
+                authStore().setToken(token)
+                originalRequest.headers.Authorization = `Bearer ${token}`
+                return instanceAxios(originalRequest)
+            } catch (refreshErr) {
+                authStore().logOut()
+                return Promise.reject(refreshErr)
+            }
+        }
+
+        return Promise.reject(err)
+    },
+)
 
 export const _axios = async props => {
     const { url, method, params, data, customURL = null, token = null } = props

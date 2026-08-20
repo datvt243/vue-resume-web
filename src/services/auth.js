@@ -43,11 +43,12 @@ export const handleLogin = async (values, props) => {
                 return {
                     email: email.trim(),
                     token,
+                    tokenRefresh,
                     user,
                 }
             })
             .then(async res => {
-                const { email, token, user } = res
+                const { email, token, tokenRefresh, user } = res
                 try {
                     await _axios({ method: 'get', url: `${subURL}candidate/${email.trim()}`, token: token }).then(res => {
                         const { data } = res
@@ -60,13 +61,15 @@ export const handleLogin = async (values, props) => {
 
                 return {
                     token,
+                    tokenRefresh,
                     user,
                 }
             })
             .then(res => {
-                const { token, user } = res
+                const { token, tokenRefresh, user } = res
                 const store = authStore()
                 store.setToken(token)
+                tokenRefresh && store.setRefreshToken(tokenRefresh)
                 store.setUser({ ...user })
                 router?.push('/dashboard/information')
             })
