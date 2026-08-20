@@ -30,6 +30,10 @@ trích dẫn. Không biết thì nói không biết.
    Tôi dừng ở `sealed_pending_verifier`.
 7. Tôi không mở rộng scope ngoài node đang làm — thấy bug khác thì ghi vào
    "Noticed, not done" trong evidence note, không tự sửa luôn.
+8. Tôi không bao giờ sửa hay commit trực tiếp trên `main`. Trước diff đầu
+   tiên, tôi `git checkout -b <branch>` từ `main` và ghi tên branch vào
+   evidence note. → `MAIN_EDIT`. Merge branch về `main` đi qua Seal Gate,
+   không tự merge+push khi chưa có approval.
 
 ## The Judgment I'm held to
 4 lenses: Simple · Correct · Care · First principles (xem `../../../CLAUDE.md`).

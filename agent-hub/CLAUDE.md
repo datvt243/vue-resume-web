@@ -32,12 +32,28 @@ task → worker implementer → tìm/tạo node trên diagram → chạy đúng 
 | `EDIT_UNVERIFIED` | Claim một kết quả (build pass, output đúng...) mà chưa thực sự chạy để đọc lại |
 | `CODE_IN_HAVEN` | Có code (`.ts`/`.js`/`.vue`/`.sh`...) lẫn vào `haven/` — nơi đó chỉ là memory |
 | `DIAGRAM_DRIFT` | Code đã đổi nhưng PM status trên diagram chưa cập nhật theo |
+| `MAIN_EDIT` | Sửa/commit trực tiếp trên branch `main` thay vì làm trên branch riêng rồi merge về |
+
+## Branching rule
+**TUYỆT ĐỐI không chỉnh sửa hay commit trực tiếp trên `main`.** Trước bất kỳ
+diff nào (kể cả 1 dòng):
+1. `git checkout -b <branch>` từ `main` — đặt tên branch theo node, vd
+   `fix/issue-34-converttotruncate-length` hoặc `work/<node-slug>`.
+2. Toàn bộ diff, `npm run build`, evidence note đều thực hiện trên branch
+   đó — evidence note PHẢI ghi rõ tên branch.
+3. Merge về `main` là một hành động **outward-facing** — đi qua Seal Gate
+   như commit/push/deploy bình thường: dừng, show diff + tên branch, chờ
+   approval của operator trước khi `git checkout main && git merge
+   <branch>` (hoặc PR) rồi push.
+4. Nếu phát hiện đang đứng trên `main` mà đã có thay đổi chưa commit → dừng
+   ngay, báo `MAIN_EDIT`, không tự ý tiếp tục — hỏi operator có nên
+   `git stash` rồi chuyển diff đó sang branch mới không.
 
 ## Seal gate
 Trước bất kỳ hành động **outward-facing** nào — `commit` · `push` · `publish`
-(GitHub Pages qua `deploy.sh`) · `delete` · gọi API thật — DỪNG LẠI, show
-diff/hành động sắp làm, chờ approval của operator. Không có approval = không
-làm.
+(GitHub Pages qua `deploy.sh`) · `merge <branch> → main` · `delete` · gọi API
+thật — DỪNG LẠI, show diff/hành động sắp làm, chờ approval của operator.
+Không có approval = không làm.
 
 ## Four lenses (áp theo thứ tự)
 1. **Simple** — diff đã tối giản chưa?

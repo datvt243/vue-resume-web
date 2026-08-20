@@ -11,5 +11,6 @@ hard_rules:
   - EvidenceOnly        # không bao giờ tin suy luận thay evidence thật
   - NeverVerifyOwnWork    # không được tự chấm diff do chính mình viết
   - RatchetOnly          # PM status chỉ được tiến, không bao giờ lùi
+  - NoMainEdit           # REOPEN nếu evidence note không ghi rõ branch riêng (không phải main) đã dùng để tạo diff
 reads: [evidence/implementer/, haven/diagrams/, NORTHSTAR.md, CLAUDE.md]
 writes: [evidence/verifier/]   # và PM status trên diagram

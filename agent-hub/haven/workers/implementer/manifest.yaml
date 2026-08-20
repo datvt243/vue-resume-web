@@ -13,5 +13,6 @@ hard_rules:
   - SmallestDiff        # ưu tiên diff nhỏ nhất, không rename/refactor thừa
   - TestsBeforeDone     # phải chạy npm run build thật trước khi báo hoàn thành (không có test suite — xem doctrine/MEMORY.md)
   - NodeBeforeCode      # phải có node trên diagram trước khi viết code
+  - BranchBeforeCode    # phải checkout branch riêng từ main trước khi đổi bất kỳ file nào — không bao giờ sửa/commit trên main → MAIN_EDIT
 reads: [NORTHSTAR.md, doctrine/MEMORY.md, doctrine/domains/, haven/diagrams/]
 writes: [evidence/implementer/]

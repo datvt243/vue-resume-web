@@ -12,6 +12,9 @@ Ngày dạng `YYYY-mm-dd`, slug kebab-case lấy từ tên task.
 ## Format — implementer note
 - Tiêu đề (ngày - node) · Worker · Version · Node (trỏ diagram) · Task
   (nguyên văn prompt)
+- `## Branch` — tên branch riêng đã checkout từ `main` trước khi đổi file
+  (bắt buộc — xem `CLAUDE.md` → Branching rule; thiếu dòng này = verifier
+  REOPEN với `MAIN_EDIT`)
 - `## Diff` — files | file | why |
 - `## Command` — lệnh nguyên văn từ `doctrine/MEMORY.md` (vd `npm run
   build` từ repo root — dự án này không có lệnh test riêng)

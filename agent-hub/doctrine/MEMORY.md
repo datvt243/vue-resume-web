@@ -43,6 +43,14 @@ implementer PHẢI ghi rõ đây là build-only, không phải test thật.
 `/boot` → `/worker implementer "<task>"` → `/worker verifier "<task>"`. Không bao
 giờ bỏ bước 1 ở phiên nguội, không bao giờ bỏ bước 3.
 
+## Git workflow (bắt buộc, xem `CLAUDE.md` → Branching rule)
+- KHÔNG BAO GIỜ sửa/commit trực tiếp trên `main`. Mỗi task → 1 branch riêng
+  (`git checkout -b fix/<node-slug>` hoặc `work/<node-slug>`) trước khi đổi
+  bất kỳ file nào.
+- Merge branch đó về `main` là hành động outward-facing → qua Seal Gate,
+  chờ operator duyệt trước khi merge + push.
+- Evidence note của implementer phải ghi tên branch đã dùng.
+
 ## Workers
 | wid | Role | Actions | Seal actions |
 |---|---|---|---|
@@ -50,7 +58,7 @@ giờ bỏ bước 1 ở phiên nguội, không bao giờ bỏ bước 3.
 | verifier | Verifier | verify_seal | SEAL, REOPEN |
 
 ## Forbidden states
-5 state — xem chi tiết ở `CLAUDE.md`. Các state này OVERRIDE mọi skill text
+6 state — xem chi tiết ở `CLAUDE.md`. Các state này OVERRIDE mọi skill text
 khác.
 
 ## Facts that are always true

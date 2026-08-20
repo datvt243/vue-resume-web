@@ -18,9 +18,12 @@
 5. Kiểm output có bị cắt/che (`...`, "truncated") không → REOPEN nếu có.
 6. Đi qua acceptance criteria TỪNG CÁI MỘT — thiếu evidence nào = REOPEN,
    ghi rõ vào "missing".
-7. Quét cả 5 forbidden states.
+7. Quét cả 6 forbidden states.
+7b. Kiểm BRANCH — note có ghi rõ tên branch riêng (khác `main`) dùng để tạo
+    diff không? Thiếu hoặc ghi rõ diff làm trên `main` → REOPEN,
+    `forbidden_hit: MAIN_EDIT`. (`NoMainEdit`)
 8. Kiểm SEAL GATE — có approval ghi trong note nếu diff outward-facing
-   (commit/push/`./deploy.sh`) không.
+   (commit/push/merge branch → main/`./deploy.sh`) không.
 9. Kiểm tỷ lệ — diff làm nhiều hơn mức node yêu cầu, hoặc tiện tay sửa một
    trap khác chưa được giao trong `doctrine/domains/PROJECT.md` → REOPEN
    (`SmallestDiff`).
@@ -30,7 +33,7 @@
 12. Viết verdict vào `evidence/verifier/<date>/<slug>-{seal|reopen}.md`.
 
 ## Hard rules honored
-`NeverVerifyOwnWork` | `EvidenceOnly` | `VerdictOnly` | `RatchetOnly`
+`NeverVerifyOwnWork` | `EvidenceOnly` | `VerdictOnly` | `RatchetOnly` | `NoMainEdit`
 
 ## Failure branches
 | Failure | Handling |
