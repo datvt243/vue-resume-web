@@ -8,7 +8,6 @@ import { defineStore } from 'pinia'
 import { reactive, computed } from 'vue'
 import { formatDateToInput } from '@/utilities/index.ts'
 
-const _part = ['']
 const setValuesDefault = (val, document) => {
     for (const key of Object.keys(val)) {
         document[key] = val[key]

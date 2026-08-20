@@ -8,8 +8,6 @@ import axios from 'axios'
 import { API, subURL } from '@/config/api.config'
 import { authStore } from '@/stores/auth'
 
-const TOKEN = localStorage?.getItem('token') || ''
-
 const instanceAxios = axios.create({
     baseURL: API,
     // timeout: 1000,

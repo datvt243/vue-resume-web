@@ -113,7 +113,3 @@ const _helper = props => {
         },
     }
 }
-
-export const handleBaseDelete = (opts, props, callback) => {
-    const { collection, id } = opts
-}
