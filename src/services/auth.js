@@ -24,7 +24,7 @@ export const handleLogin = async (values, props) => {
      *
      */
     try {
-        await _axios({
+        const loginRes = await _axios({
             method: 'post',
             url: `${subURL}auth/login`,
             data: {
@@ -32,63 +32,33 @@ export const handleLogin = async (values, props) => {
                 password: password.trim(),
             },
         })
-            .then(async res => {
-                const { message } = res
-                toast?.({
-                    message: message,
-                    bg: 'success',
-                })
-                const { user, token, tokenRefresh } = res.data
-                return {
-                    email: email.trim(),
-                    token,
-                    tokenRefresh,
-                    user,
-                }
-            })
-            .then(async res => {
-                const { email, token, tokenRefresh, user } = res
-                try {
-                    await _axios({ method: 'get', url: `${subURL}candidate/${email.trim()}`, token: token }).then(res => {
-                        const { data } = res
-                        const candidate = candidateStore()
-                        candidate.setCandidate({ ...data })
-                    })
-                } catch (err) {
-                    throw new Error(err)
-                }
 
-                return {
-                    token,
-                    tokenRefresh,
-                    user,
-                }
-            })
-            .then(res => {
-                const { token, tokenRefresh, user } = res
-                const store = authStore()
-                store.setToken(token)
-                tokenRefresh && store.setRefreshToken(tokenRefresh)
-                store.setUser({ ...user })
-                router?.push('/dashboard/information')
-            })
-            .catch(err => {
-                /* const { message } = err */
-                console.log({err})
-                toast?.({
-                    message: 'Đăng nhập thất bại',
-                    bg: 'danger',
-                })
-            })
+        toast?.({
+            message: loginRes.message,
+            bg: 'success',
+        })
+
+        const { user, token, tokenRefresh } = loginRes.data
+
+        const candidateRes = await _axios({ method: 'get', url: `${subURL}candidate/${email.trim()}`, token })
+        candidateStore().setCandidate({ ...candidateRes.data })
+
+        const store = authStore()
+        store.setToken(token)
+        tokenRefresh && store.setRefreshToken(tokenRefresh)
+        store.setUser({ ...user })
+        router?.push('/dashboard/information')
     } catch (err) {
-        // console.log(err /*  */)
-        throw new Error(err)
+        toast?.({
+            message: 'Đăng nhập thất bại',
+            bg: 'danger',
+        })
+    } finally {
+        /**
+         * spinner hide
+         */
+        toValue(loading)?.hide()
     }
-
-    /**
-     * spinner hide
-     */
-    toValue(loading)?.hide()
 }
 
 export const handleRegister = async (values, props) => {
@@ -100,36 +70,35 @@ export const handleRegister = async (values, props) => {
      */
     toValue(loading)?.show()
 
-    await _axios({
-        method: 'post',
-        url: `${subURL}auth/register`,
-        data: {
-            firstName,
-            lastName,
-            email,
-            password,
-            repassword,
-        },
-    })
-        .then(res => {
-            const { message } = res
-            toast?.({
-                message: message,
-                bg: 'success',
-            })
-
-            router?.push('/login')
-        })
-        .catch(err => {
-            const { message } = err
-            toast?.({
-                message: message + '',
-                bg: 'danger',
-            })
+    try {
+        const res = await _axios({
+            method: 'post',
+            url: `${subURL}auth/register`,
+            data: {
+                firstName,
+                lastName,
+                email,
+                password,
+                repassword,
+            },
         })
 
-    /**
-     * spinner hide
-     */
-    toValue(loading)?.hide()
+        toast?.({
+            message: res.message,
+            bg: 'success',
+        })
+
+        router?.push('/login')
+    } catch (err) {
+        const { message = '' } = err
+        toast?.({
+            message: message + '',
+            bg: 'danger',
+        })
+    } finally {
+        /**
+         * spinner hide
+         */
+        toValue(loading)?.hide()
+    }
 }
