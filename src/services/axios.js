@@ -5,11 +5,10 @@
  */
 
 import axios from 'axios'
-import { API } from '@/config/api.config'
+import { API, subURL } from '@/config/api.config'
 import { authStore } from '@/stores/auth'
 
 const TOKEN = localStorage?.getItem('token') || ''
-const subURL = 'api/v1/'
 
 const instanceAxios = axios.create({
     baseURL: API,

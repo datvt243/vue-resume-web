@@ -7,8 +7,7 @@
 import { toValue } from 'vue'
 import { _axios } from '@/services/axios'
 import { authStore } from '@/stores/auth'
-
-const subURL = 'api/v1/'
+import { subURL } from '@/config/api.config'
 
 export const handleBase = async (axiosOptions, props, callback) => {
     /**
