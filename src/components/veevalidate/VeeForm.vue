@@ -33,8 +33,8 @@ const props = defineProps({
 
 const getFields = computed(() => {
     return props.fields.map(e => {
-        delete e.valid
-        return e
+        const { valid: _valid, ...rest } = e
+        return rest
     })
 })
 const getFieldId = computed(() => {
