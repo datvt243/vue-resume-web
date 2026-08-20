@@ -5,57 +5,59 @@ description: "Commit any pending changes on the current task branch, merge it in
 
 # /ship ["<commit message>"] — commit, merge branch → main, push
 
-`args` (tuỳ chọn) là commit message. Nếu rỗng, tự suy ra từ diff hiện tại
-theo Conventional Commits (`fix:`/`feat:`/`docs:`/`chore:`...), khớp style
-lịch sử commit thật của repo (`git log --oneline`).
+`args` (optional) is the commit message. If empty, infer one from the
+current diff following Conventional Commits (`fix:`/`feat:`/`docs:`/
+`chore:`...), matching the repo's actual commit history style
+(`git log --oneline`).
 
-Gọi `/ship` LÀ approval cho hành động outward-facing này (Seal Gate, xem
-`agent-hub/CLAUDE.md`) — không hỏi lại confirm thêm, trừ khi gặp vấn đề
-chặn (build đỏ, đang đứng trên `main`, conflict...).
+Calling `/ship` IS the approval for this outward-facing action (Seal Gate,
+see `agent-hub/CLAUDE.md`) — don't ask for confirmation again, unless you
+hit a blocker (red build, currently on `main`, conflict...).
 
 ## Steps
 1. `git branch --show-current`.
-   - Là `main` + working tree sạch → báo "main sạch, không có gì để ship",
-     dừng.
-   - Là `main` + có thay đổi chưa commit → **TỪ CHỐI** ship trực tiếp trên
-     `main` (`MAIN_EDIT`). Báo operator, đề xuất `git checkout -b <branch>`
-     trước rồi gọi lại `/ship`.
-2. Đang trên branch khác `main`:
-   a. `npm run build` (đúng lệnh trong `agent-hub/doctrine/MEMORY.md`) —
-      ĐỌC LẠI output nguyên văn. Đỏ → dừng ngay, KHÔNG commit/merge, báo
-      lỗi thật cho operator.
-   b. Nếu `git status --short` không rỗng: `git add` đúng các file liên
-      quan tới thay đổi đang làm (không add rác/artifact ngoài ý), commit
-      với message truyền vào hoặc tự suy luận, kèm dòng cuối
-      `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`.
+   - On `main` + clean working tree → report "main is clean, nothing to
+     ship", stop.
+   - On `main` + uncommitted changes → **REFUSE** to ship directly on
+     `main` (`MAIN_EDIT`). Tell the operator, suggest
+     `git checkout -b <branch>` first, then call `/ship` again.
+2. On a branch other than `main`:
+   a. `npm run build` (the exact command from
+      `agent-hub/doctrine/MEMORY.md`) — READ BACK the output verbatim. Red
+      → stop immediately, do NOT commit/merge, report the real error to
+      the operator.
+   b. If `git status --short` is non-empty: `git add` exactly the files
+      relevant to the current change (don't add unrelated
+      junk/artifacts), commit with the given message or an inferred one,
+      ending with `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`.
    c. `git checkout main && git merge --no-ff <branch> -m "Merge branch '<branch>' into main\n\nCo-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"`.
    d. `git push`.
-   e. Xoá branch local tuỳ loại:
-      - Branch tên bắt đầu `fix/...` (bugfix) → `git branch -d <branch>`
-        (xoá — vòng đời branch fix kết thúc khi đã merge).
-      - Branch tên bắt đầu `feature/...` (tính năng mới) → **GIỮ LẠI**,
-        không xoá. Feature có thể còn cần tiếp tục làm thêm/rebase/tham
-        chiếu sau merge.
-      - Tên khác không khớp 2 pattern trên (vd `chore/...`, `docs/...`,
-        `work/<node>`) → coi như fix-like, xoá sau merge (mặc định an
-        toàn, ít branch rác).
-3. Báo kết quả ngắn gọn: commit hash, branch đã merge, đã xoá hay giữ
-   branch, push OK hay không — không lặp lại nội dung diff (đã có trong
-   git log).
+   e. Delete the local branch depending on its kind:
+      - Name starts with `fix/...` (bugfix) → `git branch -d <branch>`
+        (delete — a fix branch's lifecycle ends once merged).
+      - Name starts with `feature/...` (new feature) → **KEEP IT**, do not
+        delete. A feature branch may still need further work/rebase/
+        reference after merging.
+      - Any other name that doesn't match the two patterns above (e.g.
+        `chore/...`, `docs/...`, `work/<node>`) → treat as fix-like,
+        delete after merge (safe default, fewer stray branches).
+3. Report the result briefly: commit hash, branch merged, whether it was
+   deleted or kept, whether push succeeded — don't repeat the diff content
+   (it's already in git log).
 
 ## Rules
-- KHÔNG bao giờ merge/push nếu `npm run build` đỏ.
-- KHÔNG force-push, KHÔNG `--no-verify`, KHÔNG bỏ qua hook.
-- Repo đang merge conflict / rebase dở dang → dừng, báo operator, không tự
-  `--abort`/`-X ours`.
-- File trong `agent-hub/` nếu có trong diff vẫn add/commit bình thường,
-  nhưng khi báo cáo ở bước 3 áp dụng quy tắc terse: chỉ nêu tên file, không
-  show nội dung.
-- `/ship` không tự chạy verifier. Nếu tên branch khớp pattern
-  `fix/issue-<n>-...`/`work/<node>`, tra nhanh
-  `agent-hub/haven/diagrams/*.md` — node liên quan chưa `SEALED` thì vẫn
-  ship được (đây là lệnh git thuần) nhưng cảnh báo ngắn 1 dòng cho operator
-  biết.
+- NEVER merge/push if `npm run build` is red.
+- NO force-push, NO `--no-verify`, NO skipping hooks.
+- If the repo is mid merge-conflict or mid-rebase → stop, tell the
+  operator, don't `--abort`/`-X ours` on your own.
+- Files under `agent-hub/` in the diff still get added/committed normally,
+  but when reporting in step 3, follow the terse rule: name the file only,
+  don't show its content.
+- `/ship` does not run the verifier itself. If the branch name matches
+  `fix/issue-<n>-...`/`work/<node>`, do a quick check of
+  `agent-hub/haven/diagrams/*.md` — if the related node isn't `SEALED` yet,
+  shipping is still allowed (this is a plain git command) but warn the
+  operator with one short line.
 
 ## Runtime
-`/ship` hoặc `/ship "<commit message>"`.
+`/ship` or `/ship "<commit message>"`.

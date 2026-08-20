@@ -3,39 +3,43 @@ name: todo
 description: "One-command version of the agent-hub implementer -> verifier loop for vue-resume-web. Usage: /todo \"<task>\". Runs implementer then verifier as two separate passes (verifier never carries the implementer's reasoning), auto-retries the implementer pass on REOPEN up to 3 times, then stops and reports. Does not auto-commit."
 ---
 
-# /todo "<task>" — implementer → verifier, 2 lượt tách biệt, tự động
+# /todo "<task>" — implementer → verifier, 2 separate passes, automatic
 
-`args` là task nguyên văn. Nếu rỗng, dừng và hỏi lại.
+`args` is the task verbatim. If empty, stop and ask.
 
-Đây KHÔNG phải một pass tự viết tự chấm — chỉ gộp về mặt gõ lệnh. Bên trong
-vẫn phải chạy đúng 2 lượt tách biệt như gọi `/worker` hai lần, và verifier
-không được mang theo suy luận của lượt implementer (`NeverVerifyOwnWork`
-không được phá vỡ).
+This is NOT a single pass that writes and grades itself — it's a
+typing-level shortcut only. Internally it still has to run 2 genuinely
+separate passes, same as calling `/worker` twice, and the verifier must not
+carry over the implementer pass's reasoning (`NeverVerifyOwnWork` must not
+be broken).
 
 ## Loop
-Đặt `N = 0`, `MAX = 3`.
+Set `N = 0`, `MAX = 3`.
 
-1. **Lượt implementer** (nghĩa vụ như `/worker implementer "<task>"` — xem
-   `.claude/skills/worker/SKILL.md`): pick_next → implement → `npm run
-   build` + đọc lại output → evidence note → dừng ở
+1. **Implementer pass** (same obligations as `/worker implementer "<task>"`
+   — see `.claude/skills/worker/SKILL.md`): pick_next → implement →
+   `npm run build` + read back the output → evidence note → stop at
    `sealed_pending_verifier`.
-   - Nếu implementer báo `blocked` (vd thiếu lệnh trong
-     `doctrine/MEMORY.md`) → dừng NGAY, báo operator, KHÔNG lặp.
-2. **Lượt verifier** (nghĩa vụ như `/worker verifier` — lượt hội thoại
-   riêng về mặt suy luận, không mang theo lý luận vừa dùng ở bước 1): đọc
-   evidence note của bước 1 → SEAL hoặc REOPEN.
-3. Nếu **SEAL** → dừng vòng lặp, báo kết quả cho operator, trỏ tới evidence
-   note implementer + verifier. KHÔNG tự `git add`/`commit`/`push` — seal
-   gate vẫn áp dụng.
-4. Nếu **REOPEN** → `N += 1`.
-   - Nếu `N < MAX`: quay lại bước 1, kèm nguyên văn lý do REOPEN từ evidence
-     note verifier làm input mới cho implementer.
-   - Nếu `N >= MAX`: dừng, báo operator: node đang REOPEN liên tục, cần
-     quyết định thủ công (không tự lặp vô hạn).
+   - If the implementer reports `blocked` (e.g. a command missing from
+     `doctrine/MEMORY.md`) → stop IMMEDIATELY, tell the operator, do NOT
+     loop.
+2. **Verifier pass** (same obligations as `/worker verifier` — a
+   reasoning-wise separate turn, not carrying over the reasoning just used
+   in step 1): read step 1's evidence note → SEAL or REOPEN.
+3. If **SEAL** → stop the loop, report the result to the operator, point to
+   both the implementer and verifier evidence notes. Do NOT
+   `git add`/`commit`/`push`/merge — the seal gate still applies (use
+   `/ship` for that, separately).
+4. If **REOPEN** → `N += 1`.
+   - If `N < MAX`: go back to step 1, feeding the verifier evidence note's
+     REOPEN reason verbatim as new input to the implementer.
+   - If `N >= MAX`: stop, tell the operator: this node keeps getting
+     REOPENed, needs a manual decision (don't loop forever).
 
 ## Rules
-- Seal gate áp dụng ở MỌI hành động outward-facing trong cả 2 lượt.
-- Mọi lượt đều phải ghi evidence — không có ngoại lệ "gộp thì khỏi ghi".
-- Nếu operator chỉ muốn tự đọc evidence giữa 2 bước trước khi cho verifier
-  chấm, dùng `/worker implementer` + `/worker verifier` riêng thay vì
-  `/todo`.
+- The seal gate applies to EVERY outward-facing action in both passes.
+- Every pass must write evidence — no "it's a combined command so no note
+  needed" exception.
+- If the operator wants to read the evidence themselves between the two
+  steps before letting the verifier grade it, use separate
+  `/worker implementer` + `/worker verifier` instead of `/todo`.
