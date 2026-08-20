@@ -18,7 +18,7 @@ import { ref, reactive, provide, onMounted } from 'vue'
 import { authStore } from '@/stores/auth'
 import { candidateStore } from '@/stores/candidate'
 
-import { handleBase } from '@/services/base.js'
+import { handleBase } from '@/services/base'
 import { useRouter } from 'vue-router'
 
 const store = authStore()
