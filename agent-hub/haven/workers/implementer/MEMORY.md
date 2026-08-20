@@ -25,9 +25,10 @@
 ## Recipes I've earned
 | Recipe | Written | Times replayed |
 |---|---|---|
-| pick_next | 2026-08-20 | 0 |
-| implement | 2026-08-20 | 0 |
+| pick_next | 2026-08-20 | 1 |
+| implement | 2026-08-20 | 1 |
 
 ## Corrections
 | Date | I believed | Actually |
 |---|---|---|
+| 2026-08-20 | `deploy.sh` push qua SSH sẽ chạy được trong môi trường này | Sandbox này không có `~/.ssh` (không key, không known_hosts) — SSH push fail `Host key verification failed`. Workaround (đã được operator duyệt): push thủ công qua HTTPS `git push -f https://github.com/datvt243/vue-resume-web.git master:gh-pages` từ `dist/`, dùng credential helper `osxkeychain` mà `gh auth login` đã set sẵn. Không tự sửa `deploy.sh` — đó là quyết định lâu dài cần operator. |
