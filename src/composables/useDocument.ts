@@ -21,16 +21,6 @@ interface Props {
 interface Document {
     [key: string]: any
 }
-interface DeleteParams {
-    name: string
-    loading: any
-    toast: any
-}
-interface fnDelete {
-    success: boolean
-    message?: string
-    doc?: Record<string, any>
-}
 export const useDocument = (props: Props) => {
     const documentInterface = reactive<Document>({})
     const document = reactive<Document>({})
@@ -70,7 +60,7 @@ export const useDocument = (props: Props) => {
      * @param values
      * @param callback
      */
-    async function updateDoc(values: ReturnType<typeof documentInterface.value>, callback: (res: Response) => void) {
+    async function updateDoc(values: ReturnType<typeof documentInterface.value>, callback: (_res: Response) => void) {
         /**
          *
          */
@@ -99,7 +89,7 @@ export const useDocument = (props: Props) => {
         })
     }
 
-    async function updatePatchDoc(values: { _id: string; [key: string]: any }, callback: (res: Response) => void) {
+    async function updatePatchDoc(values: { _id: string; [key: string]: any }, callback: (_res: Response) => void) {
         const axiosOpt = (() => {
             return {
                 method: 'patch',
@@ -123,7 +113,7 @@ export const useDocument = (props: Props) => {
     async function deleteDoc(
         doc: ReturnType<typeof documentInterface.value>,
         name: string,
-        callback: (res: Response) => void,
+        callback: (_res: Response) => void,
     ): Promise<void> {
         const { [name]: _name, _id } = doc
 

@@ -14,7 +14,6 @@ import { useCandidate } from '@/composables/useCandidate'
 import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/education.model'
-import { formatDateToInput } from '@/utilities/index'
 
 const {
     educations: dataList,

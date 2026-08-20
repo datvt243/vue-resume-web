@@ -9,7 +9,7 @@ import { computed } from 'vue'
 import { authStore } from '@/stores/auth'
 import { candidateStore } from '@/stores/candidate'
 import { useRouter } from 'vue-router'
-import { handleBase } from '@/services/base'
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Navbar from '@/components/Navbar.vue'
 
 import { API } from '@/config/api.config'
@@ -21,6 +21,7 @@ const candidate = candidateStore()
 const _user = store.getUser
 const _token = store.getToken
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const _settings = {
     host: window.location.host === 'localhost' ? 'http://localhost:3001/' : API,
     getMe() {
@@ -35,12 +36,14 @@ const _settings = {
 const API_GET_ME = _user?.email ? `${HOST}api/me/${_user.email}` : '#'
 const API_DOWNLOAD_PDF = `${HOST}api/v1/download-pdf?token=${_token}` */
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const authRouter = [
     { text: 'Đăng nhập', to: '/login' },
     { text: '/', to: '' },
     { text: 'Đăng ký', to: '/register' },
 ]
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const mesUser = computed(() => {
     const user = store.getUser
     const fullName = (user => {
@@ -52,14 +55,10 @@ const mesUser = computed(() => {
     return `<small class="opacity-60">Xin chào</small> <span class="d-none d-sm-inline">, ${fullName}</span>`
 })
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 function _handelLogout() {
     store.logOut({ router })
     candidate.clean()
-}
-async function _download() {
-    const opt = { method: 'get', url: `download-pdf`, params: { token: _token } }
-
-    await handleBase(opt, {}, res => {})
 }
 </script>
 

@@ -8,7 +8,6 @@ import type { modelItem } from '@/types/model.type.ts'
 /* import { formatDateToInput } from '@/utilities/index' */
 
 const _mesRequired = 'Vui lòng nhập'
-const _mesNumber = 'Vui lòng nhập vào số'
 
 const MODEL: modelItem[] = [
     {

@@ -6,7 +6,7 @@
  */
 
 import { useField } from 'vee-validate'
-import { defineProps, useAttrs, computed, watch } from 'vue'
+import { defineProps, watch } from 'vue'
 import { component as VueNumber } from '@coders-tm/vue-number-format'
 
 const props = defineProps({
@@ -28,8 +28,6 @@ watch(
     },
 )
 
-const attrs = useAttrs()
-
 const format = {
     decimal: '.',
     separator: ',',
@@ -38,14 +36,10 @@ const format = {
     masked: false,
 }
 
-const { value, errorMessage, handleChange, handleBlur } = useField(() => props.name)
+const { value, errorMessage, handleChange } = useField(() => props.name)
 if (value.value === undefined || value.value === null) {
     value.value = 0
 }
-const getPlaceholder = computed(() => {
-    const text = 'Vui lòng nhập'
-    return props.placeholder ? props.placeholder : `${text} ${props.label.toLowerCase()}`
-})
 function _handleChange($event) {
     const number = $event
     handleChange(+number)

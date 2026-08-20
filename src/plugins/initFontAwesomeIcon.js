@@ -28,7 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 export default {
-    install(app, options) {
+    install(app) {
         /**
          *
          */

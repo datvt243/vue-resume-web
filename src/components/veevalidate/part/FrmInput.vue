@@ -6,7 +6,7 @@
  */
 
 import { useField } from 'vee-validate'
-import { defineProps, useAttrs, computed, watch } from 'vue'
+import { defineProps, useAttrs, computed } from 'vue'
 
 const props = defineProps({
     name: String,

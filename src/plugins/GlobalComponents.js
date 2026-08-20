@@ -5,7 +5,7 @@
  */
 
 export default {
-    install(app, options) {
+    install(app) {
         /**
          *
          */

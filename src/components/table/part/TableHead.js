@@ -1,6 +1,6 @@
 import { h } from 'vue'
 
-const TableHead = (props, { slots, attrs }) => {
+const TableHead = (props, { slots }) => {
     return h('thead', {}, slots?.default && slots.default())
 }
 

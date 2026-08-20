@@ -6,7 +6,7 @@
  */
 import CKEditor from '@/components/ckeditor/CKEditor.vue'
 import { useField } from 'vee-validate'
-import { defineProps, useAttrs, computed, watch } from 'vue'
+import { defineProps, watch } from 'vue'
 
 const props = defineProps({
     name: String,
@@ -27,9 +27,7 @@ watch(
     },
 )
 
-const attrs = useAttrs()
-
-const { value, errorMessage, handleChange, handleBlur } = useField(() => props.name)
+const { value, errorMessage, handleChange } = useField(() => props.name)
 
 function _handleChange($event) {
     const _val = $event

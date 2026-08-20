@@ -6,14 +6,13 @@
  */
 
 import { useField } from 'vee-validate'
-import { defineProps, useAttrs, computed } from 'vue'
+import { defineProps, computed } from 'vue'
 
 const props = defineProps({
     name: String,
     checkedValue: { type: [String, Boolean], default: 'text' },
     label: { type: String, default: 'text' },
 })
-const attrs = useAttrs()
 
 const { checked, handleChange } = useField(
     () => props.name,

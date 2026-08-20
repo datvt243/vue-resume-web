@@ -4,8 +4,6 @@
  * Date: `--/--`
  * Description:
  */
-
-const yearNow = new Date().getFullYear()
 </script>
 
 <template>

@@ -14,7 +14,7 @@ import Toasts from '@/components/Toasts.vue'
 /**
  *
  */
-import { ref, reactive, computed, provide, onMounted } from 'vue'
+import { ref, reactive, provide, onMounted } from 'vue'
 import { authStore } from '@/stores/auth'
 import { candidateStore } from '@/stores/candidate'
 

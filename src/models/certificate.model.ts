@@ -5,7 +5,7 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
-import { defaultId, defaultDescription, defaultLink, defaultDateStartEnd, defaultCheckboxBoolean } from '@/types/model.type'
+import { defaultId, defaultDescription, defaultDateStartEnd, defaultCheckboxBoolean } from '@/types/model.type'
 
 const _mesRequired = 'Vui lòng nhập'
 

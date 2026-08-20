@@ -14,7 +14,6 @@ import { useCandidate } from '@/composables/useCandidate'
 import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/experience.model.ts'
-import { formatDateToInput } from '@/utilities/index'
 
 const { experiences: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'experiences' })
 

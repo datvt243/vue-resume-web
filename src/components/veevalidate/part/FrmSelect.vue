@@ -6,7 +6,7 @@
  */
 
 import { useField } from 'vee-validate'
-import { defineProps, useAttrs, computed, watch } from 'vue'
+import { defineProps, useAttrs, watch } from 'vue'
 
 const props = defineProps({
     name: String,
@@ -37,11 +37,6 @@ watch(
 const attrs = useAttrs()
 
 const { value, errorMessage, handleChange, handleBlur } = useField(() => props.name)
-
-const getPlaceholder = computed(() => {
-    const text = 'Vui lòng nhập'
-    return props.placeholder ? props.placeholder : `${text} ${props.label.toLowerCase()}`
-})
 </script>
 
 <template>

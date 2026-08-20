@@ -89,7 +89,7 @@ const _helper = props => {
              *
              */
             if (errors && Object.keys(errors).length) {
-                for (const [key, mess] of Object.entries(errors)) {
+                for (const [, mess] of Object.entries(errors)) {
                     _message.push(`- ${mess} `)
                 }
             }

@@ -10,7 +10,6 @@ import TableDefault from '@/components/table/TableDefault.vue'
 import Modal from '@/components/Modal.vue'
 
 import { ref, defineProps, computed, onBeforeMount, reactive, watch, inject } from 'vue'
-import { _axios } from '@/services/axios'
 
 import { useDocument } from '@/composables/useDocument'
 import Swal from 'sweetalert2'
