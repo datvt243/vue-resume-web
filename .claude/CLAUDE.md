@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Repo:** https://github.com/datvt243/vue-resume-web
 - **Live:** https://datvt243.github.io/vue-resume-web/
 - **Backend:** https://nodejs-resume-api-ts.onrender.com/api/v1/ (Render free tier, cold start ~30s)
-- **Branch:** `main` → auto-deploys to `gh-pages` (manual via `deploy.sh` for now)
+- **Branch:** `main` → auto-deploys to `gh-pages` via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`; CI (`.github/workflows/ci.yml`, lint + build) also runs on push/PR to `main`
 
 ## Stack
 Vue 3 + Vite 5 · Pinia · Vue Router 4 · VeeValidate 4 + Yup · Axios · Bootstrap 5 · CKEditor 5 · FontAwesome 6 · SweetAlert2 · TypeScript (partial — see gotchas)
