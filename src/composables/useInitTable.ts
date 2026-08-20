@@ -4,7 +4,7 @@
  * Description:
  */
 
-import { ref, onMounted, toValue } from 'vue'
+import { computed, toValue, type MaybeRef } from 'vue'
 
 import type { modelItem } from '@/types/model.type'
 
@@ -16,11 +16,9 @@ interface Columns {
     }
     className: string
 }
-export const useInitTable = (settings: modelItem[]) => {
-    const columns = ref<Columns[]>([])
-
-    onMounted(() => {
-        columns.value = [...toValue(settings)].map(s => ({
+export const useInitTable = (settings: MaybeRef<modelItem[]>) => {
+    const columns = computed<Columns[]>(() =>
+        [...toValue(settings)].map(s => ({
             field: s?.name,
             label: s?.label,
             convert: {
@@ -29,8 +27,8 @@ export const useInitTable = (settings: modelItem[]) => {
             className: s?.cellClass || '',
             type: s?.type || '',
             name: s?.name || '',
-        }))
-    })
+        })),
+    )
 
     return {
         columns,
