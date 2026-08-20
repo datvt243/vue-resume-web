@@ -45,10 +45,14 @@ giờ bỏ bước 1 ở phiên nguội, không bao giờ bỏ bước 3.
 
 ## Git workflow (bắt buộc, xem `CLAUDE.md` → Branching rule)
 - KHÔNG BAO GIỜ sửa/commit trực tiếp trên `main`. Mỗi task → 1 branch riêng
-  (`git checkout -b fix/<node-slug>` hoặc `work/<node-slug>`) trước khi đổi
-  bất kỳ file nào.
+  trước khi đổi bất kỳ file nào, đặt tên theo loại:
+  `fix/issue-<n>-<slug>` (bugfix) · `feature/<slug>` (tính năng mới) ·
+  `chore/<slug>`/`docs/<slug>` (việc khác).
 - Merge branch đó về `main` là hành động outward-facing → qua Seal Gate,
-  chờ operator duyệt trước khi merge + push.
+  chờ operator duyệt trước khi merge + push (lệnh `/ship` thực hiện bước
+  này sau khi được gọi).
+- Sau merge: `fix/*` bị xoá; `feature/*` được GIỮ LẠI; còn lại xoá theo mặc
+  định. Xem `.claude/skills/ship/SKILL.md`.
 - Evidence note của implementer phải ghi tên branch đã dùng.
 
 ## Workers

@@ -1,6 +1,6 @@
 ---
 name: ship
-description: "Commit any pending changes on the current task branch, merge it into main, and push — for vue-resume-web. Usage: /ship [\"<commit message>\"]. Refuses to run directly on main (MAIN_EDIT protection). Requires npm run build green first. Invoking /ship IS the seal-gate approval, no extra confirmation asked."
+description: "Commit any pending changes on the current task branch, merge it into main, and push — for vue-resume-web. Usage: /ship [\"<commit message>\"]. Refuses to run directly on main (MAIN_EDIT protection). Requires npm run build green first. Deletes fix/* branches after merge, keeps feature/* branches. Invoking /ship IS the seal-gate approval, no extra confirmation asked."
 ---
 
 # /ship ["<commit message>"] — commit, merge branch → main, push
@@ -30,9 +30,18 @@ chặn (build đỏ, đang đứng trên `main`, conflict...).
       `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`.
    c. `git checkout main && git merge --no-ff <branch> -m "Merge branch '<branch>' into main\n\nCo-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"`.
    d. `git push`.
-   e. `git branch -d <branch>`.
-3. Báo kết quả ngắn gọn: commit hash, branch đã merge, push OK hay không —
-   không lặp lại nội dung diff (đã có trong git log).
+   e. Xoá branch local tuỳ loại:
+      - Branch tên bắt đầu `fix/...` (bugfix) → `git branch -d <branch>`
+        (xoá — vòng đời branch fix kết thúc khi đã merge).
+      - Branch tên bắt đầu `feature/...` (tính năng mới) → **GIỮ LẠI**,
+        không xoá. Feature có thể còn cần tiếp tục làm thêm/rebase/tham
+        chiếu sau merge.
+      - Tên khác không khớp 2 pattern trên (vd `chore/...`, `docs/...`,
+        `work/<node>`) → coi như fix-like, xoá sau merge (mặc định an
+        toàn, ít branch rác).
+3. Báo kết quả ngắn gọn: commit hash, branch đã merge, đã xoá hay giữ
+   branch, push OK hay không — không lặp lại nội dung diff (đã có trong
+   git log).
 
 ## Rules
 - KHÔNG bao giờ merge/push nếu `npm run build` đỏ.
