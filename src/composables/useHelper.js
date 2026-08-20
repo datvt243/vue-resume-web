@@ -4,14 +4,14 @@
  * Description:
  */
 
-import { inject, toValue } from 'vue'
+import { inject } from 'vue'
 
 export const useHelper = () => {
     const refSpinner = inject('spinner')
     const refToast = inject('toast')
 
     return {
-        loading: toValue(refSpinner),
+        loading: refSpinner,
         toast: refToast,
     }
 }

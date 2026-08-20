@@ -96,7 +96,7 @@ export const handleRegister = async (values, props) => {
     /**
      * spinner loading
      */
-    loading.show()
+    toValue(loading)?.show()
 
     await _axios({
         method: 'post',
@@ -129,5 +129,5 @@ export const handleRegister = async (values, props) => {
     /**
      * spinner hide
      */
-    loading?.hide()
+    toValue(loading)?.hide()
 }
