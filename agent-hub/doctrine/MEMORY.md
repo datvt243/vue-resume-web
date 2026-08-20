@@ -20,7 +20,8 @@
 | Test | **KHÔNG TỒN TẠI** — không có test suite, không có script `test` trong `package.json` (verified). Xem `domains/PROJECT.md` → Traps. | — |
 | Test one file | N/A — không có test suite | — |
 | Build | `npm run build` (output: `dist/`) | repo root |
-| Lint/typecheck | **KHÔNG CHẠY ĐƯỢC** hiện tại — `.eslintrc.cjs` extend `plugin:vue/vue3-essential` nhưng `eslint-plugin-vue` KHÔNG có trong `node_modules` (verified: `ls node_modules/eslint-plugin-vue` → not found), và `package.json` không có script `lint`. `tsc` cũng không có script riêng dù `tsconfig.json` tồn tại. | — |
+| Lint | `npm run lint` (đã cài `eslint-plugin-vue@^9` + `@rushstack/eslint-patch`, thêm `overrides` cho `.ts`/`.vue` trong `.eslintrc.cjs` — sửa 2026-08-20). Hiện báo **95 lỗi có thật** (`no-unused-vars`, `vue/multi-word-component-names`...) CHƯA fix — đừng claim "lint pass" cho tới khi dọn xong. | repo root |
+| Typecheck | **KHÔNG CHẠY ĐƯỢC** — `tsc`/`vue-tsc` không có script riêng dù `tsconfig.json` tồn tại. | — |
 | Run locally | `npm run dev` → http://localhost:5173 | repo root |
 | Preview build | `npm run preview` | repo root |
 | Deploy (outward-facing — SEAL GATE) | `./deploy.sh` → GitHub Pages | repo root |

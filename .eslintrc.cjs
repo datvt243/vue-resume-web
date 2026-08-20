@@ -7,5 +7,17 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 'latest',
     },
+    overrides: [
+        {
+            files: ['*.ts'],
+            parser: '@typescript-eslint/parser',
+        },
+        {
+            files: ['*.vue'],
+            parserOptions: {
+                parser: '@typescript-eslint/parser',
+            },
+        },
+    ],
     rules: {},
 }
