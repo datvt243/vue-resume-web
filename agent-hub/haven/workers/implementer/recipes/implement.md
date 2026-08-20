@@ -8,8 +8,13 @@
 
 ## Steps
 0. KIỂM TRA BRANCH TRƯỚC TIÊN — `git status`/`git branch --show-current`.
-   Nếu đang ở `main`: `git checkout -b <branch>` (đặt tên theo node, vd
-   `fix/issue-34-converttotruncate-length`) TRƯỚC KHI đổi bất kỳ file nào.
+   Nếu đang ở `main`: `git checkout -b <branch>` TRƯỚC KHI đổi bất kỳ file
+   nào — đặt tên theo LOẠI task (xem `doctrine/MEMORY.md` → Git workflow):
+   bugfix → `fix/issue-<n>-<slug>` (vd
+   `fix/issue-34-converttotruncate-length`); tính năng mới →
+   `feature/<slug>`; việc khác → `chore/<slug>`/`docs/<slug>`. Prefix này
+   quyết định `/ship` có xoá branch sau merge hay không (`fix/*` xoá,
+   `feature/*` giữ lại).
    Nếu `main` đã có thay đổi chưa commit từ trước (không phải do tôi) →
    dừng, báo `MAIN_EDIT`, hỏi operator (đừng tự `stash`/`checkout` đè lên
    việc dang dở của người khác).

@@ -37,8 +37,14 @@ task → worker implementer → tìm/tạo node trên diagram → chạy đúng 
 ## Branching rule
 **TUYỆT ĐỐI không chỉnh sửa hay commit trực tiếp trên `main`.** Trước bất kỳ
 diff nào (kể cả 1 dòng):
-1. `git checkout -b <branch>` từ `main` — đặt tên branch theo node, vd
-   `fix/issue-34-converttotruncate-length` hoặc `work/<node-slug>`.
+1. `git checkout -b <branch>` từ `main` — đặt tên branch theo LOẠI task:
+   - Bugfix → `fix/issue-<n>-<slug>` (vd
+     `fix/issue-34-converttotruncate-length`).
+   - Tính năng mới → `feature/<slug>` (vd `feature/export-cv-pdf`).
+   - Việc khác (docs/chore/tooling) → `chore/<slug>` hoặc `docs/<slug>`.
+   Tên prefix quyết định branch có bị xoá sau khi merge hay không (xem
+   `/ship` — `.claude/skills/ship/SKILL.md`): `fix/*` xoá sau merge,
+   `feature/*` GIỮ LẠI, còn lại xoá theo mặc định.
 2. Toàn bộ diff, `npm run build`, evidence note đều thực hiện trên branch
    đó — evidence note PHẢI ghi rõ tên branch.
 3. Merge về `main` là một hành động **outward-facing** — đi qua Seal Gate
