@@ -9,7 +9,7 @@ import { h } from 'vue'
 const ConvertToTruncate = (props) => {
     const { modelValue: value } = props
 
-    const _newVal = value.length(25)
+    const _newVal = value.length > 25 ? value.slice(0, 25) + '...' : value
     return h('span', _newVal)
 }
 

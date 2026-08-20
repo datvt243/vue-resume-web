@@ -53,6 +53,7 @@ flowchart TD
 | `issue-17-suburl-dry` | SEALED | [issue #17](https://github.com/datvt243/vue-resume-web/issues/17) — `subURL` gộp về `api.config.js` (chỉ phần DRY, không làm env-var migration của issue #6). Evidence: `evidence/implementer/2026-08-20-issue-17-suburl-dry.md`, `evidence/verifier/2026-08-20-issue-17-suburl-dry.md`. |
 | `issue-18-dead-code` | SEALED | [issue #18](https://github.com/datvt243/vue-resume-web/issues/18) — xóa `handleBaseDelete`, `_part`, `components/navbar/*.js`, unused `ref`/`TOKEN`. Không bật ESLint rule (không verify được). Evidence: `evidence/implementer/2026-08-20-issue-18-dead-code.md`, `evidence/verifier/2026-08-20-issue-18-dead-code.md`. |
 | `issue-19-tabledefault-merge-style` | SEALED | [issue #19](https://github.com/datvt243/vue-resume-web/issues/19) — gộp 2 khối `<style scoped>` trong TableDefault.vue thành 1. Evidence: `evidence/implementer/2026-08-20-issue-19-tabledefault-merge-style.md`, `evidence/verifier/2026-08-20-issue-19-tabledefault-merge-style.md`. |
+| `issue-34-converttotruncate-length` | SEALED | [issue #34](https://github.com/datvt243/vue-resume-web/issues/34) — `ConvertToTruncate` gọi `value.length(25)` như hàm, crash Award/Experience list. Đổi thành so sánh độ dài + `slice`. Evidence: `evidence/implementer/2026-08-20-issue-34-converttotruncate-length.md`, `evidence/verifier/2026-08-20-issue-34-converttotruncate-length.md`. |
 
 Any regression phải là **node mới** (LAI-13) — không được sửa trực tiếp PM
 status của node cũ để "gỡ" một SEAL đã có.
