@@ -63,7 +63,7 @@ export const _axios = async props => {
                 resolve(res.data)
             })
             .catch(err => {
-                reject(err.response?.data)
+                reject(err.response?.data ?? { message: 'Lỗi kết nối, vui lòng thử lại', errors: {}, invalidToken: false })
             })
     })
 }
