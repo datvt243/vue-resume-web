@@ -48,7 +48,11 @@ const formFields = [
         name: 'repassword',
         label: 'Nhập lại Mật khẩu',
         type: 'password',
-        valid: yup => yup.string().required('Email là bắt buộc'),
+        valid: yup =>
+            yup
+                .string()
+                .oneOf([yup.ref('password')], 'Mật khẩu nhập lại không khớp')
+                .required('Vui lòng nhập lại mật khẩu'),
     },
 ]
 </script>

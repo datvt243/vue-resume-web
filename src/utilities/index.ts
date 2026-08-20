@@ -13,8 +13,8 @@ const getDate = (date: number) => {
     let _y: StrDate = d.getFullYear(),
         _m: StrDate = d.getMonth() + 1,
         _d: StrDate = d.getDate()
-    _m = _m < 9 ? `0${_m}` : _m
-    _d = _d < 9 ? `0${_d}` : _d
+    _m = _m < 10 ? `0${_m}` : _m
+    _d = _d < 10 ? `0${_d}` : _d
     return { d: _d, m: _m, y: _y }
 }
 const getObject = (data: { d: StrDate; m: StrDate; y: StrDate }): Record<string, string> => {
