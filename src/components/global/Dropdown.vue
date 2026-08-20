@@ -28,7 +28,6 @@ const attrBtnToggle = computed(() => {
         class: className,
         'data-bs-toggle': 'dropdown',
         'aria-expanded': 'false',
-        ref: 'refDropdown',
     }
 })
 </script>
@@ -36,7 +35,7 @@ const attrBtnToggle = computed(() => {
 <template>
     <div :class="['dropdown', { 'btn-group': props.split, 'btn-group-sm': props.isSm }]">
         <template v-if="props.href">
-            <a v-if="text" :href="props.href" role="button" v-bind="attrBtnToggle"> {{ props.text }} </a>
+            <a v-if="text" ref="refDropdown" :href="props.href" role="button" v-bind="attrBtnToggle"> {{ props.text }} </a>
         </template>
         <template v-else>
             <button v-if="text" type="button" :class="['btn', `btn-${props.style}`]" v-html="props.text"></button>

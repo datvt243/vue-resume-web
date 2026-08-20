@@ -27,7 +27,7 @@ const candidate = candidateStore()
 /**
  * import
  */
-import model from '@/models/generalInformation.modal'
+import model from '@/models/generalInformation.model'
 const _mesRequired = 'Vui lòng nhập'
 const formFields = shallowRef(model)
 

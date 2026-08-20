@@ -43,7 +43,7 @@ const vbind = computed(() => {
                 :id="getId"
                 class="form-check-input"
                 type="checkbox"
-                value="checkedValue"
+                :value="checkedValue"
                 :checked="checked"
                 v-bind="vbind"
                 @change="handleChange"

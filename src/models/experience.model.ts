@@ -5,21 +5,14 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
+import { defaultId } from '@/types/model.type'
 import { formatDateToInput } from '@/utilities/index'
 
 const _mesRequired = 'Vui lòng nhập'
 const _mesNumber = 'Vui lòng nhập vào số'
 
 const MODEL: modelItem[] = [
-    {
-        name: '_id',
-        label: 'ID',
-        type: 'hidden',
-        placeholder: 'Vui lòng nhập ID',
-        valid: yup => yup.mixed().nullable().default(null),
-        col: 'col-md-12',
-        default: null,
-    },
+    defaultId,
     {
         name: 'company',
         label: 'Tên công ty',
