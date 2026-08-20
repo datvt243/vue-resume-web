@@ -90,7 +90,7 @@ defineExpose({
 
 function reset() {
     resetForm({
-        errors: getFields.value.reduce((obj, e) => ({ [e.nam]: '' })),
+        values: getFields.value.reduce((obj, e) => ({ ...obj, [e.name]: '' }), {}),
     })
 }
 
