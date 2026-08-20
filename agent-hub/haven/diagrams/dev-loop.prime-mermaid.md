@@ -52,6 +52,7 @@ flowchart TD
 | `issue-12-token-refresh` | SEALED | [issue #12](https://github.com/datvt243/vue-resume-web/issues/12) — lưu `tokenRefresh` + axios interceptor silent refresh khi 401. Cần backend có `POST auth/refresh` (ngoài phạm vi repo này, caveat ghi rõ). Evidence: `evidence/implementer/2026-08-20-issue-12-token-refresh.md`, `evidence/verifier/2026-08-20-issue-12-token-refresh.md`. |
 | `issue-17-suburl-dry` | SEALED | [issue #17](https://github.com/datvt243/vue-resume-web/issues/17) — `subURL` gộp về `api.config.js` (chỉ phần DRY, không làm env-var migration của issue #6). Evidence: `evidence/implementer/2026-08-20-issue-17-suburl-dry.md`, `evidence/verifier/2026-08-20-issue-17-suburl-dry.md`. |
 | `issue-18-dead-code` | SEALED | [issue #18](https://github.com/datvt243/vue-resume-web/issues/18) — xóa `handleBaseDelete`, `_part`, `components/navbar/*.js`, unused `ref`/`TOKEN`. Không bật ESLint rule (không verify được). Evidence: `evidence/implementer/2026-08-20-issue-18-dead-code.md`, `evidence/verifier/2026-08-20-issue-18-dead-code.md`. |
+| `issue-19-tabledefault-merge-style` | SEALED | [issue #19](https://github.com/datvt243/vue-resume-web/issues/19) — gộp 2 khối `<style scoped>` trong TableDefault.vue thành 1. Evidence: `evidence/implementer/2026-08-20-issue-19-tabledefault-merge-style.md`, `evidence/verifier/2026-08-20-issue-19-tabledefault-merge-style.md`. |
 
 Any regression phải là **node mới** (LAI-13) — không được sửa trực tiếp PM
 status của node cũ để "gỡ" một SEAL đã có.
