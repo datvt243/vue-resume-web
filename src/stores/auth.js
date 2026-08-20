@@ -10,8 +10,10 @@ import { ref, reactive, computed } from 'vue'
 export const authStore = defineStore('auth', () => {
     const _user = reactive(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {})
     const _token = ref(localStorage.getItem('token') || '')
+    const _refreshToken = ref(localStorage.getItem('tokenRefresh') || '')
 
     const getToken = computed(() => _token.value)
+    const getRefreshToken = computed(() => _refreshToken.value)
     const getUser = computed(() => _user)
     const isAuthenticated = computed(() => !!_token.value)
 
@@ -19,10 +21,12 @@ export const authStore = defineStore('auth', () => {
         // remove localStorage
         localStorage.removeItem('user')
         localStorage.removeItem('token')
+        localStorage.removeItem('tokenRefresh')
 
         // reset [user, token, isAuthenticated]
         Object.assign(_user, {})
         _token.value = ''
+        _refreshToken.value = ''
 
         // direct router
         opt?.router?.push('/login')
@@ -37,6 +41,10 @@ export const authStore = defineStore('auth', () => {
         _token.value = val
         localStorage.setItem('token', val)
     }
+    function setRefreshToken(val) {
+        _refreshToken.value = val
+        localStorage.setItem('tokenRefresh', val)
+    }
     function clearUser() {
         Object.assign(_user, {})
     }
@@ -46,8 +54,10 @@ export const authStore = defineStore('auth', () => {
         isAuthenticated,
         setUser,
         setToken,
+        setRefreshToken,
         clearUser,
         getToken,
+        getRefreshToken,
         getUser,
     }
 })
