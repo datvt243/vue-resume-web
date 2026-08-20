@@ -135,9 +135,7 @@ const renderCellContent = defineComponent({
 .table-responsive {
     min-height: 300px;
 }
-</style>
 
-<style scoped>
 .height-auto {
     height: auto !important;
     min-height: auto !important;
