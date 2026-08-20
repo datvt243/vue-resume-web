@@ -55,7 +55,7 @@ async function handleUpdate(values) {
 }
 
 async function handleDelete(doc) {
-    deleteDoc({ ...doc }, 'school', res => {
+    deleteDoc({ ...doc }, 'name', res => {
         const { data } = res
         removeRecordById(data._id)
     })
