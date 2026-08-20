@@ -8,8 +8,7 @@ import { _axios } from '@/services/axios'
 import { authStore } from '@/stores/auth'
 import { candidateStore } from '@/stores/candidate'
 import { toValue } from 'vue'
-
-const subURL = 'api/v1/'
+import { subURL } from '@/config/api.config'
 
 export const handleLogin = async (values, props) => {
     const { email, password } = values

@@ -50,6 +50,7 @@ flowchart TD
 | `issue-10-grouptags-mutate-prop` | SEALED | [issue #10](https://github.com/datvt243/vue-resume-web/issues/10) — local copy + emit thay vì mutate prop; sửa luôn tên emit `modelValue:update`→`update:modelValue` (cần thiết để v-model hoạt động). Evidence: `evidence/implementer/2026-08-20-issue-10-grouptags-mutate-prop.md`, `evidence/verifier/2026-08-20-issue-10-grouptags-mutate-prop.md`. |
 | `issue-11-pageinformation-duplicate-key` | SEALED | [issue #11](https://github.com/datvt243/vue-resume-web/issues/11) — 2 `<VeeForm>` cùng `:key="'frm1'"` → key riêng biệt. Evidence: `evidence/implementer/2026-08-20-issue-11-pageinformation-duplicate-key.md`, `evidence/verifier/2026-08-20-issue-11-pageinformation-duplicate-key.md`. |
 | `issue-12-token-refresh` | SEALED | [issue #12](https://github.com/datvt243/vue-resume-web/issues/12) — lưu `tokenRefresh` + axios interceptor silent refresh khi 401. Cần backend có `POST auth/refresh` (ngoài phạm vi repo này, caveat ghi rõ). Evidence: `evidence/implementer/2026-08-20-issue-12-token-refresh.md`, `evidence/verifier/2026-08-20-issue-12-token-refresh.md`. |
+| `issue-17-suburl-dry` | SEALED | [issue #17](https://github.com/datvt243/vue-resume-web/issues/17) — `subURL` gộp về `api.config.js` (chỉ phần DRY, không làm env-var migration của issue #6). Evidence: `evidence/implementer/2026-08-20-issue-17-suburl-dry.md`, `evidence/verifier/2026-08-20-issue-17-suburl-dry.md`. |
 
 Any regression phải là **node mới** (LAI-13) — không được sửa trực tiếp PM
 status của node cũ để "gỡ" một SEAL đã có.
