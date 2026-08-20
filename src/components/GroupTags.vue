@@ -5,30 +5,39 @@
  * Description:
  */
 
-import { ref, toRef, defineEmits, defineProps, watch } from 'vue'
+import { ref, defineEmits, defineProps, watch } from 'vue'
 
-const emits = defineEmits(['modelValue:update'])
+const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
     title: { type: String, default: 'Title' },
     handleAction: { type: Function, default: () => {} },
     modelValue: { type: Array, default: () => [] },
 })
 
-const tags = toRef(props, 'modelValue')
+const tags = ref([...props.modelValue])
+watch(
+    () => props.modelValue,
+    val => {
+        tags.value = [...val]
+    },
+)
+
 const tag = ref('')
 async function addTag() {
-    tags.value.push(tag.value)
-    await props.handleAction(tags.value)
+    if (!tag.value.trim()) return
+    const newTags = [...tags.value, tag.value.trim()]
+    tags.value = newTags
+    emits('update:modelValue', newTags)
+    await props.handleAction(newTags)
     tag.value = ''
 }
 
-async function removeTag(tag, index) {
-    tags.value.splice(index, 1)
-    await props.handleAction(tags.value)
+async function removeTag(_tag, index) {
+    const newTags = tags.value.filter((_, i) => i !== index)
+    tags.value = newTags
+    emits('update:modelValue', newTags)
+    await props.handleAction(newTags)
 }
-watch(tags, val => {
-    emits('modelValue:update', val)
-})
 </script>
 
 <template>
