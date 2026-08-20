@@ -26,9 +26,9 @@ export const handleLogin = async (values, props) => {
      */
     try {
         await _axios({
-            method: 'get',
+            method: 'post',
             url: `${subURL}auth/login`,
-            params: {
+            data: {
                 email: email.trim(),
                 password: password.trim(),
             },
