@@ -4,6 +4,7 @@
  * Description:
  */
 
+import { toValue } from 'vue'
 import { _axios } from '@/services/axios'
 import { authStore } from '@/stores/auth'
 
@@ -44,7 +45,7 @@ const handleFrameFetch = async (axiosOptions, props, callback, action) => {
     /**
      * spinner loading
      */
-    loading?.show()
+    toValue(loading)?.show()
 
     /**
      * fetch data
@@ -59,7 +60,7 @@ const handleFrameFetch = async (axiosOptions, props, callback, action) => {
     /**
      * spinner hide
      */
-    loading?.hide()
+    toValue(loading)?.hide()
 }
 
 const _helper = props => {
