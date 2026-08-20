@@ -27,7 +27,7 @@ const { toast } = useHelper()
 /**
  *
  */
-import { modalDefault as model, modalSocial } from '@/models/information.model'
+import { modalDefault as model } from '@/models/information.model'
 const formFields = shallowRef(model)
 /* const socialMediaFields = ref(modalSocial) */
 const socialMediaFields = ref([

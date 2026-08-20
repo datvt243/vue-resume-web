@@ -10,6 +10,7 @@ import type { PropType } from 'vue'
 import type { Experience } from '@/types/experience.type'
 import { formatDate } from '@/utilities/index'
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const emits = defineEmits(['onEdit', 'onDelete'])
 const props = defineProps({
     modelValue: {
@@ -35,6 +36,7 @@ const getDate = computed(() => {
     return `${_start} - ${_end}`
 })
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const item = computed(() => ({
     title: model.value.company,
     subTitle: model.value.position,

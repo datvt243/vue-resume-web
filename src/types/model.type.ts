@@ -4,7 +4,6 @@
  * Description:
  */
 
-import { formatDateToInput } from '@/utilities/index'
 import { phoneRegex } from '@/config/regex.config'
 
 type inputType =
@@ -47,7 +46,7 @@ export interface modelItem {
     // optional
     text?: string
     placeholder?: string
-    valid?: (yup: any) => any
+    valid?: (_yup: any) => any
     col?: string
     convertTo?: string
     checkedValue?: boolean

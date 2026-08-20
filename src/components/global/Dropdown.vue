@@ -14,7 +14,7 @@ const props = defineProps({
     href: { type: String, default: '' },
     split: { type: Boolean, default: false },
     btnSize: { type: String, default: '' },
-    isSm: { type: Boolean, default: '' },
+    isSm: { type: Boolean, default: false },
 })
 
 const refDropdown = ref(null)

@@ -15,7 +15,7 @@ const objConvert = {
     default: value => h(ConvertToText, { modelValue: value }),
 }
 
-const Convert = (props, { slots }) => {
+const Convert = props => {
     const { modelValue: value, to } = props
     return h('span', { 'data-type': to }, objConvert?.[to]?.(value) || objConvert['default']?.(value))
 }

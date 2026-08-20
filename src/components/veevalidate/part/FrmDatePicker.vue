@@ -29,7 +29,7 @@ watch(
 )
 // ----- useField
 
-const { value, errorMessage, handleChange, handleBlur } = useField(() => props.name)
+const { value, errorMessage, handleChange } = useField(() => props.name)
 watch(value, (newVal, oldVal) => {
     if (newVal !== oldVal) {
         handleChange(newVal)

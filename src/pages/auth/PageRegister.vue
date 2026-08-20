@@ -7,7 +7,7 @@
 
 import VeeForm from '@/components/veevalidate/VeeForm.vue'
 
-import { ref, inject } from 'vue'
+import { inject } from 'vue'
 import { handleRegister } from '@/services/auth'
 
 const refSpinner = inject('spinner')

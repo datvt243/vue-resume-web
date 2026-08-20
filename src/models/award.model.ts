@@ -5,7 +5,6 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
-import { formatDateToInput } from '@/utilities/index'
 
 const _mesRequired = 'Vui lòng nhập'
 

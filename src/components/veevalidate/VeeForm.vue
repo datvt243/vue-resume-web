@@ -56,7 +56,7 @@ const schema = computed(() => {
 /**
  * Khởi tạo From
  */
-const { values, errors, handleSubmit, meta, setValues, resetForm } = useForm({
+const { values, meta, setValues, resetForm } = useForm({
     validationSchema: schema,
     /* initialValues: (() => {
         const keys = props.fields.map(e => ({ name: e.name, default: e.default }))

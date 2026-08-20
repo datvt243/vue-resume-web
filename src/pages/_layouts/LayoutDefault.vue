@@ -5,11 +5,12 @@
  * Description:
  */
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Header from '@/pages/_layouts/Header.vue'
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Footer from '@/pages/_layouts/Footer.vue'
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Main from '@/pages/_layouts/Main.vue'
-
-import { ref } from 'vue'
 
 const routers = [
     { text: 'Thông tin cơ bản', name: 'personal-information', to: '/dashboard/information' },
@@ -22,6 +23,7 @@ const routers = [
     { text: 'Người tham khảo', name: 'reference', to: '/dashboard/reference' },
 ]
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 function getRouterName(path) {
     const _find = routers.find(r => r.to === path)
     return _find ? _find.text : 'Home'

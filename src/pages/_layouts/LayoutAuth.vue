@@ -5,10 +5,10 @@
  * Description:
  */
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Header from '@/pages/_layouts/Header.vue'
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Footer from '@/pages/_layouts/Footer.vue'
-
-import { ref } from 'vue'
 </script>
 
 <template lang="pug">

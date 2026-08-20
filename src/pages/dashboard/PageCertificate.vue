@@ -19,7 +19,6 @@ import model from '@/models/certificate.model.ts'
 import { formatDate } from '@/utilities/index'
 
 const { certificates: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'certificates' })
-const colHidden = ['_id', 'description', 'link', 'images']
 
 /**
  *
@@ -51,13 +50,6 @@ async function handleUpdate(values) {
     await updateDoc(data, res => {
         const { data } = res
         addRecordToList(data)
-    })
-}
-
-async function handleDelete(doc) {
-    deleteDoc({ ...doc }, 'name', res => {
-        const { data } = res
-        removeRecordById(data._id)
     })
 }
 

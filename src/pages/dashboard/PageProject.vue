@@ -17,7 +17,6 @@ import { useDocument } from '@/composables/useDocument'
 import model from '@/models/project.model.ts'
 
 const { projects: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'projects' })
-const colHidden = ['_id', 'description', 'link', 'images', 'technology']
 
 /**
  *

@@ -1,6 +1,5 @@
 import type { modelItem } from '@/types/model.type.ts'
 const _mesRequired = 'Vui lòng nhập'
-const _mesNumber = 'Vui lòng nhập vào số'
 
 export const startDate: modelItem = {
     name: 'startDate',

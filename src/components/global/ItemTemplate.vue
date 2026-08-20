@@ -28,8 +28,10 @@ const props = defineProps({
     },
     icon: { type: String, default: 'fa-building' },
 })
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const model = computed(() => props.modelValue)
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const getDate = computed(() => {
     if (typeof props.modelValue.date === 'string') {
         return props.modelValue.date

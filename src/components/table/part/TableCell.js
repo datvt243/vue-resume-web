@@ -1,6 +1,6 @@
 import { h } from 'vue'
 
-const TableRow = (props, { slots, attrs }) => {
+const TableRow = (props, { slots }) => {
     return h(props.tag === 'th' ? 'th' : 'td', {}, slots?.default && slots.default())
 }
 

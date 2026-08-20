@@ -15,7 +15,7 @@ import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/award.model.ts'
 
-import { formatDateToInput, formatDate } from '@/utilities/index'
+import { formatDate } from '@/utilities/index'
 
 const { awards: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'awards' })
 
@@ -47,13 +47,6 @@ async function handleUpdate(values) {
   await updateDoc(data, res => {
     const { data } = res
     addRecordToList(data)
-  })
-}
-
-async function handleDelete(doc) {
-  deleteDoc({ ...doc }, 'name', res => {
-    const { data } = res
-    removeRecordById(data._id)
   })
 }
 

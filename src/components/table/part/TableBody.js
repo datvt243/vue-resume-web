@@ -1,6 +1,6 @@
 import { h } from 'vue'
 
-const TableBody = (props, { slots, attrs }) => {
+const TableBody = (props, { slots }) => {
     return h('tbody', {}, slots?.default && slots.default())
 }
 

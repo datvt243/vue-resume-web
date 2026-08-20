@@ -5,8 +5,7 @@
  * Description:
  */
 
-import { ref } from 'vue'
-
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const yearNow = new Date().getFullYear()
 </script>
 
