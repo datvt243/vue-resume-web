@@ -1,7 +1,9 @@
-# CLAUDE.md — vue-resume-web
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project
-Resume/CV management SPA. Users manage structured resume data (education, experience, projects, awards, certificates, references) via a Node.js REST API.
+**vue-resume-web** — Resume/CV management SPA. Users manage structured resume data (education, experience, projects, awards, certificates, references) via a Node.js REST API.
 
 - **Repo:** https://github.com/datvt243/vue-resume-web
 - **Live:** https://datvt243.github.io/vue-resume-web/

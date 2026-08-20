@@ -1,0 +1,4 @@
+# Scratch/local-only — KHÔNG ignore evidence/, đó là audit trail bắt buộc commit
+**/*.local.md
+**/.DS_Store
+**/scratch/
