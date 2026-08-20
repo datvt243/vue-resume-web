@@ -4,7 +4,7 @@
  * Description:
  */
 
-import { createMemoryHistory, createRouter } from 'vue-router'
+import { createWebHashHistory, createRouter } from 'vue-router'
 import { authStore } from '@/stores/auth'
 
 const routes = [
@@ -75,7 +75,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHashHistory(),
     routes,
 })
 
