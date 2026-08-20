@@ -1,56 +1,40 @@
 ---
 name: deploy
-description: "Run deploy.sh to publish the current build to GitHub Pages (gh-pages branch) for vue-resume-web. Usage: /deploy. Warns if not on a clean main first. Falls back to pushing dist/ over HTTPS (via the gh credential helper) if deploy.sh's SSH push fails with a host-key error — a known sandbox limitation. Invoking /deploy IS the seal-gate approval, no extra confirmation asked beyond the branch/clean-tree check."
+description: "Check the status of the automated GitHub Pages deploy for vue-resume-web. Usage: /deploy. Deploy is no longer a manual script — .github/workflows/deploy.yml auto-deploys on every push to main. This command watches/reports the latest deploy workflow run instead of triggering anything."
 ---
 
-# /deploy — build + publish to GitHub Pages via deploy.sh
+# /deploy — check the automated GitHub Pages deploy
 
-Calling `/deploy` IS the approval for this outward-facing action (Seal
-Gate, see `agent-hub/CLAUDE.md`) — don't ask for confirmation again, except
-for the one branch check in step 1 (publishing the wrong content to
-production is hard to reverse, so that check is allowed to pause).
+`deploy.sh` was retired (issue #16, 2026-08-20). Deploying to GitHub Pages
+is no longer a manual step you invoke — `.github/workflows/deploy.yml`
+runs automatically on every push to `main` (build → lint → publish `dist/`
+to `gh-pages` via `peaceiris/actions-gh-pages`). The outward-facing action
+is now the `main` merge itself (done via `/ship`), not a separate deploy
+command.
+
+This command's job is now to check on that automated deploy, not to run
+one — nothing here needs Seal Gate approval since it triggers no new
+outward-facing action.
 
 ## Steps
-1. `git branch --show-current` + `git status --short`.
-   - Not on `main`, or `main` has uncommitted changes → warn the operator:
-     deploy publishes whatever is in the current working tree, not
-     necessarily what's merged into `main`. Ask whether to proceed anyway,
-     switch to `main` first, or stop.
-   - Clean `main` → proceed straight to step 2, no need to ask again.
-2. Run `./deploy.sh` from repo root. Internally it does: `npm run build`
-   (READ BACK the output verbatim — `deploy.sh` has `set -e` so a red build
-   already aborts the script) → `cd dist` → `git init && git add -A &&
-   git commit -m 'deploy'` → `git push -f
-   git@github.com:datvt243/vue-resume-web.git master:gh-pages`.
-3. If the push step fails with `Host key verification failed` / `Could not
-   read from remote repository` (no SSH key available — a known limitation
-   in some sandboxes, see `agent-hub/haven/workers/implementer/MEMORY.md`
-   → Corrections):
-   a. From inside `dist/` (the commit from step 2 already exists there),
-      push over HTTPS instead, reusing the `gh`-configured credential
-      helper: `git push -f https://github.com/datvt243/vue-resume-web.git master:gh-pages`.
-   b. `cd -` back to repo root.
-   c. Note in the final report that the HTTPS fallback was used.
-4. If it fails for any OTHER reason (red build, an auth error unrelated to
-   SSH, network failure) → stop, report the real error verbatim. Do NOT
-   guess a workaround.
-5. Report the result: which commit `gh-pages` now points to (from the
-   `git push` output), the live URL
-   (`https://datvt243.github.io/vue-resume-web/`), and whether the HTTPS
-   fallback was needed.
+1. `gh run list --workflow=deploy.yml --limit 5` — show the most recent
+   deploy runs and their status/conclusion.
+2. If the latest run for the current `HEAD` commit on `main` is still
+   `in_progress`/`queued`: `gh run watch <run-id>` to follow it live (or
+   just report "still running, check back" if the operator doesn't want to
+   wait).
+3. If it `completed`/`failure`: `gh run view <run-id> --log-failed` to
+   show what failed, and report the real error — don't guess.
+4. If it succeeded: report the live URL
+   (`https://datvt243.github.io/vue-resume-web/`) and which commit is now
+   live.
 
 ## Rules
-- NEVER force-push anywhere except `gh-pages` — that force-push is
-  `deploy.sh`'s own design (GitHub Pages history doesn't need preserving,
-  unlike `main`).
-- Don't edit `deploy.sh` itself to "fix" the SSH issue permanently — the
-  HTTPS fallback here is a per-run workaround for sandboxes without SSH
-  keys, not a decision to change the project's deploy mechanism (that's a
-  separate operator call).
-- A leftover `.git` inside `dist/` from a prior run is fine — `git init` is
-  idempotent, `deploy.sh`'s commit step still works on top of it.
-- Don't touch `main` or any other branch during this command beyond the
-  read-only check in step 1.
+- Don't re-trigger a deploy manually (no `gh workflow run` — deploy only
+  fires on push to `main`, which `/ship` already does).
+- Don't edit `.github/workflows/deploy.yml` as part of this command — if
+  the workflow itself needs changing, that's a normal code change through
+  the implementer/verifier loop, not something `/deploy` does inline.
 
 ## Runtime
 `/deploy`

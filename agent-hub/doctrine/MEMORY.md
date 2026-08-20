@@ -24,7 +24,8 @@
 | Typecheck | **KHÔNG CHẠY ĐƯỢC** — `tsc`/`vue-tsc` không có script riêng dù `tsconfig.json` tồn tại. | — |
 | Run locally | `npm run dev` → http://localhost:5173 | repo root |
 | Preview build | `npm run preview` | repo root |
-| Deploy (outward-facing — SEAL GATE) | `./deploy.sh` → GitHub Pages | repo root |
+| Deploy (outward-facing — SEAL GATE) | **KHÔNG CÒN THỦ CÔNG** — `deploy.sh` đã xoá (issue #16, 2026-08-20). Deploy giờ tự động qua `.github/workflows/deploy.yml` mỗi khi có push lên `main` (build + `peaceiris/actions-gh-pages@v4` lên `gh-pages`). Seal Gate giờ nằm ở bước `/ship` merge vào `main` — merge xong là deploy tự chạy, không có bước riêng để approve deploy nữa. | GitHub Actions (không chạy local) |
+| CI (chạy tự động) | `.github/workflows/ci.yml` — lint + build, chạy trên mọi push/PR vào `main` (issue #20). KHÔNG có bước typecheck — `vue-tsc` hiện không tương thích version TypeScript của dự án (verified: `npx vue-tsc --version` lỗi `ERR_PACKAGE_PATH_NOT_EXPORTED`), thêm vào sẽ làm CI đỏ ngay. | GitHub Actions |
 
 Cho tới khi có test suite thật: điều kiện "done" (3) trong `NORTHSTAR.md`
 được thay bằng `npm run build` xanh + kiểm tra thủ công qua `npm run dev` —
