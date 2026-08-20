@@ -27,8 +27,9 @@ export const useCandidate = (props: Props) => {
 
     onBeforeMount(async () => {
         let _result: Result = candidate.getCandidateByField(toValue(field))
+        const hasCachedData = Array.isArray(_result) ? _result.length > 0 : Object.keys(_result || {}).length > 0
 
-        if (!_result.length) {
+        if (!hasCachedData) {
             await getData()
         } else {
             result.value = sortData(_result)

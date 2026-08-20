@@ -40,7 +40,7 @@ const MODEL: modelItem[] = [
         label: 'Ngày nhận giải',
         type: 'date',
         placeholder: 'Vui lòng nhập Ngày bắt đầu',
-        valid: yup => yup.date().required(_mesRequired),
+        valid: yup => yup.number().required(_mesRequired),
         col: 'col-md-6',
         convertTo: 'date',
         default: +new Date(),

@@ -101,8 +101,8 @@ export const defaultDate = function (props: Part): modelItem {
         name: props.name,
         label: props.label,
         type: 'date',
-        valid: yup => yup.string().required(_mesRequired),
-        default: new Date('1990-01-01'),
+        valid: yup => yup.number().required(_mesRequired),
+        default: +new Date('1990-01-01'),
         col: props?.col || 'col-md-12',
     }
 }

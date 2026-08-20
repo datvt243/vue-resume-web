@@ -39,7 +39,9 @@ const format = {
 }
 
 const { value, errorMessage, handleChange, handleBlur } = useField(() => props.name)
-value.value = 0
+if (value.value === undefined || value.value === null) {
+    value.value = 0
+}
 const getPlaceholder = computed(() => {
     const text = 'Vui lòng nhập'
     return props.placeholder ? props.placeholder : `${text} ${props.label.toLowerCase()}`

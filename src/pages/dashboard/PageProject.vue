@@ -95,7 +95,7 @@ function showModalCreateDoc() {
                 <li v-for="edu in dataList" :key="edu._id">
                     <ProjectItem :model-value="edu" icon="fa-code" @on-edit="showModalEditDoc" @on-delete="handleDelete">
                         <template #sub>
-                            <p>Công Nghệ: {{ edu.technology.join(', ') || '' }}</p>
+                            <p>Công Nghệ: {{ edu.technology?.join(', ') || '' }}</p>
                         </template>
                     </ProjectItem>
                 </li>

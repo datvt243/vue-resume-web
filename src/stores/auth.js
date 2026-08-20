@@ -6,6 +6,7 @@
 
 import { defineStore } from 'pinia'
 import { ref, reactive, computed } from 'vue'
+import { candidateStore } from '@/stores/candidate'
 
 export const authStore = defineStore('auth', () => {
     const _user = reactive(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {})
@@ -24,9 +25,10 @@ export const authStore = defineStore('auth', () => {
         localStorage.removeItem('tokenRefresh')
 
         // reset [user, token, isAuthenticated]
-        Object.assign(_user, {})
+        Object.keys(_user).forEach(key => delete _user[key])
         _token.value = ''
         _refreshToken.value = ''
+        candidateStore().clean()
 
         // direct router
         opt?.router?.push('/login')
@@ -46,7 +48,7 @@ export const authStore = defineStore('auth', () => {
         localStorage.setItem('tokenRefresh', val)
     }
     function clearUser() {
-        Object.assign(_user, {})
+        Object.keys(_user).forEach(key => delete _user[key])
     }
 
     return {

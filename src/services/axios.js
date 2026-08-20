@@ -21,6 +21,8 @@ const instanceAxios = axios.create({
  * silent refresh: khi access token hết hạn (401), thử đổi lấy token mới
  * bằng refresh token trước khi force logout.
  */
+let _refreshPromise = null
+
 instanceAxios.interceptors.response.use(
     res => res,
     async err => {
@@ -30,7 +32,16 @@ instanceAxios.interceptors.response.use(
         if (err.response?.status === 401 && refreshToken && !originalRequest?._retry) {
             originalRequest._retry = true
             try {
-                const res = await axios.post(`${API}${subURL}auth/refresh`, { refreshToken })
+                /**
+                 * dedupe: nhiều request 401 cùng lúc chỉ gọi auth/refresh một
+                 * lần, chia sẻ chung 1 promise thay vì mỗi request tự refresh.
+                 */
+                if (!_refreshPromise) {
+                    _refreshPromise = axios.post(`${API}${subURL}auth/refresh`, { refreshToken }).finally(() => {
+                        _refreshPromise = null
+                    })
+                }
+                const res = await _refreshPromise
                 const { token } = res.data
                 authStore().setToken(token)
                 originalRequest.headers.Authorization = `Bearer ${token}`
