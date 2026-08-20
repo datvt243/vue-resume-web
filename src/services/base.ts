@@ -52,14 +52,12 @@ const handleFrameFetch = async (axiosOptions, props, callback, action) => {
      */
     try {
         await action?.(axiosOptions, toast, callback)
-    } catch (err) {
-        throw new Error(`fn handleBase, ${err}`)
+    } finally {
+        /**
+         * spinner hide
+         */
+        toValue(loading)?.hide()
     }
-
-    /**
-     * spinner hide
-     */
-    toValue(loading)?.hide()
 }
 
 const _helper = props => {
