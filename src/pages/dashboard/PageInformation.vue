@@ -124,7 +124,7 @@ async function handleUpdateSocialNetwork(values) {
         </Teleport> -->
 
         <VeeForm
-            :key="'frm1'"
+            :key="'frm-basic-info'"
             :fields="formFields"
             :document="document"
             :submit-fn="handleUpdate"
@@ -135,7 +135,7 @@ async function handleUpdateSocialNetwork(values) {
     <div class="block-container">
         <Heading text="Liên kết mạng xã hội" />
         <VeeForm
-            :key="'frm1'"
+            :key="'frm-social-media'"
             :fields="socialMediaFields"
             :submit-fn="handleUpdateSocialNetwork"
             :submit-text="'Cập nhật'"
