@@ -41,7 +41,7 @@ function show() {
                         </span>
                     </span>
                 </div>
-                <div class="toast-body" v-html="props.content"></div>
+                <div class="toast-body" style="white-space: pre-line">{{ props.content }}</div>
             </div>
         </div>
     </div>
