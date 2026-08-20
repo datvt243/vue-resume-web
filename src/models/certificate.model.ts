@@ -16,7 +16,7 @@ const MODEL: modelItem[] = [
         label: 'Tên Chứng chỉ',
         type: 'text',
         placeholder: 'Vui lòng nhập Tên Chứng chỉ',
-        valid: yup => yup.string().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
+        valid: yup => yup.string().trim().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
         default: '',
     },
     {
@@ -24,7 +24,7 @@ const MODEL: modelItem[] = [
         label: 'Tên tổ chức',
         type: 'text',
         placeholder: 'Vui lòng nhập Tên tổ chức',
-        valid: yup => yup.string().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
+        valid: yup => yup.string().trim().max(100, 'Tối đa 100 ký tự').required(_mesRequired),
         default: '',
     },
     ...defaultDateStartEnd(true),

@@ -13,7 +13,7 @@ import { ref } from 'vue'
 
 <template lang="pug">
 .body-container 
-    Header(:is-login="false")
+    Header
     main.main-container.py-4
         #reload
         .container

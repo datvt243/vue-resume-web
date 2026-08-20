@@ -5,7 +5,7 @@
  * Description:
  */
 
-import { useField, useFieldArray } from 'vee-validate'
+import { useField, useFieldArray, FieldArray, Field } from 'vee-validate'
 import { defineProps, useAttrs, computed, watch } from 'vue'
 
 const props = defineProps({
@@ -40,9 +40,9 @@ const getPlaceholder = computed(() => {
 <template>
     <div class="mb-3">
         <label v-if="props.label" :for="props.name" class="form-label">{{ props.label }}</label>
-        <FieldArray name="links" v-slot="{ fields, push, remove }">
+        <FieldArray :name="props.name" v-slot="{ fields, push, remove }">
             <div v-for="(field, idx) in fields" :key="field.key">
-                <Field :name="`links[${idx}].url`" type="url" />
+                <Field :name="`${props.name}[${idx}].url`" type="url" />
                 <button type="button" @click="remove(idx)">Remove</button>
             </div>
             <button type="button" @click="push({ id: Date.now(), name: '', url: '' })">Add</button>

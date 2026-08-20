@@ -30,7 +30,7 @@ function getRouterName(path) {
 
 <template lang="pug">
 .body-container 
-    Header(:is-login="true")
+    Header
     Main
         .container
             .clearfix.mb-4.border-bottom
@@ -41,7 +41,7 @@ function getRouterName(path) {
                                 li.breadcrumb-item Dashboard
                                 li.breadcrumb-item.text-capitalize(aria-current="page") 
                                     Dropdown(:text="getRouterName($route.path)" :style="'outline-light text-capitalize'" split is-sm)
-                                        li.dropdown-item(v-for="r in routers" :key="r.name" :class="{ active: r.to === $route.fullPath }")
+                                        li.dropdown-item(v-for="r in routers" :key="r.name" :class="{ active: r.to === $route.path }")
                                             RouterLink.nav-link(:to="r.to") {{ r?.text || r?.name }}
                     .col-auto
                         #reload
