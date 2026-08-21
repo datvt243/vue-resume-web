@@ -42,6 +42,7 @@ const formFields = [
         name: 'email',
         label: 'Email',
         type: 'email',
+        icon: 'fa-solid fa-envelope',
         text: "We'll never share your email with anyone else.",
         placeholder: 'Vui lòng nhập Email',
         valid: yup => yup.string().email().required(),
@@ -50,12 +51,14 @@ const formFields = [
         name: 'password',
         label: 'Mật khẩu',
         type: 'password',
+        icon: 'fa-solid fa-lock',
         valid: yup => yup.string().required(),
     },
     {
         name: 'repassword',
         label: 'Nhập lại Mật khẩu',
         type: 'password',
+        icon: 'fa-solid fa-lock',
         valid: yup =>
             yup
                 .string()
@@ -66,16 +69,34 @@ const formFields = [
 </script>
 
 <template>
-    <div class="auth-container m-auto" style="max-width: 500px">
-        <Heading text="Đăng ký" />
-        <VeeForm
-            :fields="formFields"
-            :submit-fn="
-                values => {
-                    handleRegister(values, { toast: refToast, loading: refSpinner })
-                }
-            "
-            :submit-text="'Register'"
-        />
+    <div class="register-page d-flex align-items-center justify-content-center">
+        <div class="auth-card">
+            <Heading text="Đăng ký" />
+            <VeeForm
+                :fields="formFields"
+                :submit-fn="
+                    values => {
+                        handleRegister(values, { toast: refToast, loading: refSpinner })
+                    }
+                "
+                :submit-text="'Register'"
+            />
+        </div>
     </div>
 </template>
+
+<style scoped lang="scss">
+.register-page {
+    min-height: 70vh;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 2rem 2.25rem;
+    border-radius: 1rem;
+    background-color: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color-translucent);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25);
+}
+</style>

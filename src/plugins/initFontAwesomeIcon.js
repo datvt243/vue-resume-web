@@ -25,6 +25,8 @@ import {
     faArrowRightFromBracket,
     faDownload,
     faTimes,
+    faEnvelope,
+    faLock,
     faFileLines,
     faGauge,
 } from '@fortawesome/free-solid-svg-icons'
@@ -53,6 +55,8 @@ export default {
             faArrowRightFromBracket,
             faDownload,
             faTimes,
+            faEnvelope,
+            faLock,
             faFileLines,
             faGauge,
         )

@@ -18,6 +18,7 @@ const props = defineProps({
     validFeedback: { type: String, default: '' },
     invalidFeedback: { type: String, default: '' },
     rules: { type: String, default: '' },
+    icon: { type: String, default: '' },
 })
 
 const attrs = useAttrs()
@@ -32,18 +33,23 @@ const getPlaceholder = computed(() => {
 
 <template>
     <div class="mb-3">
-        <label v-if="props.label" :for="props.name" class="form-label">{{ props.label }}</label>
-        <input
-            class="form-control"
-            :value="value"
-            :type="props.type"
-            :id="props.name"
-            :placeholder="getPlaceholder"
-            :class="[props.size]"
-            v-bind="attrs"
-            @input="handleChange"
-            @blur="handleBlur"
-        />
+        <label v-if="props.label && !props.icon" :for="props.name" class="form-label">{{ props.label }}</label>
+        <div :class="props.icon ? 'input-group' : null">
+            <span v-if="props.icon" class="input-group-text">
+                <FontAwesomeIcon :icon="props.icon" />
+            </span>
+            <input
+                class="form-control"
+                :value="value"
+                :type="props.type"
+                :id="props.name"
+                :placeholder="getPlaceholder"
+                :class="[props.size]"
+                v-bind="attrs"
+                @input="handleChange"
+                @blur="handleBlur"
+            />
+        </div>
 
         <p v-if="errorMessage" class="text-danger small my-1">{{ errorMessage }}</p>
         <p v-if="props.text" class="form-text mb-0">{{ props.text }}</p>

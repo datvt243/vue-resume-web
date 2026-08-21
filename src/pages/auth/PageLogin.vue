@@ -25,6 +25,7 @@ const formFields = [
         name: 'email',
         label: 'Email',
         type: 'email',
+        icon: 'fa-solid fa-envelope',
         text: "We'll never share your email with anyone else.",
         placeholder: 'Vui lòng nhập Email',
         /* value: 'david@gmail.com', */
@@ -34,6 +35,7 @@ const formFields = [
         name: 'password',
         label: 'Mật khẩu',
         type: 'password',
+        icon: 'fa-solid fa-lock',
         /* value: 'david243', */
         valid: yup => yup.string().required('Mật khẩu là bắt buộc'),
     },
@@ -50,8 +52,26 @@ async function _handleLogin(values) {
 </script>
 
 <template>
-    <div class="auth-container m-auto" style="max-width: 500px">
-        <Heading text="Đăng nhập" />
-        <VeeForm :fields="formFields" :submit-fn="_handleLogin" :submit-text="'Login'" />
+    <div class="login-page d-flex align-items-center justify-content-center">
+        <div class="auth-card">
+            <Heading text="Đăng nhập" />
+            <VeeForm :fields="formFields" :submit-fn="_handleLogin" :submit-text="'Login'" />
+        </div>
     </div>
 </template>
+
+<style scoped lang="scss">
+.login-page {
+    min-height: 70vh;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 2rem 2.25rem;
+    border-radius: 1rem;
+    background-color: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color-translucent);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25);
+}
+</style>

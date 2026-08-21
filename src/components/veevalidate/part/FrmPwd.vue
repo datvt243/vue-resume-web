@@ -19,6 +19,7 @@ const props = defineProps({
     invalidFeedback: { type: String, default: '' },
     rules: { type: String, default: '' },
     value: { type: [String, Number, Date], default: '' },
+    icon: { type: String, default: '' },
 })
 watch(
     () => props.value,
@@ -44,8 +45,11 @@ const { value, errorMessage, handleChange, handleBlur } = useField(() => props.n
 
 <template>
     <div class="mb-3">
-        <label :for="props.name" class="form-label">{{ props.label }}</label>
+        <label v-if="!props.icon" :for="props.name" class="form-label">{{ props.label }}</label>
         <div class="input-group">
+            <span v-if="props.icon" class="input-group-text">
+                <FontAwesomeIcon :icon="props.icon" />
+            </span>
             <input
                 class="form-control"
                 :value="value"
