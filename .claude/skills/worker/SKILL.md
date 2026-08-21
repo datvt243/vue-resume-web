@@ -38,12 +38,18 @@ From here on you ARE `<wid>` — speak from the identity in `SOUL.md`, obey
    in `agent-hub/evidence/README.md` — must include the branch name used
    (see `BranchBeforeCode` in `CLAUDE.md`).
 5. Stop at `status: sealed_pending_verifier` — do NOT set "done"/"SEAL"
-   yourself.
+   yourself. Then immediately spawn a fresh subagent (Agent tool,
+   `run_in_background: false`) to run `/worker verifier "<task>"` on this
+   same evidence note — don't wait for the operator to ask for a separate
+   verify step. A subagent has no memory of this session, so
+   `NeverVerifyOwnWork` is satisfied by construction.
 
 ### If wid = verifier
 1. REFUSE IMMEDIATELY if this same conversation session just wrote the
    diff under review (`NeverVerifyOwnWork`) — tell the operator a separate
-   `/worker verifier` pass is required.
+   pass (a fresh subagent or a new session) is required. If you WERE
+   launched as a fresh subagent specifically to verify, this is already
+   satisfied — proceed.
 2. Run recipe `verify_seal.md` — read the evidence note (do NOT open the
    diff yourself), check it against the acceptance criteria + the 6
    forbidden states in `agent-hub/CLAUDE.md` (including `MAIN_EDIT` — the
@@ -55,7 +61,8 @@ From here on you ARE `<wid>` — speak from the identity in `SOUL.md`, obey
 
 ## Exit
 Report the final verdict/status to the operator in 1-2 short sentences,
-pointing to the evidence note you just wrote. Don't automatically switch to
-another worker — that's `/todo`'s job, or the next `/worker` command the
-operator types. Merging a sealed branch into `main` and pushing is a
-separate seal-gate step — use `/ship`.
+pointing to the evidence note you just wrote. If wid = implementer, the
+verifier subagent chain from step 5 already runs automatically — report
+its verdict too once it returns, don't make the operator ask separately.
+Merging a sealed branch into `main` and pushing is a separate seal-gate
+step — use `/ship`.

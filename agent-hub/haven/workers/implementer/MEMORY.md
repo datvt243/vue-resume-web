@@ -1,26 +1,29 @@
-> Đây là chỗ TÔI học được khi làm việc. Không phải ground truth của project
-> (đó là `doctrine/domains/`), không phải rule của hub (đó là
-> `doctrine/MEMORY.md`) — mà là craft riêng tôi tích trên codebase này.
-> Append-only: sửa một entry khi nó hoá ra sai, đừng lặng lẽ bỏ nó đi.
+> This is where I learn from working. Not the project's ground truth
+> (that's `doctrine/domains/`), not the hub's rules (that's
+> `doctrine/MEMORY.md`) — this is craft specific to me, accumulated on
+> this codebase. Append-only: correct an entry when it turns out wrong,
+> don't quietly remove it.
 
 ## Always true for me
-- Tôi đọc `doctrine/MEMORY.md` để lấy lệnh build CHÍNH XÁC mỗi phiên
-  (`npm run build` từ repo root — không có lệnh test).
-- Tôi chạy build từ repo root
-  (`/Users/_david/Workspace/Project/ResumeAPI/frontend`) trừ khi
-  `doctrine/MEMORY.md` nói khác.
-- Khi build fail HAI LẦN cùng lý do, tôi dừng và đọc lại
-  `doctrine/domains/PROJECT.md` trước khi thử lần ba — hai lần fail nghĩa
-  là mô hình của tôi về project sai, không phải code sai.
-- `package.json` có CẢ `package-lock.json` lẫn `yarn.lock` — tôi dùng npm,
-  không chạy `yarn install` trừ khi task yêu cầu rõ ràng dọn lockfile.
+- I read `doctrine/MEMORY.md` for the EXACT build command every session
+  (`npm run build` from repo root — no test command exists).
+- I run the build from repo root
+  (`/Users/_david/Workspace/Project/ResumeAPI/frontend`) unless
+  `doctrine/MEMORY.md` says otherwise.
+- If the build fails TWICE for the same reason, I stop and re-read
+  `doctrine/domains/PROJECT.md` before a third attempt — two failures
+  means my model of the project is wrong, not the code.
+- `package.json` has BOTH `package-lock.json` and `yarn.lock` — I use
+  npm, never run `yarn install` unless the task explicitly asks for
+  lockfile cleanup.
 
 ## Patterns that work here
-- Section dữ liệu mới (education-like) → tạo `models/*.model.ts` trước, rồi
-  ghép `useCandidate` + `useDocument` + `VeeForm` — đây là pattern lặp lại
-  xuyên suốt `src/pages/dashboard/`.
-- Component trong `src/components/global/` không cần import — tự động qua
-  `GlobalComponents.js`; đừng thêm `import` thừa cho chúng.
+- A new data section (education-like) → create `models/*.model.ts` first,
+  then wire `useCandidate` + `useDocument` + `VeeForm` — this pattern
+  repeats throughout `src/pages/dashboard/`.
+- Components in `src/components/global/` need no `import` — auto-
+  registered via `GlobalComponents.js`; don't add a redundant import for
+  them.
 
 ## Recipes I've earned
 | Recipe | Written | Times replayed |
@@ -31,4 +34,4 @@
 ## Corrections
 | Date | I believed | Actually |
 |---|---|---|
-| 2026-08-20 | `deploy.sh` push qua SSH sẽ chạy được trong môi trường này | Sandbox này không có `~/.ssh` (không key, không known_hosts) — SSH push fail `Host key verification failed`. Workaround (đã được operator duyệt): push thủ công qua HTTPS `git push -f https://github.com/datvt243/vue-resume-web.git master:gh-pages` từ `dist/`, dùng credential helper `osxkeychain` mà `gh auth login` đã set sẵn. Không tự sửa `deploy.sh` — đó là quyết định lâu dài cần operator. **CẬP NHẬT (issue #16, cùng ngày):** `deploy.sh` đã bị XOÁ hẳn, thay bằng `.github/workflows/deploy.yml` (GitHub Actions, tự deploy khi push `main`) — entry này giữ lại làm lịch sử, không còn áp dụng được nữa vì file không còn tồn tại. |
+| 2026-08-20 | `deploy.sh` pushing over SSH would work in this environment | This sandbox has no `~/.ssh` (no key, no known_hosts) — SSH push fails `Host key verification failed`. Workaround (operator-approved): push manually over HTTPS `git push -f https://github.com/datvt243/vue-resume-web.git master:gh-pages` from `dist/`, using the `osxkeychain` credential helper already set by `gh auth login`. Did not fix `deploy.sh` myself — that's a long-term decision for the operator. **UPDATE (issue #16, same day):** `deploy.sh` was removed entirely, replaced by `.github/workflows/deploy.yml` (GitHub Actions, auto-deploys on push to `main`) — this entry kept for history, no longer actionable since the file doesn't exist anymore. |
