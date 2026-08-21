@@ -6,52 +6,59 @@ authority: 65537
 dna: vue_resume_web_hub
 ---
 
-> Northstar là cái KHÔNG đổi khi mọi thứ khác đổi.
+> The Northstar is what does NOT change when everything else does.
 
 ## One sentence
-Giữ cho vue-resume-web (Vue 3 SPA quản lý CV cá nhân) tiến triển bằng những
-diff nhỏ, đã verify độc lập, không dựa vào trí nhớ phiên hay lời hứa "chắc
-là xong".
+Keep vue-resume-web (a Vue 3 personal-resume SPA) moving forward through
+small, independently-verified diffs — never relying on session memory or
+an unproven "should be done."
 
-## What done means
-Một node CHỈ được coi là xong khi **TẤT CẢ** (không phải chỉ một trong số)
-điều sau đúng:
+## What "done" means
+A node is done only when **ALL** of the following are true (not just some):
 
-1. Trace được về đúng một node trên `haven/diagrams/`.
-2. Có diff nhỏ nhất khiến node đó đủ điều kiện (không refactor thừa).
-3. Đã chạy đúng lệnh test/build của project (từ `doctrine/MEMORY.md`) và ĐỌC
-   LẠI output — không suy luận.
-4. Có evidence note tại `evidence/<...>/<date>-<slug>.md`.
-5. Verifier trả `SEAL` với evidence trích dẫn cụ thể.
-6. Bảng PM status trên diagram đã cập nhật khớp.
+1. Traces to exactly one node on `haven/diagrams/`.
+2. Has the smallest diff that qualifies that node (no extra refactor).
+3. Ran the project's exact test/build command (from `doctrine/MEMORY.md`)
+   and READ THE OUTPUT BACK — not inferred.
+4. Has an evidence note at `evidence/<...>/<date>-<slug>.md`.
+5. Verifier returned `SEAL` with specific cited evidence.
+6. The diagram's PM status table is updated to match.
 
-Thiếu điều (3) hoặc (5) → forbidden state `EDIT_UNVERIFIED`.
+Missing (3) or (5) → forbidden state `EDIT_UNVERIFIED`.
 
-> Lưu ý riêng project này: hiện KHÔNG có test suite (`npm test` không tồn
-> tại — xem `doctrine/domains/PROJECT.md`). Cho tới khi có test thật, điều
-> kiện (3) được thay bằng `npm run build` (build phải xanh) + kiểm tra thủ
-> công trên `npm run dev` — ghi rõ trong evidence đây là build-only, không
-> phải test thật.
+> Project-specific note: there is currently NO test suite (`npm test`
+> doesn't exist — see `doctrine/domains/PROJECT.md`). Until a real test
+> suite exists, condition (3) is satisfied by `npm run build` (must be
+> green) + manual check via `npm run dev` — evidence must say clearly this
+> is build-only, not a real test.
 
 ## What this hub does NOT do
-- Không tự sửa code ngoài vòng `/worker` rồi commit thẳng → `ADHOC_WORK`
-- Không claim "build/tests pass" mà không chạy/đọc lại output thật →
-  `EDIT_UNVERIFIED`
-- Không để script/code lọt vào `haven/` (nơi đó chỉ là memory) →
+- Doesn't edit code outside the `/worker` loop and commit directly →
+  `ADHOC_WORK`
+- Doesn't claim "build/tests pass" without actually running and reading
+  the output → `EDIT_UNVERIFIED`
+- Doesn't let scripts/code leak into `haven/` (memory only) →
   `CODE_IN_HAVEN`
-- Không âm thầm sửa code mà không cập nhật PM status trên diagram →
+- Doesn't silently change code without updating the diagram's PM status →
   `DIAGRAM_DRIFT`
-- Không thực hiện hành động thật mà không ghi evidence note → `NO_EVIDENCE`
+- Doesn't take a real action without an evidence note → `NO_EVIDENCE`
 
 ## The success picture (3 months out)
-- ≥ 5 recipe trong `haven/workers/*/recipes/` đã được replay ít nhất 1 lần
-  (cột "Times replayed" > 0).
-- 0 forbidden state trong 20 evidence note gần nhất.
-- `doctrine/MEMORY.md` không còn `<<FILL>>` nào ở bảng lệnh chính xác.
-- Tất cả 10 trap đã biết trong `doctrine/domains/PROJECT.md` hoặc đã được
-  fix (kèm evidence) hoặc vẫn còn nhưng không bị lặp lại do sơ ý.
-- Mọi node SEALED trên `haven/diagrams/dev-loop.prime-mermaid.md` đều trỏ
-  được tới đúng 1 evidence note verifier.
+- ≥ 5 recipes in `haven/workers/*/recipes/` replayed at least once
+  ("Times replayed" column > 0).
+- 0 forbidden states in the last 20 evidence notes.
+- `doctrine/MEMORY.md` has no `<<FILL>>` left in the command table.
+- All 10 known traps in `doctrine/domains/PROJECT.md` are either fixed
+  (with evidence) or still open but never repeated by accident.
+- Every SEALED node on `haven/diagrams/dev-loop.prime-mermaid.md` points
+  to exactly one verifier evidence note.
+
+## Language & token policy
+`agent-hub/` is read by AI agents, not by human contributors browsing the
+repo — write it in **English**, concise, dense with facts. Skip flourish.
+This keeps every session's context window cheaper. Historical entries
+written in Vietnamese before 2026-08-22 are kept as-is (append-only rule,
+see `evidence/README.md`) — only new content must be English.
 
 ## Cross-references
 `CLAUDE.md` · `doctrine/MEMORY.md` · `haven/diagrams/dev-loop.prime-mermaid.md`

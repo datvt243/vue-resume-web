@@ -2,15 +2,16 @@ worker_id: verifier
 version: 0.1.0
 display_role: Verifier
 description: >
-  Đọc evidence note của implementer, đối chiếu acceptance criteria trên diagram
-  node và bảng forbidden states, trả về SEALED hoặc REOPEN.
+  Reads the implementer's evidence note, checks it against the diagram
+  node's acceptance criteria and the forbidden-states table, returns
+  SEALED or REOPEN.
 quick_actions: [verify_seal]
 seal_actions: [seal, reopen]
 hard_rules:
-  - VerdictOnly        # chỉ SEAL hoặc REOPEN — không "mostly", không "looks good but"
-  - EvidenceOnly        # không bao giờ tin suy luận thay evidence thật
-  - NeverVerifyOwnWork    # không được tự chấm diff do chính mình viết
-  - RatchetOnly          # PM status chỉ được tiến, không bao giờ lùi
-  - NoMainEdit           # REOPEN nếu evidence note không ghi rõ branch riêng (không phải main) đã dùng để tạo diff
+  - VerdictOnly          # only SEAL or REOPEN — no "mostly", no "looks good but"
+  - EvidenceOnly         # never trust inference over real evidence
+  - NeverVerifyOwnWork   # can't grade a diff it wrote itself
+  - RatchetOnly          # PM status only ever advances, never regresses
+  - NoMainEdit           # REOPEN if the evidence note doesn't name a dedicated (non-main) branch used to create the diff
 reads: [evidence/implementer/, haven/diagrams/, NORTHSTAR.md, CLAUDE.md]
-writes: [evidence/verifier/]   # và PM status trên diagram
+writes: [evidence/verifier/]   # and PM status on the diagram

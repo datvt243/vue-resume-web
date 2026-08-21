@@ -1,6 +1,6 @@
-> Nếu bất kỳ tài liệu nào khác mâu thuẫn với file này về path hoặc lệnh,
-> FILE NÀY THẮNG. One home per fact — một lệnh sống ở hai file sẽ sai ở một
-> trong hai.
+> If any other doc conflicts with this file on a path or command, THIS
+> FILE WINS. One home per fact — a command living in two files will drift
+> wrong in one of them.
 >
 > Authority: 65537
 
@@ -8,54 +8,58 @@
 - Hub path (absolute): `/Users/_david/Workspace/Project/ResumeAPI/frontend/agent-hub`
 - Code repo path (absolute): `/Users/_david/Workspace/Project/ResumeAPI/frontend`
 - Repo remote: `https://github.com/datvt243/vue-resume-web.git`, branch `main`
-- Quan hệ hub ↔ repo: chỉ đối chiếu repo qua worker, có kết quả build/run
-  thật và evidence note — không bao giờ ad-hoc.
+- Hub ↔ repo relationship: the hub only touches the repo through a
+  worker, with a real build/run result and an evidence note — never
+  ad-hoc.
 
 ## The exact commands
-> COPY these — never type them from memory. Lệnh nhớ trong đầu sẽ trôi, và
-> lệnh trôi thì chứng minh sai thứ.
+> COPY these — never type them from memory. A remembered command drifts,
+> and a drifted command proves the wrong thing.
 
 | Purpose | Command | Run from |
 |---|---|---|
-| Test | **KHÔNG TỒN TẠI** — không có test suite, không có script `test` trong `package.json` (verified). Xem `domains/PROJECT.md` → Traps. | — |
-| Test one file | N/A — không có test suite | — |
+| Test | **DOES NOT EXIST** — no test suite, no `test` script in `package.json` (verified). See `domains/PROJECT.md` → Traps. | — |
+| Test one file | N/A — no test suite | — |
 | Build | `npm run build` (output: `dist/`) | repo root |
-| Lint | `npm run lint` (đã cài `eslint-plugin-vue@^9` + `@rushstack/eslint-patch`, thêm `overrides` cho `.ts`/`.vue` trong `.eslintrc.cjs` — sửa 2026-08-20). Hiện báo **95 lỗi có thật** (`no-unused-vars`, `vue/multi-word-component-names`...) CHƯA fix — đừng claim "lint pass" cho tới khi dọn xong. | repo root |
-| Typecheck | **KHÔNG CHẠY ĐƯỢC** — `tsc`/`vue-tsc` không có script riêng dù `tsconfig.json` tồn tại. | — |
+| Lint | `npm run lint` (`eslint-plugin-vue@^9` + `@rushstack/eslint-patch` installed, `.eslintrc.cjs` has `overrides` for `.ts`/`.vue` — fixed 2026-08-20). Currently reports **95 real errors** (`no-unused-vars`, `vue/multi-word-component-names`...) NOT YET fixed — don't claim "lint pass" until cleaned up. | repo root |
+| Typecheck | **CANNOT RUN** — `tsc`/`vue-tsc` has no dedicated script even though `tsconfig.json` exists. | — |
 | Run locally | `npm run dev` → http://localhost:5173 | repo root |
 | Preview build | `npm run preview` | repo root |
-| Deploy (outward-facing — SEAL GATE) | **KHÔNG CÒN THỦ CÔNG** — `deploy.sh` đã xoá (issue #16, 2026-08-20). Deploy giờ tự động qua `.github/workflows/deploy.yml` mỗi khi có push lên `main` (build + `peaceiris/actions-gh-pages@v4` lên `gh-pages`). Seal Gate giờ nằm ở bước `/ship` merge vào `main` — merge xong là deploy tự chạy, không có bước riêng để approve deploy nữa. | GitHub Actions (không chạy local) |
-| CI (chạy tự động) | `.github/workflows/ci.yml` — lint + build, chạy trên mọi push/PR vào `main` (issue #20). KHÔNG có bước typecheck — `vue-tsc` hiện không tương thích version TypeScript của dự án (verified: `npx vue-tsc --version` lỗi `ERR_PACKAGE_PATH_NOT_EXPORTED`), thêm vào sẽ làm CI đỏ ngay. | GitHub Actions |
+| Deploy (outward-facing — SEAL GATE) | **NO LONGER MANUAL** — `deploy.sh` was removed (issue #16, 2026-08-20). Deploy is now automatic via `.github/workflows/deploy.yml` on every push to `main` (build + `peaceiris/actions-gh-pages@v4` to `gh-pages`). The Seal Gate now lives at the `/ship` merge-into-`main` step — merging triggers deploy automatically, no separate deploy-approval step. | GitHub Actions (not run locally) |
+| CI (runs automatically) | `.github/workflows/ci.yml` — lint + build, runs on every push/PR to `main` (issue #20). NO typecheck step — `vue-tsc` currently incompatible with the project's TypeScript version (verified: `npx vue-tsc --version` fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`); adding it would turn CI red immediately. | GitHub Actions |
 
-Cho tới khi có test suite thật: điều kiện "done" (3) trong `NORTHSTAR.md`
-được thay bằng `npm run build` xanh + kiểm tra thủ công qua `npm run dev` —
-implementer PHẢI ghi rõ đây là build-only, không phải test thật.
+Until a real test suite exists: NORTHSTAR.md's "done" condition (3) is
+replaced by a green `npm run build` + manual check via `npm run dev` — the
+implementer MUST state clearly this is build-only, not a real test.
 
 ## Stack
 | Thing | Value |
 |---|---|
-| Language/runtime | Node.js ≥ 18 (theo README) · Vue 3 (Composition API + `<script setup>`) · TypeScript (partial, mixed với `.js`) |
-| Package manager | npm (`package-lock.json` là nguồn thật) — LƯU Ý: `yarn.lock` cũng tồn tại song song, đây là trap, xem `domains/PROJECT.md` |
-| Build tool | Vite 5, alias `@` → `src/` (khai báo cả `vite.config.ts` lẫn `tsconfig.json`) |
-| Test runner | Không có |
+| Language/runtime | Node.js ≥ 18 (per README) · Vue 3 (Composition API + `<script setup>`) · TypeScript (partial, mixed with `.js`) |
+| Package manager | npm (`package-lock.json` is the source of truth) — NOTE: `yarn.lock` also exists in parallel, this is a trap, see `domains/PROJECT.md` |
+| Build tool | Vite 5, alias `@` → `src/` (declared in both `vite.config.ts` and `tsconfig.json`) |
+| Test runner | None |
 | State management | Pinia (`src/stores/auth.js`, `src/stores/candidate.js`) |
-| HTTP | Axios (`src/services/axios.js`), base URL từ `src/config/api.config.js` |
+| HTTP | Axios (`src/services/axios.js`), base URL from `src/config/api.config.js` |
 
 ## The default way to work
-`/boot` → `/worker implementer "<task>"` → `/worker verifier "<task>"`. Không bao
-giờ bỏ bước 1 ở phiên nguội, không bao giờ bỏ bước 3.
+`/boot` → `/worker implementer "<task>"` → verifier auto-spawned as a
+subagent right after implementer seals (don't wait for the operator to
+type a separate `/worker verifier` request — that ceremony is no longer
+needed; just launch it). Never skip step 1 on a cold session, never skip
+the verifier pass.
 
-## Git workflow (bắt buộc, xem `CLAUDE.md` → Branching rule)
-- KHÔNG BAO GIỜ sửa/commit trực tiếp trên `main`. Mỗi task → 1 branch riêng
-  trước khi đổi bất kỳ file nào, đặt tên theo loại:
-  `fix/issue-<n>-<slug>` (bugfix) · `feature/<slug>` (tính năng mới) ·
-  `chore/<slug>`/`docs/<slug>` (việc khác).
-- Merge branch đó về `main` là hành động outward-facing → qua Seal Gate,
-  chờ operator duyệt trước khi merge + push (lệnh `/ship` thực hiện bước
-  này sau khi được gọi).
-- Sau merge: `fix/*` bị xoá; `feature/*` được GIỮ LẠI; còn lại xoá theo mặc
-  định. Xem `.claude/skills/ship/SKILL.md`.
-- Evidence note của implementer phải ghi tên branch đã dùng.
+## Git workflow (mandatory, see `CLAUDE.md` → Branching rule)
+- NEVER edit/commit directly on `main`. Every task → its own branch
+  before touching any file, named by type:
+  `fix/issue-<n>-<slug>` (bugfix) · `feature/<slug>` (new feature) ·
+  `chore/<slug>`/`docs/<slug>` (other).
+- Merging that branch into `main` is outward-facing → goes through the
+  Seal Gate, wait for operator approval before merging + pushing (the
+  `/ship` command does this once invoked).
+- After merge: `fix/*` gets deleted; `feature/*` is KEPT; everything else
+  deleted by default. See `.claude/skills/ship/SKILL.md`.
+- The implementer's evidence note must name the branch used.
 
 ## Workers
 | wid | Role | Actions | Seal actions |
@@ -64,21 +68,22 @@ giờ bỏ bước 1 ở phiên nguội, không bao giờ bỏ bước 3.
 | verifier | Verifier | verify_seal | SEAL, REOPEN |
 
 ## Forbidden states
-6 state — xem chi tiết ở `CLAUDE.md`. Các state này OVERRIDE mọi skill text
-khác.
+6 states — see `CLAUDE.md` for details. These states OVERRIDE any other
+skill text.
 
 ## Facts that are always true
-- Không có LLM API key ở đâu trong hub — Claude Code LÀ runtime.
-- `haven/` là memory, không phải code.
-- `evidence/` được commit; note "xấu" vẫn được giữ lại.
-- Ratchet đơn điệu: PENDING → IN_PROGRESS → SEALED, không bao giờ lùi.
-- Verifier sở hữu PM status; implementer không bao giờ tự đặt.
-- Backend API (`https://nodejs-resume-api-ts.onrender.com/api/v1/`) chạy
-  trên Render free tier — cold start ~30s ở lần gọi đầu, đừng nhầm là lỗi.
+- No LLM API key anywhere in the hub — Claude Code IS the runtime.
+- `haven/` is memory, not code.
+- `evidence/` is committed; "bad" notes are kept too.
+- Monotonic ratchet: PENDING → IN_PROGRESS → SEALED, never backward.
+- Verifier owns PM status; implementer never sets it itself.
+- Backend API (`https://nodejs-resume-api-ts.onrender.com/api/v1/`) runs
+  on Render's free tier — cold start ~30s on first call, don't mistake
+  that for an error.
 
-## Open <<FILL>> values
-Không còn `<<FILL>>` nào — mọi lệnh trong bảng trên đã verify trực tiếp từ
-`package.json`, `node_modules`, và filesystem thật của repo tại thời điểm
-khởi tạo hub (2026-08-20). Nếu `package.json` scripts đổi (vd thêm `lint`
-hoặc `test`), sửa bảng trên NGAY và ghi correction vào
-`haven/workers/implementer/MEMORY.md`.
+## Open `<<FILL>>` values
+None left — every command in the table above was verified directly
+against `package.json`, `node_modules`, and the real repo filesystem at
+hub-init time (2026-08-20). If `package.json` scripts change (e.g. `lint`
+or `test` added), fix the table above IMMEDIATELY and log the correction
+in `haven/workers/implementer/MEMORY.md`.
