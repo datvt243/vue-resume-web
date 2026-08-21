@@ -74,14 +74,15 @@ header.py-2.border-bottom.bg-body-tertiary
                         span.nav-link.d-none.d-lg-block(v-else) /
     .container(v-else)
         nav.navbar.navbar-expand-lg
-            a.navbar-brand(href="#") Resume API
+            a.navbar-brand.fw-bold.d-flex.align-items-center(href="#")
+                FontAwesomeIcon.text-success.me-2(icon="fa-solid fa-file-lines")
+                | Resume API
             .ms-auto
-                .d-flex.align-items-center
-                    div.clearfix.pe-4
-                        a.btn.btn-sm.btn-outline-success(:href="_settings.getFile()" target="_blank") 
-                            span.pe-0.pe-md-2
-                                FontAwesomeIcon(icon="fa fa-download")
-                            span.d-none.d-md-inline Download CV 
+                .d-flex.align-items-center.gap-2
+                    a.btn.btn-sm.btn-outline-success.rounded-pill(:href="_settings.getFile()" target="_blank")
+                        span.pe-0.pe-md-2
+                            FontAwesomeIcon(icon="fa fa-download")
+                        span.d-none.d-md-inline Download CV
                     Dropdown(:text="mesUser" :style="'outline-light'" split is-sm)
                         li.dropdown-item
                             a.dropdown-link(:href="_settings.getMe()" target="_blank")
@@ -90,10 +91,8 @@ header.py-2.border-bottom.bg-body-tertiary
                                 | View API
                         li.dropdown-divider
                         li.dropdown-item
-                            span.d-block.pointer(@click="_handelLogout") 
+                            span.d-block.pointer(@click="_handelLogout")
                                 span.pe-2.text-danger
                                     FontAwesomeIcon(icon="fa fa-arrow-right-from-bracket")
                                 | Logout
-                    
-                   
 </template>
