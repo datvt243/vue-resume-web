@@ -35,21 +35,21 @@ function getRouterName(path) {
     Header
     Main
         .container
-            .clearfix.mb-4.border-bottom
-                .d-flex
-                    .col-auto.flex-grow-1
-                        nav(aria-label="breadcrumb")
-                            ol.breadcrumb.align-items-center
-                                li.breadcrumb-item Dashboard
-                                li.breadcrumb-item.text-capitalize(aria-current="page") 
-                                    Dropdown(:text="getRouterName($route.path)" :style="'outline-light text-capitalize'" split is-sm)
-                                        li.dropdown-item(v-for="r in routers" :key="r.name" :class="{ active: r.to === $route.path }")
-                                            RouterLink.nav-link(:to="r.to") {{ r?.text || r?.name }}
-                    .col-auto
-                        #reload
+            .dashboard-toolbar.d-flex.align-items-center.mb-4
+                .flex-grow-1
+                    nav(aria-label="breadcrumb")
+                        ol.breadcrumb.align-items-center.mb-0
+                            li.breadcrumb-item
+                                FontAwesomeIcon.me-1(icon="fa-solid fa-gauge")
+                                | Dashboard
+                            li.breadcrumb-item.text-capitalize(aria-current="page")
+                                Dropdown(:text="getRouterName($route.path)" :style="'outline-light text-capitalize'" split is-sm)
+                                    li.dropdown-item(v-for="r in routers" :key="r.name" :class="{ active: r.to === $route.path }")
+                                        RouterLink.nav-link(:to="r.to") {{ r?.text || r?.name }}
+                #reload
             .clearfix
                 slot
-                    
+
     Footer
 </template>
 
@@ -61,5 +61,12 @@ function getRouterName(path) {
     .main-container {
         flex-grow: 1;
     }
+}
+
+.dashboard-toolbar {
+    background-color: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color-translucent);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.25rem;
 }
 </style>

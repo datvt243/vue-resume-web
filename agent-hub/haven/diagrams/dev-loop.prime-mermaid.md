@@ -4,29 +4,29 @@ DNA: 'smallest_diff / edit_x_read_back_proof_x_independent_verdict'
 Auth: 65537 | Version: 1.0.0
 Law: LAI-13 - monotonic ratchet (PENDING -> IN_PROGRESS -> SEALED, never demote)
 
-> Mọi thay đổi tới repo code đi vào đây và đi ra bằng SEALED hoặc REOPENED —
-> không có trạng thái nào khác ở giữa.
+> Every change to the code repo enters here and exits as SEALED or
+> REOPENED — no state in between.
 
 ```mermaid
 flowchart TD
     task[Task] --> pick[implementer: pick_next]
-    pick --> exist{Node tồn tại trên diagram?}
+    pick --> exist{Node exists on diagram?}
     exist -- no --> draft[DRAFT node<br/>diagram-first: no node, no code]
     draft --> pick
-    exist -- yes --> impl[implementer: implement<br/>diff nhỏ nhất]
-    impl --> outward{Chạm outward-facing?<br/>commit/push/deploy.sh/API thật}
-    outward -- yes --> gate[SEAL GATE<br/>show diff, chờ approval]
+    exist -- yes --> impl[implementer: implement<br/>smallest diff]
+    impl --> outward{Touches outward-facing?<br/>commit/push/deploy.sh/real API}
+    outward -- yes --> gate[SEAL GATE<br/>show diff, wait for approval]
     gate --> test
-    outward -- no --> test[Chạy npm run build<br/>CHÍNH XÁC từ doctrine/MEMORY.md]
-    test --> readback{Output đã đọc lại<br/>nguyên văn chưa?}
+    outward -- no --> test[Run npm run build<br/>EXACTLY as in doctrine/MEMORY.md]
+    test --> readback{Output read back<br/>verbatim yet?}
     readback -- no --> unverified[EDIT_UNVERIFIED]
     unverified --> impl
-    readback -- yes --> evidence[Ghi evidence note]
-    evidence --> verifier[verifier: verify_seal]
-    verifier --> verdict{Đạt mọi<br/>acceptance criteria?}
-    verdict -- no --> reopen[REOPEN + lý do cụ thể]
+    readback -- yes --> evidence[Write evidence note]
+    evidence --> verifier[verifier: verify_seal<br/>spawn as fresh subagent]
+    verifier --> verdict{All<br/>acceptance criteria met?}
+    verdict -- no --> reopen[REOPEN + specific reason]
     reopen --> impl
-    verdict -- yes --> seal[SEAL<br/>cập nhật PM status]
+    verdict -- yes --> seal[SEAL<br/>update PM status]
 
     classDef gate fill:#f5c518,color:#000
     classDef bad fill:#e05555,color:#fff
@@ -35,6 +35,11 @@ flowchart TD
     class unverified,reopen bad
     class seal good
 ```
+
+> **Language note:** rows below dated before 2026-08-22 are written in
+> Vietnamese (historical record, kept verbatim per the no-rewrite evidence
+> rule). New rows from 2026-08-22 onward are written in English — see
+> `NORTHSTAR.md` → Language & token policy.
 
 ## PM status
 | Node | State | Notes |
@@ -70,5 +75,7 @@ flowchart TD
 
 | `register-auth-redirect-guard` | IN_PROGRESS | Bug tự phát hiện trong lúc test thủ công UI login/register (không phải GitHub issue có sẵn — operator yêu cầu "fix luôn"): đã đăng nhập mà vào `#/register` KHÔNG bị redirect về dashboard (trong khi `#/login` redirect đúng) — trang hiển thị hỗn hợp header dashboard + form đăng ký. Nguyên nhân: router `beforeEach` (`src/routers/index.ts`) chỉ chặn chiều "chưa login mà vào trang cần `requiresAuth`", không có chiều ngược. `PageLogin.vue` tự vá bằng `if (store.isAuthenticated) router?.push('/dashboard/information')` trong `<script setup>`, `PageRegister.vue` thiếu đoạn tương đương — bug có sẵn từ trước, không phải do node `login-ui-redesign`/`register-ui-redesign` (2 node đó chỉ sửa template/style, không đụng phần logic này). Scope: thêm đúng đoạn check tương tự `PageLogin.vue` vào `PageRegister.vue`. Branch riêng `fix/register-auth-redirect-guard` (từ `main`, KHÔNG chung với `feature/login-page-ui-redesign` đang stash chờ `/ship` — 2 việc khác phạm vi). Evidence: `evidence/implementer/2026-08-22-register-auth-redirect-guard.md`. |
 
-Any regression phải là **node mới** (LAI-13) — không được sửa trực tiếp PM
-status của node cũ để "gỡ" một SEAL đã có.
+| `dashboard-shell-redesign` | SEALED | Task trực tiếp từ operator (không phải GitHub issue), nối tiếp đợt redesign login/register: "làm lại UI theo dashboard cơ bản". Operator xác nhận qua AskUserQuestion: scope là CẢ shell dashboard (`Header.vue` phần authenticated + breadcrumb/dropdown chọn section trong `LayoutDefault.vue`), KHÔNG chỉ trang `PageInformation.vue` đang xem — ảnh hưởng TẤT CẢ trang dashboard (education, experience, project...) vì dùng chung layout. KHÔNG đụng nội dung riêng từng trang (`PageInformation.vue`, `PageEducation.vue`...). Branch `feature/dashboard-shell-redesign` từ `main` (đã có `register-auth-redirect-guard`), tách khỏi `feature/auth-ui-redesign` (đang stash, khác phạm vi). Evidence: `evidence/implementer/2026-08-22-dashboard-shell-redesign.md`. |
+
+Any regression must be a **new node** (LAI-13) — never edit an old node's
+PM status directly to "undo" an existing SEAL.
