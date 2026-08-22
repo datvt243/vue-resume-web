@@ -12,6 +12,7 @@ import EducationItem from '@/components/education/EducationItem.vue'
 import { ref, shallowRef } from 'vue'
 import { useCandidate } from '@/composables/useCandidate'
 import { useDocument } from '@/composables/useDocument'
+import { getLocalizedText, wrapLocalizedText } from '@/utilities/index'
 
 import model from '@/models/education.model'
 
@@ -34,6 +35,10 @@ const refModal = ref()
 const refVeeForm = ref()
 const formFields = shallowRef(model)
 
+// giữ lại giá trị description gốc (có thể là object { vi, en } từ backend)
+// để khi lưu lại không mất phần `en` — xem utilities/index.ts
+const originalDescription = ref(null)
+
 /**
  *
  * Method
@@ -46,6 +51,7 @@ async function handleUpdate(values) {
         val.startDate = +new Date(val.startDate)
         val.endDate = +new Date(val.endDate)
         !val.isCurrent && (val.isCurrent = false)
+        val.description = wrapLocalizedText(val.description, originalDescription.value)
         return val
     })({ ...values })
 
@@ -66,6 +72,8 @@ function showModalEditDoc(doc) {
     for (const f of new Set(['_id', ...fields])) {
         document[f] = doc[f]
     }
+    originalDescription.value = doc.description
+    document.description = getLocalizedText(doc.description)
 
     refModal.value?.show()
 }
@@ -74,6 +82,7 @@ function showModalCreateDoc() {
     for (const k of formFields.value) {
         document[k.name] = k.default
     }
+    originalDescription.value = null
     refModal.value?.show()
     refVeeForm.value?.reset()
 }

@@ -48,3 +48,27 @@ export const formatDateToInput = (date: number | null): string => {
     const { d, m, y } = getDate(date)
     return `${y}-${m}-${d}`
 }
+
+type LocalizedText = string | { vi?: string; en?: string } | null | undefined
+
+/**
+ * Some backend fields (e.g. `description`) can come back as a localized
+ * object `{ vi, en }` instead of a plain string. Extract a displayable
+ * string regardless of which shape was returned, defaulting to `vi`.
+ */
+export const getLocalizedText = (value: LocalizedText, lang: 'vi' | 'en' = 'vi'): string => {
+    if (!value) return ''
+    if (typeof value === 'string') return value
+    return value[lang] || value.vi || value.en || ''
+}
+
+/**
+ * Inverse of `getLocalizedText`: re-wrap an edited plain string back into
+ * the `{ vi, en }` shape the backend expects, preserving whatever `en`
+ * value was on the original (pre-edit) value. Use right before sending a
+ * field back to the API that was unwrapped for editing with `getLocalizedText`.
+ */
+export const wrapLocalizedText = (newText: string, original: LocalizedText): { vi: string; en: string } => {
+    const en = original && typeof original === 'object' ? original.en || '' : ''
+    return { vi: newText || '', en }
+}
