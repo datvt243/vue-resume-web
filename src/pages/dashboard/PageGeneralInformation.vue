@@ -12,6 +12,7 @@ import GroupTags from '@/components/GroupTags.vue'
 import { ref, toRef, shallowRef, onMounted, watch, provide, computed } from 'vue'
 import { useDocument } from '@/composables/useDocument'
 import { useCandidate } from '@/composables/useCandidate'
+import { getLocalizedText, wrapLocalizedText } from '@/utilities/index'
 
 /**
  *
@@ -41,6 +42,10 @@ const candidateProvide = computed(() => ({
   _id: candidate.getGeneralInformation?._id || '',
 }))
 provide('candidate', candidateProvide)
+// giữ lại giá trị careerGoal gốc (có thể là object { vi, en } từ backend)
+// để khi lưu lại không mất phần `en` — xem utilities/index.ts
+const originalCareerGoal = ref(null)
+
 onMounted(() => {
   isLoading.value = true
 })
@@ -49,6 +54,8 @@ watch(generalInformation, val => {
   for (const [key, value] of Object.entries(_val)) {
     document[key] = value
   }
+  originalCareerGoal.value = _val.careerGoal
+  document.careerGoal = getLocalizedText(_val.careerGoal)
 })
 
 /**
@@ -66,6 +73,7 @@ async function handleUpdateGroup(list) {
 
 async function handleUpdate(values) {
   const document = { ...values }
+  document.careerGoal = wrapLocalizedText(document.careerGoal, originalCareerGoal.value)
   await updateDoc(document, res => {
     const { data } = res
     candidate.setCandidateByField({ generalInformation: [data] })

@@ -15,7 +15,7 @@ import { useDocument } from '@/composables/useDocument'
 
 import model from '@/models/award.model.ts'
 
-import { formatDate } from '@/utilities/index'
+import { formatDate, getLocalizedText, wrapLocalizedText } from '@/utilities/index'
 
 const { awards: dataList, removeRecordById, addRecordToList, getData } = useCandidate({ field: 'awards' })
 
@@ -31,6 +31,10 @@ const refModal = ref()
 const refVeeForm = ref()
 const formFields = shallowRef(model)
 
+// giữ lại giá trị description gốc (có thể là object { vi, en } từ backend)
+// để khi lưu lại không mất phần `en` — xem utilities/index.ts
+const originalDescription = ref(null)
+
 /**
  *
  * Method
@@ -41,6 +45,7 @@ async function handleUpdate(values) {
    */
   const data = (val => {
     val.issueDate = +new Date(val.issueDate)
+    val.description = wrapLocalizedText(val.description, originalDescription.value)
     return val
   })({ ...values })
 
@@ -55,6 +60,8 @@ function showModalEditDoc(doc) {
   for (const f of new Set(['_id', ...fields])) {
     document[f] = doc[f]
   }
+  originalDescription.value = doc.description
+  document.description = getLocalizedText(doc.description)
 
   refModal.value?.show()
 }
@@ -63,6 +70,7 @@ function showModalCreateDoc() {
   for (const k of formFields.value) {
     document[k.name] = k.default
   }
+  originalDescription.value = null
   refModal.value?.show()
   refVeeForm.value?.reset()
 }

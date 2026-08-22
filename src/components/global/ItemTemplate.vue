@@ -7,13 +7,14 @@
 
 import { defineProps, computed } from 'vue'
 import type { PropType } from 'vue'
+import { getLocalizedText } from '@/utilities/index'
 
 interface Props {
     img?: string
     title: string
     subTitle: string
     date: string | (() => string)
-    description: string
+    description: string | { vi?: string; en?: string }
 }
 const props = defineProps({
     modelValue: {
@@ -38,6 +39,9 @@ const getDate = computed(() => {
     }
     return props.modelValue?.date?.()
 })
+
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
+const description = computed(() => getLocalizedText(props.modelValue.description))
 </script>
 
 <template lang="pug">
@@ -59,6 +63,6 @@ const getDate = computed(() => {
                 p.item-note(v-if="model.subTitle") {{ model.subTitle }}
                 p.item-note(v-if="getDate") {{ getDate }}
                 slot(name="sub")
-            div.item-description.post-content(v-if="model.description" v-html="model.description")
+            div.item-description.post-content(v-if="description" v-html="description")
 
 </template>

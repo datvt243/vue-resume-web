@@ -9,6 +9,7 @@ import VeeForm from '@/components/veevalidate/VeeForm.vue'
 
 import { ref, shallowRef, onMounted } from 'vue'
 import { useDocument, useHelper } from '@/composables'
+import { getLocalizedText, wrapLocalizedText } from '@/utilities/index'
 
 /* import { useDocument } from '@/composables/useDocument' */
 
@@ -59,6 +60,10 @@ const socialMediaFields = ref([
  */
 const { document, updateDoc, updatePatchDoc } = useDocument({ collection: 'candidate', fields: formFields.value })
 
+// giữ lại giá trị introduction gốc (có thể là object { vi, en } từ backend)
+// để khi lưu lại không mất phần `en` — xem utilities/index.ts
+const originalIntroduction = ref(null)
+
 onMounted(() => {
     const _candidate = candidate.getCandidate
 
@@ -66,6 +71,8 @@ onMounted(() => {
     for (const k of Object.keys(document)) {
         document[k] = _candidate[k]
     }
+    originalIntroduction.value = _candidate.introduction
+    document.introduction = getLocalizedText(_candidate.introduction)
 
     const { socialMedia = {} } = _candidate
 
@@ -90,6 +97,7 @@ async function handleUpdate(values) {
         val.gender = !!val.gender
         val.marital = !!val.marital
         val.birthday = +new Date(val.birthday)
+        val.introduction = wrapLocalizedText(val.introduction, originalIntroduction.value)
 
         return val
     })({ ..._newValues })
