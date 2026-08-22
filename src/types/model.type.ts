@@ -109,6 +109,13 @@ export const defaultDateStartEnd = function (isMonthPicker = false): modelItem[]
     const _startLabel = 'Ngày bắt đầu',
         _endLabel = 'Ngày kết thúc'
 
+    // endDate mặc định phải SAU startDate — trước đây cả 2 cùng dùng
+    // `+new Date()`, ở monthPicker mode 2 giá trị luôn bị làm tròn về
+    // cùng tháng/năm, khiến backend từ chối "endDate phải lớn hơn
+    // startDate" ngay khi tạo mới mà chưa hề đụng tới 2 field này
+    const _defaultEndDate = new Date()
+    _defaultEndDate.setMonth(_defaultEndDate.getMonth() + 1)
+
     return [
         {
             name: 'startDate',
@@ -129,7 +136,7 @@ export const defaultDateStartEnd = function (isMonthPicker = false): modelItem[]
             valid: yup => yup.number().required(_mesRequired).min(yup.ref('startDate'), `${_endLabel} phải sau ngày bắt đầu`),
             col: 'col-md-6',
             convertTo: 'date',
-            default: +new Date(),
+            default: +_defaultEndDate,
             ...(isMonthPicker && { monthPicker: true }),
         },
     ]

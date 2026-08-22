@@ -52,7 +52,19 @@ const formFields = [
         label: 'Mật khẩu',
         type: 'password',
         icon: 'fa-solid fa-lock',
-        valid: yup => yup.string().required(),
+        text: 'Tối thiểu 12 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt.',
+        // khớp với format backend yêu cầu (verified qua API: tối thiểu 12
+        // ký tự + đủ 4 loại) — trước đây không có rule này nên đăng ký
+        // luôn bị backend từ chối 401 mà UI chỉ hiện toast chung chung
+        valid: yup =>
+            yup
+                .string()
+                .min(12, 'Mật khẩu phải có ít nhất 12 ký tự')
+                .matches(/[a-z]/, 'Mật khẩu phải có ít nhất 1 chữ thường')
+                .matches(/[A-Z]/, 'Mật khẩu phải có ít nhất 1 chữ hoa')
+                .matches(/[0-9]/, 'Mật khẩu phải có ít nhất 1 chữ số')
+                .matches(/[^A-Za-z0-9]/, 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt')
+                .required(),
     },
     {
         name: 'repassword',
