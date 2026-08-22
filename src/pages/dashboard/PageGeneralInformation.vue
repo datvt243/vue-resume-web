@@ -42,9 +42,12 @@ const candidateProvide = computed(() => ({
   _id: candidate.getGeneralInformation?._id || '',
 }))
 provide('candidate', candidateProvide)
-// giữ lại giá trị careerGoal gốc (có thể là object { vi, en } từ backend)
-// để khi lưu lại không mất phần `en` — xem utilities/index.ts
+// giữ lại giá trị careerGoal/career gốc (có thể là object { vi, en } từ
+// backend — `career` tuy là field `text` thường nhưng backend cũng yêu
+// cầu dạng object, giống careerGoal) để khi lưu lại không mất phần `en`
+// — xem utilities/index.ts
 const originalCareerGoal = ref(null)
+const originalCareer = ref(null)
 
 onMounted(() => {
   isLoading.value = true
@@ -56,6 +59,8 @@ watch(generalInformation, val => {
   }
   originalCareerGoal.value = _val.careerGoal
   document.careerGoal = getLocalizedText(_val.careerGoal)
+  originalCareer.value = _val.career
+  document.career = getLocalizedText(_val.career)
 })
 
 /**
@@ -74,6 +79,7 @@ async function handleUpdateGroup(list) {
 async function handleUpdate(values) {
   const document = { ...values }
   document.careerGoal = wrapLocalizedText(document.careerGoal, originalCareerGoal.value)
+  document.career = wrapLocalizedText(document.career, originalCareer.value)
   await updateDoc(document, res => {
     const { data } = res
     candidate.setCandidateByField({ generalInformation: [data] })
