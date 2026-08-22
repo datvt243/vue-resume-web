@@ -37,8 +37,13 @@ const format = {
 }
 
 const { value, errorMessage, handleChange } = useField(() => props.name)
+// tránh set 0 ở đây: yup có positive() nên 0 luôn invalid — trong lúc
+// document thật (async) chưa load xong, ép value = 0 làm hiện nhầm lỗi
+// "phải lớn hơn 0" dù giá trị thật hợp lệ. '' khớp với default của field
+// trong model (vd. salaryDesired) và khớp thông điệp required() thay vì
+// positive() sai ngữ cảnh.
 if (value.value === undefined || value.value === null) {
-    value.value = 0
+    value.value = ''
 }
 function _handleChange($event) {
     const number = $event

@@ -89,8 +89,11 @@ defineExpose({
 })
 
 function reset() {
+    // reset về default của TỪNG field (model.default), không phải luôn
+    // '' — field ngày (startDate/endDate...) có default là timestamp số,
+    // hardcode '' làm yup cast '' -> NaN, chặn luôn việc tạo mới
     resetForm({
-        values: getFields.value.reduce((obj, e) => ({ ...obj, [e.name]: '' }), {}),
+        values: getFields.value.reduce((obj, e) => ({ ...obj, [e.name]: e.default ?? '' }), {}),
     })
 }
 

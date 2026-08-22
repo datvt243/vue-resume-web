@@ -9,6 +9,13 @@ import { defaultId } from '@/types/model.type'
 
 const _mesRequired = 'Vui lòng nhập'
 
+// endDate mặc định phải SAU startDate — trước đây cả 2 cùng dùng
+// `+new Date()`, ở monthPicker mode 2 giá trị luôn bị làm tròn về cùng
+// tháng/năm, khiến backend từ chối "endDate phải lớn hơn startDate" ngay
+// khi tạo mới mà chưa hề đụng tới 2 field này
+const _defaultEndDate = new Date()
+_defaultEndDate.setMonth(_defaultEndDate.getMonth() + 1)
+
 const MODEL: modelItem[] = [
     defaultId,
     {
@@ -46,7 +53,7 @@ const MODEL: modelItem[] = [
         valid: yup => yup.number().nullable(),
         col: 'col-md-6',
         convertTo: 'date',
-        default: +new Date(),
+        default: +_defaultEndDate,
         monthPicker: true,
     },
     {
