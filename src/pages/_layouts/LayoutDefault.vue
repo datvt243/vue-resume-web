@@ -12,6 +12,7 @@ import Footer from '@/pages/_layouts/Footer.vue'
 // eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Main from '@/pages/_layouts/Main.vue'
 
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const routers = [
     { text: 'Thông tin cơ bản', name: 'personal-information', to: '/dashboard/information' },
     { text: 'Thông tin chung', name: 'general-information', to: '/dashboard/general-information' },
@@ -22,33 +23,23 @@ const routers = [
     { text: 'Chứng chỉ', name: 'certificate', to: '/dashboard/certificate' },
     { text: 'Người tham khảo', name: 'reference', to: '/dashboard/reference' },
 ]
-
-// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
-function getRouterName(path) {
-    const _find = routers.find(r => r.to === path)
-    return _find ? _find.text : 'Home'
-}
 </script>
 
 <template lang="pug">
-.body-container 
+.body-container
     Header
     Main
         .container
-            .dashboard-toolbar.d-flex.align-items-center.mb-4
-                .flex-grow-1
-                    nav(aria-label="breadcrumb")
-                        ol.breadcrumb.align-items-center.mb-0
-                            li.breadcrumb-item
-                                FontAwesomeIcon.me-1(icon="fa-solid fa-gauge")
-                                | Dashboard
-                            li.breadcrumb-item.text-capitalize(aria-current="page")
-                                Dropdown(:text="getRouterName($route.path)" :style="'outline-light text-capitalize'" split is-sm)
-                                    li.dropdown-item(v-for="r in routers" :key="r.name" :class="{ active: r.to === $route.path }")
-                                        RouterLink.nav-link(:to="r.to") {{ r?.text || r?.name }}
-                #reload
-            .clearfix
-                slot
+            .dashboard-layout.d-flex.gap-4.align-items-start
+                aside.dashboard-sidebar
+                    .dashboard-sidebar-title.d-flex.align-items-center
+                        FontAwesomeIcon.me-2(icon="fa-solid fa-gauge")
+                        | Dashboard
+                    nav.nav.flex-column.dashboard-sidebar-nav
+                        RouterLink.dashboard-sidebar-link(v-for="r in routers" :key="r.name" :to="r.to" :class="{ active: r.to === $route.path }") {{ r.text }}
+                .dashboard-content.flex-grow-1
+                    #reload
+                    slot
 
     Footer
 </template>
@@ -63,10 +54,55 @@ function getRouterName(path) {
     }
 }
 
-.dashboard-toolbar {
-    background-color: var(--bs-tertiary-bg);
-    border: 1px solid var(--bs-border-color-translucent);
-    border-radius: 0.75rem;
-    padding: 0.75rem 1.25rem;
+.dashboard-layout {
+    .dashboard-sidebar {
+        width: 220px;
+        flex-shrink: 0;
+        background-color: var(--bs-tertiary-bg);
+        border: 1px solid var(--bs-border-color-translucent);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        position: sticky;
+        top: 1rem;
+    }
+
+    .dashboard-sidebar-title {
+        font-weight: 600;
+        padding: 0 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .dashboard-sidebar-link {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        color: var(--bs-body-color);
+        text-decoration: none;
+
+        &:hover {
+            background-color: var(--bs-border-color-translucent);
+        }
+
+        &.active {
+            background-color: var(--bs-green);
+            color: #fff;
+            font-weight: 600;
+        }
+    }
+
+    .dashboard-content {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-layout {
+        flex-direction: column;
+
+        .dashboard-sidebar {
+            width: 100%;
+            position: static;
+        }
+    }
 }
 </style>
