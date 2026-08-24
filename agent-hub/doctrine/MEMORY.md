@@ -18,7 +18,7 @@
 
 | Purpose | Command | Run from |
 |---|---|---|
-| Test | `npm run test` (= `vitest run`) — added 2026-08-25, issue #7. Real but PARTIAL: `src/utilities/`, `src/stores/{auth,candidate}`, `src/composables/{useDocument,useCandidate}` covered (50 tests total). Other composables (`useInitTable`) and all Vue components still untested — see `domains/PROJECT.md` → Traps. | repo root |
+| Test | `npm run test` (= `vitest run`) — added 2026-08-25, issue #7. Real but PARTIAL: `src/utilities/`, `src/stores/{auth,candidate}`, `src/composables/{useDocument,useCandidate,useTheme}` covered (55 tests total). Other composables (`useInitTable`) and all Vue components still untested — see `domains/PROJECT.md` → Traps. | repo root |
 | Test one file | `npx vitest run <path>` | repo root |
 | Build | `npm run build` (output: `dist/`) | repo root |
 | Lint | `npm run lint` (`eslint-plugin-vue@^9` + `@rushstack/eslint-patch` installed, `.eslintrc.cjs` has `overrides` for `.ts`/`.vue` — fixed 2026-08-20). Currently reports **95 real errors** (`no-unused-vars`, `vue/multi-word-component-names`...) NOT YET fixed — don't claim "lint pass" until cleaned up. | repo root |

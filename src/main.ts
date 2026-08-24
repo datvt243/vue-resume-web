@@ -7,6 +7,12 @@ import GlobalComponents from '@/plugins/GlobalComponents'
 import initFontAwesomeIcon from '@/plugins/initFontAwesomeIcon'
 
 /**
+ * apply the persisted/preferred theme (data-bs-theme) before the app
+ * renders, to avoid a light->dark flash on load (issue #62)
+ */
+import '@/composables/useTheme'
+
+/**
  * css sweetalert2
  */
 import './styles/sweetalert2.scss'
