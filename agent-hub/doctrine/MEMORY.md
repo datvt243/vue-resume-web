@@ -18,8 +18,8 @@
 
 | Purpose | Command | Run from |
 |---|---|---|
-| Test | **DOES NOT EXIST** — no test suite, no `test` script in `package.json` (verified). See `domains/PROJECT.md` → Traps. | — |
-| Test one file | N/A — no test suite | — |
+| Test | `npm run test` (= `vitest run`) — added 2026-08-25, issue #7. Real but PARTIAL: only `src/utilities/index.spec.ts` exists (13 tests, pure functions only). Stores/composables/components still untested — see `domains/PROJECT.md` → Traps. | repo root |
+| Test one file | `npx vitest run <path>` | repo root |
 | Build | `npm run build` (output: `dist/`) | repo root |
 | Lint | `npm run lint` (`eslint-plugin-vue@^9` + `@rushstack/eslint-patch` installed, `.eslintrc.cjs` has `overrides` for `.ts`/`.vue` — fixed 2026-08-20). Currently reports **95 real errors** (`no-unused-vars`, `vue/multi-word-component-names`...) NOT YET fixed — don't claim "lint pass" until cleaned up. | repo root |
 | Typecheck | **CANNOT RUN** — `tsc`/`vue-tsc` has no dedicated script even though `tsconfig.json` exists. | — |
@@ -28,9 +28,14 @@
 | Deploy (outward-facing — SEAL GATE) | **NO LONGER MANUAL** — `deploy.sh` was removed (issue #16, 2026-08-20). Deploy is now automatic via `.github/workflows/deploy.yml` on every push to `main` (build + `peaceiris/actions-gh-pages@v4` to `gh-pages`). The Seal Gate now lives at the `/ship` merge-into-`main` step — merging triggers deploy automatically, no separate deploy-approval step. | GitHub Actions (not run locally) |
 | CI (runs automatically) | `.github/workflows/ci.yml` — lint + build, runs on every push/PR to `main` (issue #20). NO typecheck step — `vue-tsc` currently incompatible with the project's TypeScript version (verified: `npx vue-tsc --version` fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`); adding it would turn CI red immediately. | GitHub Actions |
 
-Until a real test suite exists: NORTHSTAR.md's "done" condition (3) is
-replaced by a green `npm run build` + manual check via `npm run dev` — the
-implementer MUST state clearly this is build-only, not a real test.
+**Updated 2026-08-25 (issue #7):** `npm run test` is real now, but only
+covers `src/utilities/`. For a node whose diff touches code with an
+existing `.spec.ts`, run `npm run test` for real evidence. For anything
+else (stores/composables/components — no tests yet), NORTHSTAR.md's "done"
+condition (3) still falls back to a green `npm run build` + manual check
+via `npm run dev` — the implementer MUST state clearly which case applies,
+not blur the two. `.github/workflows/ci.yml` does NOT run `npm run test`
+yet (still lint + build only) — noted as follow-up, not done here.
 
 ## Stack
 | Thing | Value |
