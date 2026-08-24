@@ -11,6 +11,9 @@ import '@/styles/vue3datepicker.scss'
 
 import { useField } from 'vee-validate'
 import { ref, useAttrs, watch, computed } from 'vue'
+import { useTheme } from '@/composables/useTheme'
+
+const { theme } = useTheme()
 
 const props = defineProps({
     name: String,
@@ -86,7 +89,7 @@ function format(date) {
         <label :for="props.name" class="form-label">{{ props.label }}</label>
 
         <VueDatePicker
-            dark
+            :dark="theme === 'dark'"
             :id="props.name"
             v-model="date"
             :enable-time-picker="false"
