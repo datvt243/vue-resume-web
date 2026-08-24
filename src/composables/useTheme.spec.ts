@@ -9,12 +9,15 @@ async function freshUseTheme() {
     return await import('./useTheme')
 }
 
-function mockMatchMedia(matches: boolean) {
+// `useTheme.ts` only ever queries `(prefers-color-scheme: light)` — mock
+// per-query so a test can simulate "OS prefers light" without also (by
+// accident) making an unrelated query report a match.
+function mockMatchMedia(prefersLight: boolean) {
     Object.defineProperty(window, 'matchMedia', {
         writable: true,
         configurable: true,
         value: vi.fn().mockImplementation(query => ({
-            matches,
+            matches: query.includes('light') ? prefersLight : !prefersLight,
             media: query,
             addEventListener: vi.fn(),
             removeEventListener: vi.fn(),
@@ -31,43 +34,52 @@ describe('useTheme', () => {
         Object.defineProperty(window, 'matchMedia', { writable: true, configurable: true, value: undefined })
     })
 
-    it('defaults to light when there is no saved preference and matchMedia is unavailable', async () => {
-        const { useTheme } = await freshUseTheme()
-        const { theme } = useTheme()
-        expect(theme.value).toBe('light')
-        expect(document.documentElement.getAttribute('data-bs-theme')).toBe('light')
-    })
-
-    it('falls back to the OS preference (matchMedia) when there is no saved value', async () => {
-        mockMatchMedia(true)
+    it('defaults to dark when there is no saved preference and matchMedia is unavailable', async () => {
+        // matches the app's existing default look — previously hardcoded as
+        // `<body data-bs-theme="dark">` in index.html (issue-62-dark-mode-body-attr-override)
         const { useTheme } = await freshUseTheme()
         const { theme } = useTheme()
         expect(theme.value).toBe('dark')
         expect(document.documentElement.getAttribute('data-bs-theme')).toBe('dark')
     })
 
-    it('a saved localStorage preference wins over the OS preference', async () => {
-        localStorage.setItem('theme', 'light')
-        mockMatchMedia(true) // OS says dark, but the saved value should win
+    it('honors an explicit OS "prefers light" setting when there is no saved value', async () => {
+        mockMatchMedia(true)
         const { useTheme } = await freshUseTheme()
         const { theme } = useTheme()
         expect(theme.value).toBe('light')
+        expect(document.documentElement.getAttribute('data-bs-theme')).toBe('light')
+    })
+
+    it('still defaults to dark when the OS explicitly prefers dark (not just "no preference")', async () => {
+        mockMatchMedia(false)
+        const { useTheme } = await freshUseTheme()
+        const { theme } = useTheme()
+        expect(theme.value).toBe('dark')
+    })
+
+    it('a saved localStorage preference wins over the OS preference', async () => {
+        localStorage.setItem('theme', 'dark')
+        mockMatchMedia(true) // OS says light, but the saved value should win
+        const { useTheme } = await freshUseTheme()
+        const { theme } = useTheme()
+        expect(theme.value).toBe('dark')
     })
 
     it('toggleTheme flips the value, persists it, and updates the data-bs-theme attribute', async () => {
         const { useTheme } = await freshUseTheme()
         const { theme, toggleTheme } = useTheme()
 
-        expect(theme.value).toBe('light')
-        toggleTheme()
         expect(theme.value).toBe('dark')
-        expect(localStorage.getItem('theme')).toBe('dark')
-        expect(document.documentElement.getAttribute('data-bs-theme')).toBe('dark')
-
         toggleTheme()
         expect(theme.value).toBe('light')
         expect(localStorage.getItem('theme')).toBe('light')
         expect(document.documentElement.getAttribute('data-bs-theme')).toBe('light')
+
+        toggleTheme()
+        expect(theme.value).toBe('dark')
+        expect(localStorage.getItem('theme')).toBe('dark')
+        expect(document.documentElement.getAttribute('data-bs-theme')).toBe('dark')
     })
 
     it('state is shared across every useTheme() call within the same module instance', async () => {
@@ -77,6 +89,6 @@ describe('useTheme', () => {
 
         a.toggleTheme()
 
-        expect(b.theme.value).toBe('dark')
+        expect(b.theme.value).toBe('light')
     })
 })

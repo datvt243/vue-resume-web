@@ -15,7 +15,13 @@ const THEME_KEY = 'theme'
 function getPreferredTheme(): Theme {
     const saved = localStorage.getItem(THEME_KEY)
     if (saved === 'light' || saved === 'dark') return saved
-    return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light'
+    // No saved preference: honor an explicit OS "light" preference, but
+    // otherwise fall back to dark — this matches the app's existing
+    // default look (previously hardcoded as `<body data-bs-theme="dark">`
+    // in index.html, which is what made the toggle a no-op before this
+    // fix; see issue-62-dark-mode-body-attr-override).
+    if (window.matchMedia?.('(prefers-color-scheme: light)')?.matches) return 'light'
+    return 'dark'
 }
 
 function applyTheme(value: Theme) {
