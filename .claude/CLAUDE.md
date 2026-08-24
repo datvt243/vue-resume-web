@@ -77,15 +77,12 @@ src/
 
 | # | Location | Issue |
 |---|---|---|
-| [#1](https://github.com/datvt243/vue-resume-web/issues/1) | `routers/index.js` | `createMemoryHistory` used — must change to `createWebHashHistory` |
-| [#2](https://github.com/datvt243/vue-resume-web/issues/2) | `services/auth.js:28` | Login uses GET with password in query params — must be POST body |
-| [#3](https://github.com/datvt243/vue-resume-web/issues/3) | `VeeForm.vue:36` | `delete e.valid` mutates prop object — use destructuring instead |
-| [#4](https://github.com/datvt243/vue-resume-web/issues/4) | `VeeForm.vue:93` | Typo `e.nam` → `e.name` in reset() |
-| [#5](https://github.com/datvt243/vue-resume-web/issues/5) | `Toasts.vue:44` | `v-html` renders unsanitized server error messages — XSS risk |
-| [#9](https://github.com/datvt243/vue-resume-web/issues/9) | `useHelper.js:13` | `toValue(refSpinner)` snapshots at setup — return the Ref itself |
-| [#10](https://github.com/datvt243/vue-resume-web/issues/10) | `GroupTags.vue:20` | `tags.value.push()` mutates prop array — copy first |
+| [#8](https://github.com/datvt243/vue-resume-web/issues/8) | `localStorage` key `"token"` (see API section above) | JWT kept in localStorage — readable by any injected script (XSS can exfiltrate it); still open, no fix decided |
 
-Full backlog: https://github.com/datvt243/vue-resume-web/issues
+> Issues #1, #2, #3, #4, #5, #9, #10 (previously listed here: router history,
+> GET login, VeeForm prop mutation, VeeForm reset typo, Toasts `v-html`,
+> non-reactive spinner, GroupTags prop mutation) are fixed and closed —
+> don't re-"fix" them. Full backlog: https://github.com/datvt243/vue-resume-web/issues
 
 ## Gotchas
 
