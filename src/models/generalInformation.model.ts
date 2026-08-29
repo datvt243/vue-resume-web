@@ -5,6 +5,7 @@
  */
 
 import type { modelItem } from '@/types/model.type.ts'
+import { defaultCheckboxBoolean } from '@/types/model.type'
 /* import { formatDateToInput } from '@/utilities/index' */
 
 const _mesRequired = 'Vui lòng nhập'
@@ -18,6 +19,7 @@ const MODEL: modelItem[] = [
         valid: yup => yup.string().nullable().default(null),
         default: null,
     },
+    defaultCheckboxBoolean({ name: 'openToWork', label: 'Đang mở tìm việc' }),
     {
         name: 'positionDesired',
         label: 'Vị trí mong muốn',
