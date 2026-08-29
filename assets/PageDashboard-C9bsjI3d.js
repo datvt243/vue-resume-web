@@ -1,1 +1,0 @@
-import{o,c as a,a as r,r as t}from"./index-CaDbYooc.js";const s={class:"dashboard"},d={__name:"PageDashboard",setup(c){return(n,_)=>{const e=t("router-view");return o(),a("div",s,[r(e)])}}};export{d as default};
