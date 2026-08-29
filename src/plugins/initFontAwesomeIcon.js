@@ -31,6 +31,10 @@ import {
     faGauge,
     faSun,
     faMoon,
+    faUser,
+    faPaperclip,
+    faCircleCheck,
+    faCircleXmark,
 } from '@fortawesome/free-solid-svg-icons'
 
 export default {
@@ -63,6 +67,10 @@ export default {
             faGauge,
             faSun,
             faMoon,
+            faUser,
+            faPaperclip,
+            faCircleCheck,
+            faCircleXmark,
         )
 
         app.component('FontAwesomeIcon', FontAwesomeIcon)
