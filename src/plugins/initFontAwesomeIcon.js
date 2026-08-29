@@ -35,6 +35,7 @@ import {
     faPaperclip,
     faCircleCheck,
     faCircleXmark,
+    faBriefcase,
 } from '@fortawesome/free-solid-svg-icons'
 
 export default {
@@ -71,6 +72,7 @@ export default {
             faPaperclip,
             faCircleCheck,
             faCircleXmark,
+            faBriefcase,
         )
 
         app.component('FontAwesomeIcon', FontAwesomeIcon)
