@@ -12,8 +12,25 @@ import Footer from '@/pages/_layouts/Footer.vue'
 // eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 import Main from '@/pages/_layouts/Main.vue'
 
+import { computed } from 'vue'
+import { candidateStore } from '@/stores/candidate'
+
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
+const candidate = candidateStore()
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
+const fullName = computed(() => {
+    const { firstName = '', lastName = '' } = candidate.getCandidate
+    return `${firstName} ${lastName}`.trim() || 'Chưa cập nhật'
+})
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
+const isOpenToWork = computed(() => !!candidate.getGeneralInformation?.openToWork)
+// lượt xem CV — chưa có API đếm lượt xem thật, tạm để 0 (giống PageHome.vue)
+// eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
+const cvViewCount = 0
+
 // eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const routers = [
+    { text: 'Dashboard', name: 'home', to: '/' },
     { text: 'Thông tin cơ bản', name: 'personal-information', to: '/dashboard/information' },
     { text: 'Thông tin chung', name: 'general-information', to: '/dashboard/general-information' },
     { text: 'Học vấn', name: 'education', to: '/dashboard/education' },
@@ -32,11 +49,18 @@ const routers = [
         .container
             .dashboard-layout.d-flex.gap-4.align-items-start
                 aside.dashboard-sidebar
-                    .dashboard-sidebar-title.d-flex.align-items-center
-                        FontAwesomeIcon.me-2(icon="fa-solid fa-gauge")
-                        | Dashboard
-                    nav.nav.flex-column.dashboard-sidebar-nav
-                        RouterLink.dashboard-sidebar-link(v-for="r in routers" :key="r.name" :to="r.to" :class="{ active: r.to === $route.path }") {{ r.text }}
+                    .dashboard-sidebar-welcome
+                        span.dashboard-sidebar-welcome-hi 👋 Chào mừng
+                        p.dashboard-sidebar-welcome-name.mb-2 {{ fullName }}
+                        p.dashboard-sidebar-welcome-stat.mb-1
+                            | Tìm việc:
+                            span(:class="isOpenToWork ? 'text-success' : 'opacity-50'") {{ isOpenToWork ? ' On' : ' Off' }}
+                        p.dashboard-sidebar-welcome-stat.mb-0
+                            | Lượt xem CV:
+                            span {{ ' ' + cvViewCount }}
+                    .dashboard-sidebar-nav-card
+                        nav.nav.flex-column.dashboard-sidebar-nav
+                            RouterLink.dashboard-sidebar-link(v-for="r in routers" :key="r.name" :to="r.to" :class="{ active: r.to === $route.path }") {{ r.text }}
                 .dashboard-content.flex-grow-1
                     #reload
                     slot
@@ -58,18 +82,36 @@ const routers = [
     .dashboard-sidebar {
         width: 220px;
         flex-shrink: 0;
-        background-color: var(--bs-tertiary-bg);
-        border: 1px solid var(--bs-border-color-translucent);
-        border-radius: 0.75rem;
-        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
         position: sticky;
         top: 1rem;
     }
 
-    .dashboard-sidebar-title {
+    .dashboard-sidebar-welcome,
+    .dashboard-sidebar-nav-card {
+        background-color: var(--bs-tertiary-bg);
+        border: 1px solid var(--bs-border-color-translucent);
+        border-radius: 0.75rem;
+        padding: 1rem;
+    }
+
+    .dashboard-sidebar-welcome-hi {
+        display: block;
+        font-size: 0.8rem;
+        opacity: 0.6;
+        margin-bottom: 0.25rem;
+    }
+
+    .dashboard-sidebar-welcome-name {
         font-weight: 600;
-        padding: 0 0.75rem;
-        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+    }
+
+    .dashboard-sidebar-welcome-stat {
+        font-size: 0.85rem;
+        opacity: 0.85;
     }
 
     .dashboard-sidebar-link {
