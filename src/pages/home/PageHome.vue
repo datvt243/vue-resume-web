@@ -93,7 +93,7 @@ const profileCompletion = 72
 </script>
 
 <template>
-    <div class="profile-card mb-4">
+    <div class="profile-card mb-5">
         <RouterLink to="/dashboard/information" class="profile-card-edit-link">Cập nhật hồ sơ →</RouterLink>
         <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
             <div class="home-avatar">
@@ -116,7 +116,7 @@ const profileCompletion = 72
         </div>
     </div>
 
-    <div class="stat-highlight mb-4">
+    <div class="stat-highlight mb-5">
         <div class="stat-highlight-number">
             {{ cvViewCount }}
             <span>lượt xem</span>
@@ -130,7 +130,7 @@ const profileCompletion = 72
         </div>
     </div>
 
-    <div class="block-container mb-4">
+    <div class="block-container mb-5">
         <Heading text="Đính kèm CV" />
         <div class="attach-row">
             <div class="attach-icon">
