@@ -1,6 +1,6 @@
 ---
 name: deploy
-description: "Check the status of the automated GitHub Pages deploy for vue-resume-web. Usage: /deploy. Deploy is no longer a manual script — .github/workflows/deploy.yml auto-deploys on every push to main. This command watches/reports the latest deploy workflow run instead of triggering anything."
+description: "Check the status of the automated GitHub Pages deploy for resume-vuejs-website. Usage: /deploy. Deploy is no longer a manual script — .github/workflows/deploy.yml auto-deploys on every push to main. This command watches/reports the latest deploy workflow run instead of triggering anything."
 ---
 
 # /deploy — check the automated GitHub Pages deploy
@@ -26,7 +26,7 @@ outward-facing action.
 3. If it `completed`/`failure`: `gh run view <run-id> --log-failed` to
    show what failed, and report the real error — don't guess.
 4. If it succeeded: report the live URL
-   (`https://datvt243.github.io/vue-resume-web/`) and which commit is now
+   (`https://datvt243.github.io/resume-vuejs-website/`) and which commit is now
    live.
 
 ## Rules

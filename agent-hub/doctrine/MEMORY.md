@@ -5,9 +5,9 @@
 > Authority: 65537
 
 ## What this is
-- Hub path (absolute): `/Users/_david/Workspace/Project/ResumeAPI/frontend/agent-hub`
-- Code repo path (absolute): `/Users/_david/Workspace/Project/ResumeAPI/frontend`
-- Repo remote: `https://github.com/datvt243/vue-resume-web.git`, branch `main`
+- Hub path (absolute): `/Users/_david/Workspace/Project/resume/resume-vuejs-website/agent-hub`
+- Code repo path (absolute): `/Users/_david/Workspace/Project/resume/resume-vuejs-website`
+- Repo remote: `https://github.com/datvt243/resume-vuejs-website.git`, branch `main` (repo renamed 2026-08-31, was `vue-resume-web`; path also moved out of `ResumeAPI/frontend`)
 - Hub ↔ repo relationship: the hub only touches the repo through a
   worker, with a real build/run result and an evidence note — never
   ad-hoc.

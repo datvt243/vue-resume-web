@@ -3,10 +3,10 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project
-**vue-resume-web** — Resume/CV management SPA. Users manage structured resume data (education, experience, projects, awards, certificates, references) via a Node.js REST API.
+**resume-vuejs-website** — Resume/CV management SPA. Users manage structured resume data (education, experience, projects, awards, certificates, references) via a Node.js REST API.
 
-- **Repo:** https://github.com/datvt243/vue-resume-web
-- **Live:** https://datvt243.github.io/vue-resume-web/
+- **Repo:** https://github.com/datvt243/resume-vuejs-website
+- **Live:** https://datvt243.github.io/resume-vuejs-website/
 - **Backend:** https://nodejs-resume-api-ts.onrender.com/api/v1/ (Render free tier, cold start ~30s)
 - **Branch:** `main` → auto-deploys to `gh-pages` via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`; CI (`.github/workflows/ci.yml`, lint + build) also runs on push/PR to `main`
 
@@ -77,22 +77,22 @@ src/
 
 | # | Location | Issue |
 |---|---|---|
-| [#8](https://github.com/datvt243/vue-resume-web/issues/8) | `localStorage` key `"token"` (see API section above) | JWT kept in localStorage — readable by any injected script (XSS can exfiltrate it); still open, no fix decided |
+| [#8](https://github.com/datvt243/resume-vuejs-website/issues/8) | `localStorage` key `"token"` (see API section above) | JWT kept in localStorage — readable by any injected script (XSS can exfiltrate it); still open, no fix decided |
 
 > Issues #1, #2, #3, #4, #5, #9, #10 (previously listed here: router history,
 > GET login, VeeForm prop mutation, VeeForm reset typo, Toasts `v-html`,
 > non-reactive spinner, GroupTags prop mutation) are fixed and closed —
-> don't re-"fix" them. Full backlog: https://github.com/datvt243/vue-resume-web/issues
+> don't re-"fix" them. Full backlog: https://github.com/datvt243/resume-vuejs-website/issues
 
 ## Gotchas
 
-- **TypeScript is mixed** — `.js` files exist alongside `.ts`. When editing `.js` files, no type checking. Migration tracked in [#13](https://github.com/datvt243/vue-resume-web/issues/13).
+- **TypeScript is mixed** — `.js` files exist alongside `.ts`. When editing `.js` files, no type checking. Migration tracked in [#13](https://github.com/datvt243/resume-vuejs-website/issues/13).
 - **Pug in LayoutDefault** — `src/pages/_layouts/LayoutDefault.vue` uses `<template lang="pug">`. Other files use standard HTML templates.
 - **`_id` drives create vs update** — `useDocument.updateDoc` sends POST if `_id` is falsy, PUT if truthy. Always ensure `_id` is set correctly before calling.
 - **`useCandidate` collection heuristic** — if `collection` prop omitted, strips trailing `s` from field name (`educations` → `education`). Explicit `collection` is safer.
-- **`subURL = 'api/v1/'`** is hardcoded in both `services/auth.js` and `services/base.js` — DRY violation, tracked in [#17](https://github.com/datvt243/vue-resume-web/issues/17).
-- **No tests** — zero test setup. Adding Vitest tracked in [#7](https://github.com/datvt243/vue-resume-web/issues/7).
-- **`tokenRefresh`** returned from login API but never stored or used — tracked in [#12](https://github.com/datvt243/vue-resume-web/issues/12).
+- **`subURL = 'api/v1/'`** is hardcoded in both `services/auth.js` and `services/base.js` — DRY violation, tracked in [#17](https://github.com/datvt243/resume-vuejs-website/issues/17).
+- **No tests** — zero test setup. Adding Vitest tracked in [#7](https://github.com/datvt243/resume-vuejs-website/issues/7).
+- **`tokenRefresh`** returned from login API but never stored or used — tracked in [#12](https://github.com/datvt243/resume-vuejs-website/issues/12).
 
 ## Error Handling Convention
 `handleBase(axiosOptions, { loading, toast }, callback)` in `services/base.js` is the standard wrapper — handles spinner, toast success/error, and auto-logout on `invalidToken`. Use this for all API calls except auth (which uses `services/auth.js` directly).
