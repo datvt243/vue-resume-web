@@ -213,18 +213,29 @@ const MODEL: modelItem[] = [
 
 ---
 
-## Deployment
+## Development Workflow
 
-App được deploy lên GitHub Pages tại:
-https://datvt243.github.io/vue-resume-web/
+2 tầng, cả `main` và `staging` đều branch-protected trên GitHub (không ai
+push thẳng được, kể cả admin):
 
-### Deploy thủ công
-
-```bash
-./deploy.sh
+```
+fix/feature/hotfix  →  PR  →  staging  →  /release  →  main  →  gh-pages
 ```
 
-> ⚠️ Xem issue [#16](https://github.com/datvt243/vue-resume-web/issues/16) — đang trong quá trình chuyển sang GitHub Actions.
+- Nhánh mới luôn cắt từ `staging` (không phải `main`), PR về `staging`
+  qua `/ship`.
+- `main` chỉ nhận code từ `staging` qua `/release` — real build+lint
+  gate, semver tag, merge commit (không squash).
+
+Chi tiết đầy đủ + lý do từng quyết định: xem [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+## Deployment
+
+App tự động deploy lên GitHub Pages mỗi khi có push vào `main` (qua
+`.github/workflows/deploy.yml`) — nghĩa là mỗi lần `/release` chạy xong.
+Không có bước deploy thủ công/deploy hook riêng nào khác.
+
+Live: https://datvt243.github.io/vue-resume-web/
 
 ---
 
