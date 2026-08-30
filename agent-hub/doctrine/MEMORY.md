@@ -55,15 +55,24 @@ needed; just launch it). Never skip step 1 on a cold session, never skip
 the verifier pass.
 
 ## Git workflow (mandatory, see `CLAUDE.md` → Branching rule)
-- NEVER edit/commit directly on `main`. Every task → its own branch
-  before touching any file, named by type:
+> **2026-08-30**: 2-tier release model. `main` and `staging` are both
+> GitHub branch-protected (PR required, 0 approvals, `enforce_admins:
+> true`) — raw `git push` to either is rejected (`GH006`), verified. See
+> `CONTRIBUTING.md` for the full reasoning (why 0 approvals, why
+> merge-not-squash at release).
+- NEVER edit/commit directly on `main` OR `staging`. Every task → its own
+  branch cut from `staging` before touching any file, named by type:
   `fix/issue-<n>-<slug>` (bugfix) · `feature/<slug>` (new feature) ·
   `chore/<slug>`/`docs/<slug>` (other).
-- Merging that branch into `main` is outward-facing → goes through the
-  Seal Gate, wait for operator approval before merging + pushing (the
-  `/ship` command does this once invoked).
-- After merge: `fix/*` gets deleted; `feature/*` is KEPT; everything else
-  deleted by default. See `.claude/skills/ship/SKILL.md`.
+- Merging that branch into `staging` is outward-facing → goes through the
+  Seal Gate, wait for operator approval before merging (the `/ship`
+  command does this via `gh pr create --base staging` + `gh pr merge`
+  once invoked — never a raw `git merge && git push`, both rejected).
+- After merge: `fix/*` gets deleted; `feature/*` is KEPT locally;
+  everything else deleted by default. See `.claude/skills/ship/SKILL.md`.
+- `staging → main` is a SEPARATE step, `/release`
+  (`.claude/skills/release/SKILL.md`) — real build+lint gate, semver
+  bump, tag, never done by `/ship`.
 - The implementer's evidence note must name the branch used.
 
 ## Workers
