@@ -37,9 +37,18 @@ task → worker implementer → find/create node on diagram → run exact
 | `MAIN_EDIT` | Edited/committed directly on `main` instead of a separate branch merged in |
 
 ## Branching rule
-**NEVER edit or commit directly on `main`.** Before any diff (even one
-line):
-1. `git checkout -b <branch>` from `main` — name it by task TYPE:
+> **2026-08-30**: `main` and `staging` are now real GitHub
+> branch-protected branches (PR required, 0 approvals needed,
+> `enforce_admins: true`, no force-push, no deletion) — a raw `git push`
+> to either is rejected (`GH006`), verified directly. `main` is
+> production, only ever receives code from `staging` via `/release`
+> (`.claude/skills/release/SKILL.md`). `staging` is the integration
+> branch — this is now what every task branches from and PRs into.
+
+**NEVER edit or commit directly on `main` OR `staging`.** Before any
+diff (even one line):
+1. `git checkout -b <branch> staging` (from `staging`, not `main`) —
+   name it by task TYPE:
    - Bugfix → `fix/issue-<n>-<slug>` (e.g.
      `fix/issue-34-converttotruncate-length`).
    - New feature → `feature/<slug>` (e.g. `feature/export-cv-pdf`).
@@ -49,13 +58,18 @@ line):
    `feature/*` is KEPT, everything else deleted by default.
 2. The whole diff, `npm run build`, and the evidence note all happen on
    that branch — the evidence note MUST name the branch.
-3. Merging back to `main` is an **outward-facing** action — goes through
-   the Seal Gate like any commit/push/deploy: stop, show the diff +
-   branch name, wait for operator approval before `git checkout main &&
-   git merge <branch>` (or a PR) then push.
-4. If you find yourself on `main` with uncommitted changes already there →
-   stop immediately, report `MAIN_EDIT`, don't self-continue — ask the
-   operator whether to `git stash` that diff onto a new branch.
+3. Merging back to `staging` is an **outward-facing** action — goes
+   through the Seal Gate like any commit/push/deploy: stop, show the
+   diff + branch name, wait for operator approval before `/ship`
+   (`gh pr create --base staging` + `gh pr merge`, not a raw `git merge
+   && git push` — that's rejected by branch protection).
+4. Getting `staging` onto `main` is a SEPARATE outward-facing action —
+   `/release`, not `/ship`. Never merge a task branch straight into
+   `main`.
+5. If you find yourself on `main` or `staging` with uncommitted changes
+   already there → stop immediately, report `MAIN_EDIT`, don't
+   self-continue — ask the operator whether to `git stash` that diff
+   onto a new branch (branched from `staging`).
 
 ## Seal gate
 Before any **outward-facing** action — `commit` · `push` · `publish`
