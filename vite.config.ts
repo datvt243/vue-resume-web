@@ -3,11 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
 // https://vitejs.dev/config/
-const base = process.env.BASE_URL || '/'
+const base = process.env.BASE_URL || '/resume-vuejs-website/'
 
 export default defineConfig({
     plugins: [vue()],
-    base: '/vue-resume-web/',
+    base,
 
     resolve: {
         alias: {
