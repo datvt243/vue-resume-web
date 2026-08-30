@@ -10,8 +10,12 @@ during this step — read and report only.
 
 ## Steps (exact order, don't skip any)
 1. Read `agent-hub/NORTHSTAR.md`.
-2. Read `agent-hub/CLAUDE.md` — recall the 6 forbidden states and the seal
-   gate for yourself.
+2. Recall the 6 forbidden states and the seal gate from `agent-hub/CLAUDE.md`
+   — don't explicitly `cat`/`Read` it yourself: the harness auto-injects
+   this file's full content as a nested-CLAUDE.md `<system-reminder>` the
+   moment step 1 touches anything under `agent-hub/`, so an explicit read
+   here just duplicates the same content a second time in context. Read it
+   directly only if that auto-injection didn't happen this session.
 3. Read `agent-hub/doctrine/MEMORY.md` — get the repo path and exact
    commands (`npm run build`, `npm run dev`... — NO test command exists).
 4. Read `agent-hub/doctrine/domains/PROJECT.md` — especially the Traps
@@ -23,7 +27,11 @@ during this step — read and report only.
    implementer, verifier.
 7. Read at most the 5 most recent evidence notes (newest file by date) in
    `agent-hub/evidence/implementer/` and `agent-hub/evidence/verifier/`. If
-   a directory is empty, note "no evidence notes yet".
+   a directory is empty, note "no evidence notes yet". To list them, use
+   `find <dir> -maxdepth 1 -type f -name "*.md" -exec ls -t {} + | head -5`
+   — NOT `ls -lat <dir>` directly, which has returned the wrong directory's
+   listing in this sandbox at least once (observed 2026-08-30); `find` is
+   the proven-reliable form.
 
 ## Report format — EXACTLY 6 lines, no more, no less
 ```
