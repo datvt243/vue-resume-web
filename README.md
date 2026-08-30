@@ -2,7 +2,7 @@
 
 Ứng dụng quản lý hồ sơ xin việc (Resume/CV) cá nhân, được xây dựng với Vue 3 + Vite. Cho phép nhập liệu và quản lý toàn bộ thông tin CV dưới dạng structured data thông qua API.
 
-**Live Demo:** https://datvt243.github.io/vue-resume-web/  
+**Live Demo:** https://datvt243.github.io/resume-vuejs-website/  
 **Backend API:** https://nodejs-resume-api-ts.onrender.com/
 
 > ⚠️ Backend chạy trên Render free tier — có thể chậm ở lần gọi API đầu tiên (cold start ~30s).
@@ -51,8 +51,8 @@
 
 ```bash
 # Clone repo
-git clone https://github.com/datvt243/vue-resume-web.git
-cd vue-resume-web
+git clone https://github.com/datvt243/resume-vuejs-website.git
+cd resume-vuejs-website
 
 # Cài dependencies
 npm install
@@ -235,22 +235,22 @@ App tự động deploy lên GitHub Pages mỗi khi có push vào `main` (qua
 `.github/workflows/deploy.yml`) — nghĩa là mỗi lần `/release` chạy xong.
 Không có bước deploy thủ công/deploy hook riêng nào khác.
 
-Live: https://datvt243.github.io/vue-resume-web/
+Live: https://datvt243.github.io/resume-vuejs-website/
 
 ---
 
 ## Known Issues
 
-Xem toàn bộ danh sách bugs và technical debt tại [GitHub Issues](https://github.com/datvt243/vue-resume-web/issues).
+Xem toàn bộ danh sách bugs và technical debt tại [GitHub Issues](https://github.com/datvt243/resume-vuejs-website/issues).
 
 Các vấn đề ưu tiên cao:
 
 | Issue | Mô tả |
 |---|---|
-| [#1](https://github.com/datvt243/vue-resume-web/issues/1) | Router dùng `createMemoryHistory` — URL không hoạt động khi refresh |
-| [#2](https://github.com/datvt243/vue-resume-web/issues/2) | Login dùng GET request — Password bị lộ trong URL |
-| [#3](https://github.com/datvt243/vue-resume-web/issues/3) | VeeForm mutate props — Form validation bị mất sau lần mở đầu |
-| [#5](https://github.com/datvt243/vue-resume-web/issues/5) | XSS vulnerability qua `v-html` với error message từ server |
+| [#1](https://github.com/datvt243/resume-vuejs-website/issues/1) | Router dùng `createMemoryHistory` — URL không hoạt động khi refresh |
+| [#2](https://github.com/datvt243/resume-vuejs-website/issues/2) | Login dùng GET request — Password bị lộ trong URL |
+| [#3](https://github.com/datvt243/resume-vuejs-website/issues/3) | VeeForm mutate props — Form validation bị mất sau lần mở đầu |
+| [#5](https://github.com/datvt243/resume-vuejs-website/issues/5) | XSS vulnerability qua `v-html` với error message từ server |
 
 ---
 

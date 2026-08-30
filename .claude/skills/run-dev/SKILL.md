@@ -1,6 +1,6 @@
 ---
 name: run-dev
-description: "Open the Chrome remote-debugging browser and point it at the vue-resume-web dev server. Usage: /run-dev. Runs `npm run dev` in the background and navigates the already-open debug browser to it — no manual steps."
+description: "Open the Chrome remote-debugging browser and point it at the resume-vuejs-website dev server. Usage: /run-dev. Runs `npm run dev` in the background and navigates the already-open debug browser to it — no manual steps."
 ---
 
 # /run-dev — open debug browser + point it at `npm run dev`

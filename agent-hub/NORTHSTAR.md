@@ -1,15 +1,15 @@
 ---
-title: vue-resume-web Northstar
+title: resume-vuejs-website Northstar
 date: 2026-08-20
 status: active
 authority: 65537
-dna: vue_resume_web_hub
+dna: resume_vuejs_website_hub
 ---
 
 > The Northstar is what does NOT change when everything else does.
 
 ## One sentence
-Keep vue-resume-web (a Vue 3 personal-resume SPA) moving forward through
+Keep resume-vuejs-website (a Vue 3 personal-resume SPA) moving forward through
 small, independently-verified diffs — never relying on session memory or
 an unproven "should be done."
 

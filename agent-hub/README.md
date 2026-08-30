@@ -1,6 +1,6 @@
-# agent-hub — vue-resume-web
+# agent-hub — resume-vuejs-website
 
-Đây là "bộ nhớ chân cất" của project **vue-resume-web** (Resume/CV
+Đây là "bộ nhớ chân cất" của project **resume-vuejs-website** (Resume/CV
 management SPA, Vue 3 + Vite). KHÔNG phải code — đây là markdown thuần:
 doctrine (sự thật đã verify), haven (memory + convention của 2 AI worker),
 evidence (audit trail). Code thật nằm ở `../src/` như bình thường.

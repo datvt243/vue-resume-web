@@ -12,7 +12,7 @@
 | `doctrine/INDEX.md` | Map của doctrine + 3 loại kiến thức |
 | `doctrine/SOUL.md` | Identity của hub agent + 7 invariants |
 | `doctrine/MEMORY.md` ★ | Path, stack, LỆNH CHÍNH XÁC — authority cao nhất |
-| `doctrine/domains/PROJECT.md` ★ | Ground truth riêng vue-resume-web: invariants, traps, decisions |
+| `doctrine/domains/PROJECT.md` ★ | Ground truth riêng resume-vuejs-website: invariants, traps, decisions |
 | `doctrine/standards/edit-verification.md` | Luật không claim thứ chưa quan sát |
 | `doctrine/standards/recipes.md` | Recipe là gì, khi nào viết, format bắt buộc |
 | `haven/diagrams/dev-loop.prime-mermaid.md` ★ | Nguồn trạng thái DUY NHẤT cho mọi task |
