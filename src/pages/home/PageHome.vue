@@ -8,9 +8,12 @@
  * trong evidence note) — cùng cấu trúc thông tin, giữ màu accent riêng
  * của app ($green #00d095) thay vì chép màu thương hiệu của itviec.
  * Section 1 + tình trạng open-to-work là dữ liệu thật từ candidateStore.
- * Section 2 (lượt xem CV) và section 4 (% hoàn thành hồ sơ) chưa có API
- * đứng sau, hiển thị số liệu tạm/mẫu — xem chú thích ngay tại chỗ khai
- * báo. Section 3 (đính kèm CV): phần tải CV hiện tại là thật (dùng lại
+ * Section 2 (lượt xem CV) giờ là dữ liệu thật (candidate/visits API, xem
+ * useVisits.ts) — LayoutDefault.vue (ancestor bọc mọi trang dashboard,
+ * gồm cả trang này) đã fetch và cache vào candidateStore, ở đây chỉ đọc
+ * lại giá trị cache, không fetch riêng. Section 4 (% hoàn thành hồ sơ)
+ * chưa có API đứng sau, hiển thị số liệu mẫu — xem chú thích tại chỗ
+ * khai báo. Section 3 (đính kèm CV): phần tải CV hiện tại là thật (dùng lại
  * endpoint download-pdf có sẵn, PDF được generate live từ dữ liệu hồ sơ
  * — không phải file đã "upload" như itviec); nút "Đính kèm file mới" chỉ
  * là UI, backend chưa có endpoint lưu file upload.
@@ -48,9 +51,10 @@ const position = computed(() => generalInfo.value?.positionDesired || 'Chưa c�
 const isOpenToWork = computed(() => !!generalInfo.value?.openToWork)
 
 /**
- * section 2: lượt xem CV — chưa có API đếm lượt xem, tạm để 0
+ * section 2: lượt xem CV — đọc lại giá trị đã fetch/cache bởi
+ * LayoutDefault.vue (useVisits), không fetch riêng ở đây
  */
-const cvViewCount = 0
+const cvViewCount = computed(() => info.value?.visitCount ?? 0)
 
 /**
  * section 3: đính kèm CV
@@ -123,10 +127,11 @@ const profileCompletion = 72
         </div>
         <div class="flex-grow-1">
             <div class="d-flex align-items-center gap-2 mb-1">
-                <p class="fw-semibold mb-0">Lượt xem CV bởi nhà tuyển dụng</p>
+                <p class="fw-semibold mb-0">Lượt truy cập hồ sơ của bạn</p>
                 <span class="badge text-bg-success-subtle">Mới</span>
             </div>
-            <p class="small opacity-75 mb-0">CV ẩn danh của bạn được nhà tuyển dụng xem khi tìm kiếm ứng viên (chưa có API đếm lượt xem thật, tạm hiển thị 0).</p>
+            <p class="small opacity-75 mb-1">Số lần trang hồ sơ công khai của bạn được xem (IP + vị trí, ghi nhận qua API thật). Số này sẽ không tăng qua app hiện tại — trang xem hồ sơ công khai qua link chia sẻ chưa được xây dựng ở frontend, chưa có nơi nào ở đây gọi API ghi nhận lượt xem.</p>
+            <RouterLink to="/dashboard/visits" class="small fw-semibold">Xem chi tiết từng lượt truy cập →</RouterLink>
         </div>
     </div>
 
