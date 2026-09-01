@@ -1,8 +1,8 @@
-# Vue Resume Web
+# Resume Vuejs Website
 
 Ứng dụng quản lý hồ sơ xin việc (Resume/CV) cá nhân, được xây dựng với Vue 3 + Vite. Cho phép nhập liệu và quản lý toàn bộ thông tin CV dưới dạng structured data thông qua API.
 
-**Live Demo:** https://datvt243.github.io/vue-resume-web/  
+**Live Demo:** https://datvt243.github.io/resume-vuejs-website/  
 **Backend API:** https://nodejs-resume-api-ts.onrender.com/
 
 > ⚠️ Backend chạy trên Render free tier — có thể chậm ở lần gọi API đầu tiên (cold start ~30s).
@@ -51,8 +51,8 @@
 
 ```bash
 # Clone repo
-git clone https://github.com/datvt243/vue-resume-web.git
-cd vue-resume-web
+git clone https://github.com/datvt243/resume-vuejs-website.git
+cd resume-vuejs-website
 
 # Cài dependencies
 npm install
@@ -60,13 +60,16 @@ npm install
 
 ### Cấu hình môi trường
 
-Tạo file `.env.development` tại root:
+`.env.development` và `.env.production` đã có sẵn trong repo (chỉ chứa
+URL API công khai, không có secret) — chạy `npm run dev`/`npm run build`
+là dùng được ngay, không cần tạo gì thêm.
+
+Muốn override cục bộ (vd: trỏ tới backend khác), copy [`.env.example`](./.env.example)
+thành `.env` hoặc `.env.development.local` — 2 file này đã gitignore sẵn:
 
 ```bash
-VITE_API_URL=http://localhost:3001/api/v1/
+cp .env.example .env
 ```
-
-> Mặc định nếu không có file `.env`, app sẽ kết nối tới backend production trên Render.
 
 ### Chạy development
 
@@ -235,36 +238,36 @@ App tự động deploy lên GitHub Pages mỗi khi có push vào `main` (qua
 `.github/workflows/deploy.yml`) — nghĩa là mỗi lần `/release` chạy xong.
 Không có bước deploy thủ công/deploy hook riêng nào khác.
 
-Live: https://datvt243.github.io/vue-resume-web/
+Live: https://datvt243.github.io/resume-vuejs-website/
 
 ---
 
 ## Known Issues
 
-Xem toàn bộ danh sách bugs và technical debt tại [GitHub Issues](https://github.com/datvt243/vue-resume-web/issues).
-
-Các vấn đề ưu tiên cao:
+Xem toàn bộ danh sách bugs và technical debt tại [GitHub Issues](https://github.com/datvt243/resume-vuejs-website/issues).
+Các bug ưu tiên cao ban đầu (#1–#5, #34...) đã fix và đóng — bảng dưới chỉ liệt kê vấn đề **thật sự còn mở**:
 
 | Issue | Mô tả |
 |---|---|
-| [#1](https://github.com/datvt243/vue-resume-web/issues/1) | Router dùng `createMemoryHistory` — URL không hoạt động khi refresh |
-| [#2](https://github.com/datvt243/vue-resume-web/issues/2) | Login dùng GET request — Password bị lộ trong URL |
-| [#3](https://github.com/datvt243/vue-resume-web/issues/3) | VeeForm mutate props — Form validation bị mất sau lần mở đầu |
-| [#5](https://github.com/datvt243/vue-resume-web/issues/5) | XSS vulnerability qua `v-html` với error message từ server |
+| [#8](https://github.com/datvt243/resume-vuejs-website/issues/8) | JWT lưu ở `localStorage` — cần backend hỗ trợ httpOnly cookie trước khi fix được (blocked) |
 
 ---
 
 ## Roadmap
 
-- [ ] Fix critical bugs (#1, #2, #3, #4, #5)
-- [ ] Migrate API URL sang environment variables (#6)
-- [ ] Setup CI/CD với GitHub Actions (#16, #20)
-- [ ] Thêm unit tests với Vitest (#7)
-- [ ] Chuyển toàn bộ JS → TypeScript (#13)
-- [ ] Tính năng Preview CV
-- [ ] Tính năng Export PDF
-- [ ] Public CV link (shareable URL)
-- [ ] Upload ảnh đại diện
+- [x] Fix critical bugs (#1, #2, #3, #4, #5)
+- [x] Migrate API URL sang environment variables (#6)
+- [x] Setup CI/CD với GitHub Actions (#16, #20)
+- [x] Test coverage với Vitest (#7 — 96%+ coverage cho `stores`/`composables`/`utilities` + `VeeForm.vue`; component còn lại ngoài scope ban đầu)
+- [x] Chuyển toàn bộ JS → TypeScript (#13, phần lõi — vẫn còn vài file `.js` xen kẽ có chủ đích)
+- [ ] Export CV ra PDF (#55)
+- [ ] Public CV link — xem CV qua link chia sẻ, read-only (#56)
+- [ ] Sắp xếp thủ công (drag-and-drop) Education/Experience/Project (#57)
+- [ ] Upload ảnh đại diện (#58)
+- [ ] Thanh tiến độ hoàn thiện hồ sơ trên Dashboard (#59)
+- [ ] Nhân bản (duplicate) một mục dữ liệu (#60)
+- [ ] Quên mật khẩu / Đổi mật khẩu (#61)
+- [ ] Trang cài đặt tài khoản (#63)
 
 ---
 

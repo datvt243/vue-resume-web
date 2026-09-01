@@ -1,9 +1,9 @@
 ---
 name: boot
-description: Orientation for the vue-resume-web agent-hub. Read NORTHSTAR, doctrine, diagrams, and the most recent evidence notes; report a 6-line status. Use at the very start of every working session on this project, even for small edits. Makes NO changes.
+description: Orientation for the resume-vuejs-website agent-hub. Read NORTHSTAR, doctrine, diagrams, and the most recent evidence notes; report a 6-line status. Use at the very start of every working session on this project, even for small edits. Makes NO changes.
 ---
 
-# /boot — 60-second orientation for vue-resume-web
+# /boot — 60-second orientation for resume-vuejs-website
 
 You are in a READ role here, not a worker role. Do not modify any file
 during this step — read and report only.

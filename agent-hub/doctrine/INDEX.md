@@ -8,7 +8,7 @@
 |---|---|---|
 | `SOUL.md` | Identity của hub agent | Trước khi tự ý quyết định thay đổi gì |
 | `MEMORY.md` | Path, stack, lệnh chính xác | Mọi phiên, ngay từ đầu |
-| `domains/PROJECT.md` | Ground truth riêng vue-resume-web | Trước khi implement |
+| `domains/PROJECT.md` | Ground truth riêng resume-vuejs-website | Trước khi implement |
 | `standards/edit-verification.md` | Luật không claim thứ chưa quan sát | Trước khi báo "done" |
 | `standards/recipes.md` | Recipe là gì, khi nào viết | Khi lặp lại 1 quy trình lần 2 |
 

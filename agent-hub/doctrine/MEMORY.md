@@ -5,9 +5,9 @@
 > Authority: 65537
 
 ## What this is
-- Hub path (absolute): `/Users/_david/Workspace/Project/ResumeAPI/frontend/agent-hub`
-- Code repo path (absolute): `/Users/_david/Workspace/Project/ResumeAPI/frontend`
-- Repo remote: `https://github.com/datvt243/vue-resume-web.git`, branch `main`
+- Hub path (absolute): `/Users/_david/Workspace/Project/resume/resume-vuejs-website/agent-hub`
+- Code repo path (absolute): `/Users/_david/Workspace/Project/resume/resume-vuejs-website`
+- Repo remote: `https://github.com/datvt243/resume-vuejs-website.git`, branch `main` (repo renamed 2026-08-31, was `vue-resume-web`; path also moved out of `ResumeAPI/frontend`)
 - Hub ↔ repo relationship: the hub only touches the repo through a
   worker, with a real build/run result and an evidence note — never
   ad-hoc.
@@ -18,7 +18,8 @@
 
 | Purpose | Command | Run from |
 |---|---|---|
-| Test | `npm run test` (= `vitest run`) — added 2026-08-25, issue #7. Real but PARTIAL: `src/utilities/`, `src/stores/{auth,candidate}`, `src/composables/{useDocument,useCandidate,useTheme}` covered (55 tests total). Other composables (`useInitTable`) and all Vue components still untested — see `domains/PROJECT.md` → Traps. | repo root |
+| Test | `npm run test` (= `vitest run`) — added 2026-08-25, issue #7. Real, covers `src/utilities/`, `src/stores/{auth,candidate}`, `src/composables/{useDocument,useCandidate,useTheme,useInitTable,useHelper}`, `src/components/veevalidate/VeeForm.vue` (76 tests total, 2026-09-01). All `.vue` components except `VeeForm.vue` still untested — see `domains/PROJECT.md` → Traps. | repo root |
+| Test + coverage | `npm run test:coverage` (= `vitest run --coverage`, `@vitest/coverage-v8`) — added 2026-09-01, issue #7. Scoped to `src/{utilities,stores,composables}/**` (matches issue #7's own "business logic" target, not full-app). Measured 2026-09-01 (post `useHelper.ts` coverage, `issue-7-usehelper-composable-tests`): **96.33% statements / 91.11% branches** — issue #7's stated `>60%` target is met by a wide margin. Only remaining 0%-covered file in scope: `src/composables/index.ts` (barrel re-export, no executable logic — not a real gap). | repo root |
 | Test one file | `npx vitest run <path>` | repo root |
 | Build | `npm run build` (output: `dist/`) | repo root |
 | Lint | `npm run lint` (`eslint-plugin-vue@^9` + `@rushstack/eslint-patch` installed, `.eslintrc.cjs` has `overrides` for `.ts`/`.vue` — fixed 2026-08-20). Currently reports **95 real errors** (`no-unused-vars`, `vue/multi-word-component-names`...) NOT YET fixed — don't claim "lint pass" until cleaned up. | repo root |

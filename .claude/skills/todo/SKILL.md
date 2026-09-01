@@ -1,6 +1,6 @@
 ---
 name: todo
-description: "One-command version of the agent-hub implementer -> verifier loop for vue-resume-web. Usage: /todo \"<task>\". Runs implementer then verifier as two separate passes (verifier never carries the implementer's reasoning), auto-retries the implementer pass on REOPEN up to 3 times, then stops and reports. Does not auto-commit."
+description: "One-command version of the agent-hub implementer -> verifier loop for resume-vuejs-website. Usage: /todo \"<task>\". Runs implementer then verifier as two separate passes (verifier never carries the implementer's reasoning), auto-retries the implementer pass on REOPEN up to 3 times, then stops and reports. Does not auto-commit."
 ---
 
 # /todo "<task>" — implementer → verifier, 2 separate passes, automatic
