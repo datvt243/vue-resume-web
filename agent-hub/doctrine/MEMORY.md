@@ -27,7 +27,7 @@
 | Run locally | `npm run dev` → http://localhost:5173 | repo root |
 | Preview build | `npm run preview` | repo root |
 | Deploy (outward-facing — SEAL GATE) | **NO LONGER MANUAL** — `deploy.sh` was removed (issue #16, 2026-08-20). Deploy is now automatic via `.github/workflows/deploy.yml` on every push to `main` (build + `peaceiris/actions-gh-pages@v4` to `gh-pages`). The Seal Gate now lives at the `/ship` merge-into-`main` step — merging triggers deploy automatically, no separate deploy-approval step. | GitHub Actions (not run locally) |
-| CI (runs automatically) | `.github/workflows/ci.yml` — lint + build, runs on every push/PR to `main` (issue #20). NO typecheck step — `vue-tsc` currently incompatible with the project's TypeScript version (verified: `npx vue-tsc --version` fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`); adding it would turn CI red immediately. | GitHub Actions |
+| CI (runs automatically) | `.github/workflows/ci.yml` — lint + build, runs on every push/PR to `main` OR `staging` (added `staging` 2026-09-01, audit finding — every day-to-day `/ship` PR into `staging` was previously getting zero independent CI check, only the agent's self-reported local build/lint) (issue #20). NO typecheck step — `vue-tsc` currently incompatible with the project's TypeScript version (verified: `npx vue-tsc --version` fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`); adding it would turn CI red immediately. | GitHub Actions |
 
 **Updated 2026-08-25 (issue #7):** `npm run test` is real now, but only
 covers `src/utilities/`. For a node whose diff touches code with an
