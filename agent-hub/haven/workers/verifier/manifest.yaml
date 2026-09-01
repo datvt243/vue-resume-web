@@ -13,5 +13,7 @@ hard_rules:
   - NeverVerifyOwnWork   # can't grade a diff it wrote itself
   - RatchetOnly          # PM status only ever advances, never regresses
   - NoMainEdit           # REOPEN if the evidence note doesn't name a dedicated (non-main) branch used to create the diff
-reads: [evidence/implementer/, haven/diagrams/, NORTHSTAR.md, CLAUDE.md]
+reads: [evidence/implementer/, haven/diagrams/, doctrine/MEMORY.md, CLAUDE.md]
+# doctrine/MEMORY.md: recipe step 4 needs it to check the note's command.
+# No NORTHSTAR.md — recipe never uses it, was dead weight on every spawn.
 writes: [evidence/verifier/]   # and PM status on the diagram
