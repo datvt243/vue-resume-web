@@ -249,7 +249,6 @@ Các bug ưu tiên cao ban đầu (#1–#5, #34...) đã fix và đóng — bả
 
 | Issue | Mô tả |
 |---|---|
-| [#7](https://github.com/datvt243/resume-vuejs-website/issues/7) | Test coverage mới phủ `utilities`, `stores`, một phần `composables`/`VeeForm.vue` — nhiều component vẫn chưa có test |
 | [#8](https://github.com/datvt243/resume-vuejs-website/issues/8) | JWT lưu ở `localStorage` — cần backend hỗ trợ httpOnly cookie trước khi fix được (blocked) |
 
 ---
@@ -259,7 +258,7 @@ Các bug ưu tiên cao ban đầu (#1–#5, #34...) đã fix và đóng — bả
 - [x] Fix critical bugs (#1, #2, #3, #4, #5)
 - [x] Migrate API URL sang environment variables (#6)
 - [x] Setup CI/CD với GitHub Actions (#16, #20)
-- [ ] Hoàn thiện test coverage với Vitest (#7 — đã có nền, còn thiếu nhiều component)
+- [x] Test coverage với Vitest (#7 — 96%+ coverage cho `stores`/`composables`/`utilities` + `VeeForm.vue`; component còn lại ngoài scope ban đầu)
 - [x] Chuyển toàn bộ JS → TypeScript (#13, phần lõi — vẫn còn vài file `.js` xen kẽ có chủ đích)
 - [ ] Export CV ra PDF (#55)
 - [ ] Public CV link — xem CV qua link chia sẻ, read-only (#56)
