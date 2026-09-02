@@ -28,9 +28,15 @@
    invented (e.g. `src/models/`, `src/composables/`, `src/services/`).
 6. Declare blockers: if `doctrine/MEMORY.md` is missing a needed command,
    stop and report `blocked` — do NOT guess a command.
-7. Evidence: write `evidence/implementer/<date>-<slug>.md` (flat file,
+7. [added 2026-09-02] Measure `hub_bytes_before` — the total bytes across
+   the 5 categories `/hub-tokens` calls the "per-session total" (root
+   files, `doctrine/`, the active `haven/diagrams/`, 2 worker bundles).
+   Record this number in the evidence note at step 8 — the verifier reads
+   it back to compute the hub-size diff in `worker-runs.log`.
+8. Evidence: write `evidence/implementer/<date>-<slug>.md` (flat file,
    matches the convention actually used across every prior evidence note
-   — see `evidence/README.md`).
+   — see `evidence/README.md`), including the line
+   `## Hub bytes before: <N>` from step 7.
 
 ## Hard rules honored
 `NodeBeforeCode` | `EvidencePerAction` | `NoSilentFailure`

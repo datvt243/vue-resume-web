@@ -66,6 +66,25 @@ it's not reinvented per hub.
 12. Write the verdict to
     `evidence/verifier/<date>-<slug>-{seal|reopen}.md` (flat file,
     matches the convention used across every prior evidence note).
+12b. [added 2026-09-02] In the verdict note, truthfully declare 1 line
+   `## Re-run`: `none` (audit-only, the correct default per "Re-run
+   scope" above), `partial` (name exactly which command was re-run), or
+   `full` (re-ran the entire build from scratch) — always with a reason
+   matching one of the 3 exception cases in "Re-run scope" if not `none`.
+   Misdeclaring this corrupts the duplicate-cost signal step 13 depends
+   on.
+13. [added 2026-09-02] Append 1 line to `evidence/worker-runs.log`
+   (create the file if it doesn't exist): take `hub_bytes_before` from the
+   `## Hub bytes before` line in the implementer's note (already read in
+   step 2, reuse it); measure `hub_bytes_after` the same way (this hub's
+   `/hub-tokens` per-session total), taken AFTER updating PM status in
+   step 11 if SEALed. Format:
+   ```
+   <ISO timestamp> role=verifier outcome=SEAL|REOPEN node=<slug>
+   rerun=none|partial|full hub_bytes_before=<N> hub_bytes_after=<N>
+   ```
+   NEVER edit/delete an old line here — append-only, same rule as the
+   rest of `evidence/`.
 
 ## Hard rules honored
 `NeverVerifyOwnWork` | `EvidenceOnly` | `VerdictOnly` | `RatchetOnly` | `NoMainEdit`
