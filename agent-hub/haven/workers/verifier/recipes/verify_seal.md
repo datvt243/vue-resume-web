@@ -8,6 +8,30 @@
   immediately: "I wrote this, a separate verifier pass is required."
   (`NeverVerifyOwnWork`)
 
+## Re-run scope [cost-driven, added 2026-09-02]
+Default: AUDIT the note, don't re-run `npm run build`/dev-server checks from
+scratch. `EvidenceOnly` means "don't substitute reasoning for real
+evidence" — it does NOT mean "always regenerate the evidence yourself." If
+the note's output is verbatim, not truncated (step 5), the command matches
+`doctrine/MEMORY.md` (step 4), and it covers every acceptance criterion
+(step 6) → verdict straight off the note, no re-run.
+
+Only re-run (partial or full) when:
+- The note is missing a citation, output looks truncated/hidden, or the
+  command doesn't match doctrine → REOPEN per steps 4-5 instead — don't
+  spend effort re-running a note that's already broken.
+- The node is outward-facing or a `/release` gate — higher risk than an
+  ordinary diff, worth the independent-confirmation cost.
+- `doctrine/domains/PROJECT.md` names this class of change as needing
+  independent re-run (a per-project call, not the kit default).
+
+Observed in practice (usage audit 2026-09-02, across 3 production hubs):
+verifiers re-running the FULL build from scratch for every node — even a
+1-line doc fix — doubled (up to 6x with parallel subagents) the token cost
+of every change with no change to the SEAL/REOPEN verdict. Not a bug, but
+not what `EvidenceOnly` asks for either — this section pins the boundary so
+it's not reinvented per hub.
+
 ## Steps
 1. REFUSE SELF-GRADING FIRST — did I write this diff in this session?
 2. Read the NOTE — only the note, do NOT open the diff directly.

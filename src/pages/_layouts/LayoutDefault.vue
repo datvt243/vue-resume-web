@@ -14,6 +14,7 @@ import Main from '@/pages/_layouts/Main.vue'
 
 import { computed } from 'vue'
 import { candidateStore } from '@/stores/candidate'
+import { useVisits } from '@/composables/useVisits'
 
 // eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const candidate = candidateStore()
@@ -24,9 +25,12 @@ const fullName = computed(() => {
 })
 // eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const isOpenToWork = computed(() => !!candidate.getGeneralInformation?.openToWork)
-// lượt xem CV — chưa có API đếm lượt xem thật, tạm để 0 (giống PageHome.vue)
+// lượt xem CV — backend đã có API thật (candidate/visits, v1.2.0+),
+// LayoutDefault là ancestor duy nhất bọc mọi trang dashboard nên fetch ở
+// đây, cache vào candidateStore; PageHome.vue chỉ đọc lại giá trị cache,
+// không fetch riêng (tránh gọi API 2 lần cùng lúc)
 // eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
-const cvViewCount = 0
+const { count: cvViewCount } = useVisits()
 
 // eslint-disable-next-line no-unused-vars -- dùng trong <template lang="pug">, vue-eslint-parser không phân tích được usage trong pug nên báo false positive
 const routers = [
@@ -39,6 +43,7 @@ const routers = [
     { text: 'Giải thưởng', name: 'award', to: '/dashboard/award' },
     { text: 'Chứng chỉ', name: 'certificate', to: '/dashboard/certificate' },
     { text: 'Người tham khảo', name: 'reference', to: '/dashboard/reference' },
+    { text: 'Xem trước / Xuất PDF', name: 'preview', to: '/dashboard/preview' },
 ]
 </script>
 
@@ -57,7 +62,7 @@ const routers = [
                             span(:class="isOpenToWork ? 'text-success' : 'opacity-50'") {{ isOpenToWork ? ' On' : ' Off' }}
                         p.dashboard-sidebar-welcome-stat.mb-0
                             | Lượt xem CV:
-                            span {{ ' ' + cvViewCount }}
+                            span {{ ' ' + (cvViewCount ?? 0) }}
                     .dashboard-sidebar-nav-card
                         nav.nav.flex-column.dashboard-sidebar-nav
                             RouterLink.dashboard-sidebar-link(v-for="r in routers" :key="r.name" :to="r.to" :class="{ active: r.to === $route.path }") {{ r.text }}

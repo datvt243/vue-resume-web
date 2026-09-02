@@ -86,7 +86,15 @@ git tag -l | sort -V | tail -1   # latest tag, empty if none exist yet
     --body "Version bump for the upcoming vX.Y.Z release."
   gh pr merge <PR#> --merge   # real merge commit, not squash
   git checkout staging && git pull
+  git branch -d release/vX.Y.Z-version-bump
+  git push origin --delete release/vX.Y.Z-version-bump
   ```
+  The branch-delete step is not optional — a `release/*` branch left
+  behind after merge is pure litter (it can never be reused, the next
+  release picks a new version number). Audit finding 2026-09-01: this
+  step was missing from the original skill and left 2 merged-but-
+  undeleted branches (`release/v1.2.0-version-bump`,
+  `release/v1.3.0-version-bump`) on the remote before it was added.
   Re-run `npm run lint` + `npm run build` on the now-bumped `staging` tip
   — same rule as step 2, red → stop, don't proceed to step 4.
 
