@@ -71,6 +71,12 @@ const routes = [
                 component: () => import('@/pages/dashboard/PageVisits.vue'),
                 meta: { requiresAuth: true },
             },
+            {
+                path: 'preview',
+                name: 'preview',
+                component: () => import('@/pages/dashboard/PagePreview.vue'),
+                meta: { requiresAuth: true },
+            },
         ],
     },
     {
