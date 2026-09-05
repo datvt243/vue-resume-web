@@ -18,22 +18,34 @@
    — reuse from `/boot` if available (see GUARD above), else `Read` fresh.
 2. Get every diagram in `haven/diagrams/`, list nodes + PM status — reuse
    from `/boot` if available (see GUARD above), else `Read` fresh.
+   [clarified 2026-09-06] "every diagram" means every file WITHOUT
+   `archive` in its name, matching `/boot` step 5's rule exactly.
 3. If the task doesn't match an existing node, don't invent work —
    append a new row to the PM status table for it (`IN_PROGRESS`) instead
    of blocking, matching how prior ad-hoc/operator-direct tasks were
-   added (e.g. `eslint-lint-actually-runs`).
+   added (e.g. `eslint-lint-actually-runs`). [added 2026-09-06] Always at
+   the END of the table, never inserted mid-table (`AppendOnly`) —
+   required for `agent-hub/.gitattributes`' `merge=union` to merge
+   cleanly when 2 branches each add a different new node around the same
+   time.
 4. If genuinely ambiguous (task unclear, not just "no existing node") —
    stop and ask, don't guess.
 5. Locate code anchors by grepping `../src/` — real paths only, never
    invented (e.g. `src/models/`, `src/composables/`, `src/services/`).
 6. Declare blockers: if `doctrine/MEMORY.md` is missing a needed command,
    stop and report `blocked` — do NOT guess a command.
-7. Evidence: write `evidence/implementer/<date>-<slug>.md` (flat file,
+7. [added 2026-09-02] Measure `hub_bytes_before` — the total bytes across
+   the 5 categories `/hub-tokens` calls the "per-session total" (root
+   files, `doctrine/`, the active `haven/diagrams/`, 2 worker bundles).
+   Record this number in the evidence note at step 8 — the verifier reads
+   it back to compute the hub-size diff in `worker-runs.log`.
+8. Evidence: write `evidence/implementer/<date>-<slug>.md` (flat file,
    matches the convention actually used across every prior evidence note
-   — see `evidence/README.md`).
+   — see `evidence/README.md`), including the line
+   `## Hub bytes before: <N>` from step 7.
 
 ## Hard rules honored
-`NodeBeforeCode` | `EvidencePerAction` | `NoSilentFailure`
+`NodeBeforeCode` | `EvidencePerAction` | `NoSilentFailure` | `AppendOnly`
 
 ## Failure branches
 | Failure | Handling |

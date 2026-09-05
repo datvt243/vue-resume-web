@@ -56,6 +56,7 @@ async function _handleLogin(values) {
         <div class="auth-card">
             <Heading text="Đăng nhập" />
             <VeeForm :fields="formFields" :submit-fn="_handleLogin" :submit-text="'Login'" />
+            <RouterLink to="/forgot-password" class="d-inline-block mt-3 small">Quên mật khẩu?</RouterLink>
         </div>
     </div>
 </template>

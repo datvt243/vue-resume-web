@@ -21,8 +21,11 @@ during this step — read and report only.
 4. Read `agent-hub/doctrine/domains/PROJECT.md` — especially the Traps
    table, don't repeat a known bug (e.g. `createMemoryHistory`, GET login
    leaking the password).
-5. Read every file in `agent-hub/haven/diagrams/` — list nodes + current PM
-   status.
+5. Read every file in `agent-hub/haven/diagrams/` EXCEPT any file whose
+   name contains `archive` (`dev-loop-archive.md`...) — [fixed 2026-09-06]
+   that's cold storage by design (currently ~98KB — reading it here every
+   session was defeating the entire point of archiving). List nodes +
+   current PM status from the non-archive file(s) only.
 6. Read `agent-hub/haven/workers/` — confirm there are exactly 2 workers:
    implementer, verifier.
 7. Read at most the 5 most recent evidence notes (newest file by date) in

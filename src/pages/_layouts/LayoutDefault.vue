@@ -44,6 +44,7 @@ const routers = [
     { text: 'Chứng chỉ', name: 'certificate', to: '/dashboard/certificate' },
     { text: 'Người tham khảo', name: 'reference', to: '/dashboard/reference' },
     { text: 'Xem trước / Xuất PDF', name: 'preview', to: '/dashboard/preview' },
+    { text: 'Cài đặt tài khoản', name: 'account-settings', to: '/dashboard/account-settings' },
 ]
 </script>
 

@@ -11,6 +11,8 @@ const routes = [
     { path: '/', component: () => import('@/pages/home/PageHome.vue'), meta: { requiresAuth: true } },
     { path: '/login', name: 'login', component: () => import('@/pages/auth/PageLogin.vue') },
     { path: '/register', name: 'register', component: () => import('@/pages/auth/PageRegister.vue') },
+    { path: '/forgot-password', name: 'forgot-password', component: () => import('@/pages/auth/PageForgotPassword.vue') },
+    { path: '/reset-password', name: 'reset-password', component: () => import('@/pages/auth/PageResetPassword.vue') },
     {
         path: '/dashboard',
         name: 'dashboard',
@@ -75,6 +77,12 @@ const routes = [
                 path: 'preview',
                 name: 'preview',
                 component: () => import('@/pages/dashboard/PagePreview.vue'),
+                meta: { requiresAuth: true },
+            },
+            {
+                path: 'account-settings',
+                name: 'account-settings',
+                component: () => import('@/pages/dashboard/PageAccountSettings.vue'),
                 meta: { requiresAuth: true },
             },
         ],
