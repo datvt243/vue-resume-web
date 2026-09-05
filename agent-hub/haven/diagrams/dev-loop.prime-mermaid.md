@@ -45,7 +45,9 @@ flowchart TD
 > Older SEALED nodes (2026-08-20 through 2026-08-25, 41 nodes; then a 2nd
 > pass 2026-08-30 covering 7 more nodes dated 2026-08-29; then a 3rd pass
 > 2026-09-03 covering every remaining full-content SEALED row, 14 nodes
-> dated 2026-08-30 through 2026-09-02) moved to
+> dated 2026-08-30 through 2026-09-02; then a 4th pass 2026-09-06 covering
+> the 2 nodes dated 2026-09-05, `issue-63-account-settings-page` and
+> `issue-61-forgot-reset-password`) moved to
 > `haven/diagrams/dev-loop-archive.md` to keep this file small — every
 > worker session reads this file in full. Nothing deleted: the archive
 > has each row's full original text verbatim. The compact rows below
@@ -58,6 +60,9 @@ flowchart TD
 > only full-content rows left are the 5 non-SEALED nodes (never
 > archived per LAI-13/the rule above); further reduction isn't possible
 > through archiving alone.
+> [note, 4th pass] same limitation as the 3rd pass's note — the 5
+> non-SEALED nodes are the floor, every SEALED row is already a pointer
+> again after this pass.
 
 | Node | State | Notes |
 |---|---|---|
@@ -73,8 +78,9 @@ flowchart TD
 | `rename-repo-refs-cleanup` | SEALED | 2026-08-31 — archived, see `haven/diagrams/dev-loop-archive.md`. Evidence: `evidence/implementer/2026-08-31-rename-repo-refs-cleanup.md`. |
 | `github-pages-base-path-rename` | SEALED | 2026-08-31 — archived, see `haven/diagrams/dev-loop-archive.md`. Evidence: `evidence/implementer/2026-08-31-github-pages-base-path-rename.md`. |
 | `agent-hub-token-cleanup-20260830` | SEALED | 2026-08-30 — archived, see `haven/diagrams/dev-loop-archive.md`. Evidence: `evidence/implementer/2026-08-30-agent-hub-token-cleanup.md`. |
-| `issue-63-account-settings-page` | SEALED | 2026-09-05 — [issue #63](https://github.com/datvt243/resume-vuejs-website/issues/63) — via `/todo`. Backend claim independently re-verified by the verifier pass (read `resume-nodejs-api` source directly, not just the note): `DELETE /api/v1/candidate` (`fnDelete`/`handlerDelete`) is real and works (self-delete via `req.user._id`, cascades CV sections + uploaded files + project/certificate/award images). `schemaCandidatePatch`/`schemaCandidate` (`src/candidate/candidate.validate.ts`) never declare `email`/`password` fields, and `getObject()` (`src/config/joi.config.ts`) is a bare `Joi.object(fields)` with no `.unknown(true)`, so Joi's default `unknown(false)` rejects any `email`/`password` key sent. `PageAccountSettings.vue` ships a working "delete account" action (real endpoint) + an explicit not-yet-supported note for email/password change (same BLOCKED_ON_BACKEND treatment as `issue-8-jwt-localstorage`, not a fake form). Build/lint/test independently re-run by verifier, matched note exactly. Evidence: `evidence/implementer/2026-09-05-issue-63-account-settings-page.md`, `evidence/verifier/2026-09-05-issue-63-account-settings-page-seal.md`. |
-| `issue-61-forgot-reset-password` | SEALED | 2026-09-05 — [issue #61](https://github.com/datvt243/resume-vuejs-website/issues/61) — via `/todo`. Backend investigated directly (`resume-nodejs-api`): `POST /auth/forgot-password` (`{email}` → generic success) and `POST /auth/reset-password` (`{token,password,repassword}`) are real, working endpoints (`schemaForgotPassword`/`schemaResetPassword` in `src/auth/auth.validate.ts`), NOT the same gap as issue-63's candidate-update path. Caveat: `handlerForgotPassword`/`utils/passwordReset.ts` only LOGS the reset link server-side (backend issue #70, no mail provider wired yet) — the endpoint is real, delivery is stubbed; disclosed in the UI and evidence, not hidden. Scope: 2 new pages (forgot/reset password) wired to the real endpoints + a login-page link. "Đổi mật khẩu" while already logged in stays out of scope — no such endpoint exists (already established in `issue-63-account-settings-page`'s evidence: `candidate` update schemas never accept `email`/`password`), `PageAccountSettings.vue` already discloses this, no new BLOCKED node needed for the same already-documented gap. Verifier independently re-checked branch/diff/build/lint/test, the backend endpoints, and the flagged (not-fixed) `App.vue` query-string-drop bug. Evidence: `evidence/implementer/2026-09-05-issue-61-forgot-reset-password.md`, `evidence/verifier/2026-09-05-issue-61-forgot-reset-password-seal.md`. |
+| `issue-63-account-settings-page` | SEALED | 2026-09-05 — archived, see `haven/diagrams/dev-loop-archive.md`. Evidence: `evidence/implementer/2026-09-05-issue-63-account-settings-page.md`. |
+| `issue-61-forgot-reset-password` | SEALED | 2026-09-05 — archived, see `haven/diagrams/dev-loop-archive.md`. Evidence: `evidence/implementer/2026-09-05-issue-61-forgot-reset-password.md`. |
+| `agent-hub-archive-pass-4` | SEALED | Operator: "archive đi" (after `/hub-tokens` flagged this file at 20,933B, >15KB threshold, 2 full SEALED entries not yet archived). Moved `issue-63-account-settings-page` and `issue-61-forgot-reset-password` (both dated 2026-09-05) to `dev-loop-archive.md` verbatim, replaced with compact pointer rows here. Chore, no `src/` code touched. Verifier independently confirmed (fresh subagent): branch `chore/archive-diagram-pass-4` off `staging`; `git diff staging --stat` touches only the 2 diagram `.md` files; both archived rows byte-for-byte identical to `git show staging:...` via `diff`; active file `wc -c` = 19,425B; `grep` counts 64 SEALED = 64 archived-pointer; `npm run build` re-run green (`✓ built in 5.28s`, same pre-existing warning only). Evidence: `evidence/implementer/2026-09-06-agent-hub-archive-pass-4.md`, `evidence/verifier/2026-09-06-agent-hub-archive-pass-4-seal.md`. |
 | `hub-init` | PENDING | Placeholder — chưa có task thật nào chạy qua `/worker` sau khi hub được khởi tạo (2026-08-20). Việc khởi tạo hub bản thân nó nằm NGOÀI vòng implementer/verifier (bootstrap một lần), nên không tự SEAL — node đầu tiên sẽ do `/worker implementer "<task>"` thật tạo ra qua `pick_next`. |
 | `issue-8-jwt-localstorage` | BLOCKED_ON_BACKEND | [issue #8](https://github.com/datvt243/vue-resume-web/issues/8) — cần backend set httpOnly cookie, ngoài phạm vi repo frontend. Không tạo diff giả. Issue giữ OPEN. Evidence: `evidence/implementer/2026-08-20-issue-8-jwt-localstorage-blocked.md`. |
 | `loading-countdown-redesign` | SEALED | 2026-08-29 — archived, see `haven/diagrams/dev-loop-archive.md`. Evidence: `evidence/implementer/2026-08-29-loading-countdown-redesign.md`.
