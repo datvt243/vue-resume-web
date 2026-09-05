@@ -18,10 +18,16 @@
    — reuse from `/boot` if available (see GUARD above), else `Read` fresh.
 2. Get every diagram in `haven/diagrams/`, list nodes + PM status — reuse
    from `/boot` if available (see GUARD above), else `Read` fresh.
+   [clarified 2026-09-06] "every diagram" means every file WITHOUT
+   `archive` in its name, matching `/boot` step 5's rule exactly.
 3. If the task doesn't match an existing node, don't invent work —
    append a new row to the PM status table for it (`IN_PROGRESS`) instead
    of blocking, matching how prior ad-hoc/operator-direct tasks were
-   added (e.g. `eslint-lint-actually-runs`).
+   added (e.g. `eslint-lint-actually-runs`). [added 2026-09-06] Always at
+   the END of the table, never inserted mid-table (`AppendOnly`) —
+   required for `agent-hub/.gitattributes`' `merge=union` to merge
+   cleanly when 2 branches each add a different new node around the same
+   time.
 4. If genuinely ambiguous (task unclear, not just "no existing node") —
    stop and ask, don't guess.
 5. Locate code anchors by grepping `../src/` — real paths only, never
@@ -39,7 +45,7 @@
    `## Hub bytes before: <N>` from step 7.
 
 ## Hard rules honored
-`NodeBeforeCode` | `EvidencePerAction` | `NoSilentFailure`
+`NodeBeforeCode` | `EvidencePerAction` | `NoSilentFailure` | `AppendOnly`
 
 ## Failure branches
 | Failure | Handling |
