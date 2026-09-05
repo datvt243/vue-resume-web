@@ -77,6 +77,12 @@ const routes = [
                 component: () => import('@/pages/dashboard/PagePreview.vue'),
                 meta: { requiresAuth: true },
             },
+            {
+                path: 'account-settings',
+                name: 'account-settings',
+                component: () => import('@/pages/dashboard/PageAccountSettings.vue'),
+                meta: { requiresAuth: true },
+            },
         ],
     },
     {
