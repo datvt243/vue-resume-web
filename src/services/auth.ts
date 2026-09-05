@@ -61,6 +61,82 @@ export const handleLogin = async (values, props) => {
     }
 }
 
+export const handleForgotPassword = async (values, props) => {
+    const { email } = values
+    const { loading = null, toast = null } = props
+
+    /**
+     * spinner loading
+     */
+    toValue(loading)?.show()
+
+    try {
+        const res = await _axios({
+            method: 'post',
+            url: `${subURL}auth/forgot-password`,
+            data: {
+                email: email.trim(),
+            },
+        })
+
+        toast?.({
+            message: res.message,
+            bg: 'success',
+        })
+    } catch (err) {
+        const { message = '' } = err
+        toast?.({
+            message: message + '',
+            bg: 'danger',
+        })
+    } finally {
+        /**
+         * spinner hide
+         */
+        toValue(loading)?.hide()
+    }
+}
+
+export const handleResetPassword = async (values, props) => {
+    const { token, password, repassword } = values
+    const { loading = null, toast = null, router = null } = props
+
+    /**
+     * spinner loading
+     */
+    toValue(loading)?.show()
+
+    try {
+        const res = await _axios({
+            method: 'post',
+            url: `${subURL}auth/reset-password`,
+            data: {
+                token,
+                password,
+                repassword,
+            },
+        })
+
+        toast?.({
+            message: res.message,
+            bg: 'success',
+        })
+
+        router?.push('/login')
+    } catch (err) {
+        const { message = '' } = err
+        toast?.({
+            message: message + '',
+            bg: 'danger',
+        })
+    } finally {
+        /**
+         * spinner hide
+         */
+        toValue(loading)?.hide()
+    }
+}
+
 export const handleRegister = async (values, props) => {
     const { firstName, lastName, email, password, repassword } = values
     const { loading = null, toast = null, router = null } = props
