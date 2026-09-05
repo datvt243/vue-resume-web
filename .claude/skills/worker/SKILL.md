@@ -7,7 +7,13 @@ description: "Become an agent-hub worker (implementer or verifier) and run its r
 
 `args` holds `<wid> "<task>"` — `wid` is `implementer` or `verifier`, the
 rest (quoted or not) is the task. If `wid` or `task` is missing, stop and
-ask — don't guess.
+ask — don't guess. [added 2026-09-06] For `verifier` specifically, the
+rest can also be multiple evidence note paths (batch) or the keyword
+`all-pending` (every node currently `sealed_pending_verifier` on the
+active diagram) — see "Batch verify" in `recipes/verify_seal.md`. Batch
+only amortizes the one-time subagent-spawn/context-load cost across N
+nodes; each node still gets its own independent verdict from its own
+evidence.
 
 ## Load bundle (mandatory before anything else)
 Read in this exact order:
